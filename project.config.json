@@ -1,0 +1,40 @@
+{
+	"description": "项目配置文件",
+	"packOptions": {
+		"ignore": []
+	},
+	"miniprogramRoot": "src/",
+	"compileType": "miniprogram",
+	"libVersion": "2.11.0",
+	"projectname": "meduxWechatDemo",
+	"scripts": {
+		"beforeCompile": "npm run build",
+		"beforePreview": "npm run build",
+		"beforeUpload": "npm run build"
+	},
+	"setting": {
+		"urlCheck": false,
+		"es6": false,
+		"enhance": false,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true,
+		"coverView": true,
+		"nodeModules": true,
+		"autoAudits": false,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		}
+	},
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"appid": "wx81aa0a9ccb3960f1",
+	"condition": {}
+}

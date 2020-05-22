@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "module": "CommonJS",
+    "target": "ES5",
+    "moduleResolution": "node",
+    "lib": ["es2018"],
+    "typeRoots": ["./typings"],
+    "types": ["./node_modules/miniprogram-api-typings"],
+    "newLine": "LF",
+    "noEmit": true,
+    "sourceMap": false,
+    "declaration": false,
+    "isolatedModules": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strict": true,
+    "removeComments": true,
+    "allowJs": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "forceConsistentCasingInFileNames": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "alwaysStrict": true,
+    "noFallthroughCasesInSwitch": true,
+    "pretty": true,
+    "paths": {
+      "~/*": ["./*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
