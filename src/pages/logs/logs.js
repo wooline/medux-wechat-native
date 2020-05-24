@@ -6,11 +6,13 @@ Page({
   data: {
     logs: []
   },
-  onLoad: function onLoad() {
+
+  onLoad() {
     this.setData({
       logs: (wx.getStorageSync('logs') || []).map(function (log) {
         return (0, _util.formatTime)(new Date(log));
       })
     });
   }
+
 });

@@ -3,18 +3,22 @@
 var app = getApp();
 Page({
   data: {
-    motto: 'Hello World 88',
+    motto: 'sfsfs',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
-  bindViewTap: function bindViewTap() {
+
+  bindViewTap() {
     wx.navigateTo({
       url: '../logs/logs'
     });
   },
-  onLoad: function onLoad() {
+
+  onLoad() {
     var _this = this;
+
+    console.log('...onLoad');
 
     if (app.globalData.userInfo) {
       this.setData({
@@ -41,7 +45,8 @@ Page({
       });
     }
   },
-  getUserInfo: function getUserInfo(e) {
+
+  getUserInfo(e) {
     console.log(e);
     app.globalData.userInfo = e.detail.userInfo;
     this.setData({
@@ -49,4 +54,5 @@ Page({
       hasUserInfo: true
     });
   }
+
 });

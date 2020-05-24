@@ -5,6 +5,7 @@ module.exports = {
       {
         loose: true,
         modules: 'cjs',
+        targets: {chrome: 60, ios: 10},
       },
     ],
     '@babel/preset-typescript',
@@ -34,7 +35,7 @@ module.exports = {
       '@babel/plugin-transform-runtime',
       {
         useESModules: false,
-        version: '7.9.6',
+        version: '~7.9.0',
       },
     ],
   ].filter(Boolean),

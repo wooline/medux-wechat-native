@@ -4,7 +4,7 @@ const app = getApp<any>();
 
 Page({
   data: {
-    motto: 'Hello World 88',
+    motto: 'sfsfs',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
@@ -16,6 +16,7 @@ Page({
     });
   },
   onLoad() {
+    console.log('...onLoad');
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,

@@ -5,6 +5,8 @@ module.exports = {
     //jest: true,
   },
   globals: {
+    global: true,
+    setTimeout: true,
     App: true,
     wx: true,
     console: true,

@@ -1,7 +1,36 @@
-// app.ts
+import './Global';
+
+import {defaultRouteParams, moduleGetter, routeConfig} from './modules/export';
+
+import {buildApp} from '@medux/wechat';
+import reduxDevtools from '@medux/wechat-redux-devtools';
+
+buildApp({
+  moduleGetter,
+  appModuleName: 'app',
+  routeConfig,
+  defaultRouteParams,
+  storeOptions: {
+    enhancers: [
+      reduxDevtools({
+        realtime: true,
+        port: 8000,
+        maxAge: 30,
+      }),
+    ],
+  },
+  beforeRender: ({store, historyActions, toBrowserUrl, transformRoute}) => {
+    global.historyActions = historyActions;
+    global.toUrl = toBrowserUrl;
+    global.transformRoute = transformRoute;
+    return store;
+  },
+});
+
 App<any>({
   globalData: {},
   onLaunch() {
+    console.log('...onLaunch');
     // 展示本地存储能力
     const logs = wx.getStorageSync('logs') || [];
     logs.unshift(Date.now());
