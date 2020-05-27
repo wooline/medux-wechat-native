@@ -1,0 +1,8 @@
+.logo {
+  margin-top: -50px;
+  width: 59px;
+  height: 52px;
+}
+.fullScreen {
+  background-color: #fff;
+}

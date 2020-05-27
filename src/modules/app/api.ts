@@ -1,6 +1,11 @@
-import {CurUser} from '../../entity/session';
+import {CurUser, ProjectConfig} from '../../entity/session';
 
 export class API {
+  public getProjectConfig(): Promise<ProjectConfig> {
+    return Promise.resolve({
+      startupPage: {linkUrl: 'aaa', imageUrl: '', times: 60},
+    });
+  }
   public getCurUser(): Promise<CurUser> {
     return Promise.resolve({
       id: 'admin',

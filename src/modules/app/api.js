@@ -3,22 +3,27 @@
 exports.__esModule = true;
 exports.default = exports.API = void 0;
 
-var API = function () {
-  function API() {}
+class API {
+  getProjectConfig() {
+    return Promise.resolve({
+      startupPage: {
+        linkUrl: 'aaa',
+        imageUrl: '',
+        times: 60
+      }
+    });
+  }
 
-  var _proto = API.prototype;
-
-  _proto.getCurUser = function getCurUser() {
+  getCurUser() {
     return Promise.resolve({
       id: 'admin',
       username: 'admin',
       hasLogin: true,
       avatar: ''
     });
-  };
+  }
 
-  return API;
-}();
+}
 
 exports.API = API;
 

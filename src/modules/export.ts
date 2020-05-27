@@ -1,7 +1,7 @@
 import * as appModule from './app/export';
 import * as wechat from '@medux/wechat';
 
-import {RouteConfig, exportActions} from '@medux/wechat';
+import {LocationMap, RouteConfig, exportActions} from '@medux/wechat';
 
 export const defaultRouteParams: {[K in moduleNames]: any} = {
   app: null,
@@ -25,47 +25,23 @@ export type RouteViews = wechat.RouteViews<typeof moduleGetter>;
 
 export type BrowserRouter = wechat.BrowserRouter<RootState['route']['data']['params']>;
 
+export const locationMap: LocationMap = {
+  in(location) {
+    const pathname = location.pathname.replace(/\/modules\/(.*)\/views/, '/$1').replace(/export$/, '');
+    console.log(location.pathname, '=', pathname);
+    return location;
+  },
+  out(location) {
+    return location;
+  },
+};
+
 export const routeConfig: RouteConfig = {
-  '/$': '@./admin/home',
   '/': [
     'app.Main',
     {
-      '/login': 'app.LoginPage',
-      '/register': 'app.RegisterPage',
-      '/admin$': '@./admin/home',
-      '/admin': [
-        'adminLayout.Main',
-        {
-          '/admin/home': 'adminHome.Main',
-          '/admin/role/:listView': [
-            'adminRole.List',
-            {
-              '/admin/role/:listView/:itemView/:itemId': 'adminRole.Detail',
-            },
-          ],
-          '/admin/member/:listView': [
-            'adminMember.List',
-            {
-              '/admin/member/:listView/:itemView/:itemId': 'adminMember.Detail',
-            },
-          ],
-          '/admin/post/:listView': [
-            'adminPost.List',
-            {
-              '/admin/post/:listView/:itemView/:itemId': 'adminPost.Detail',
-            },
-          ],
-        },
-      ],
-      '/article$': '@./article/home',
-      '/article': [
-        'articleLayout.Main',
-        {
-          '/article/home': 'articleHome.Main',
-          '/article/about': 'articleAbout.Main',
-          '/article/service': 'articleService.Main',
-        },
-      ],
+      '/app/Welcome': 'app.Welcome',
+      '/app/Startup': 'app.Startup',
     },
   ],
 };

@@ -8,7 +8,8 @@ var _model = require("./model");
 var _wechat = require("@medux/wechat");
 
 var _default = (0, _wechat.exportModule)('app', _model.initModelState, _model.ModelHandlers, {
-  Main: {}
+  Startup: {},
+  Welcome: {}
 });
 
 exports.default = _default;

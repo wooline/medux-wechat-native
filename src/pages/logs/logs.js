@@ -9,7 +9,7 @@ Page({
 
   onLoad() {
     this.setData({
-      logs: (wx.getStorageSync('logs') || []).map(function (log) {
+      logs: (wx.getStorageSync('logs') || []).map(log => {
         return (0, _util.formatTime)(new Date(log));
       })
     });

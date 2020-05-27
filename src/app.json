@@ -1,5 +1,7 @@
 {
   "pages": [
+    "modules/app/views/Startup/export",
+    "modules/app/views/Welcome/export",
     "pages/index/index",
     "pages/logs/logs"
   ],
@@ -9,6 +11,8 @@
     "navigationBarTitleText": "WeChat",
     "navigationBarTextStyle": "black"
   },
-  "style": "v2",
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index"
+  },
   "sitemapLocation": "sitemap.json"
 }

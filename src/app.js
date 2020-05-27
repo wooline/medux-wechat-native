@@ -12,21 +12,22 @@ var _wechatReduxDevtools = _interopRequireDefault(require("@medux/wechat-redux-d
 
 (0, _wechat.buildApp)({
   moduleGetter: _export.moduleGetter,
-  appModuleName: 'app',
+  appModuleName: global.moduleNames.app,
   routeConfig: _export.routeConfig,
+  locationMap: _export.locationMap,
   defaultRouteParams: _export.defaultRouteParams,
   storeOptions: {
     enhancers: [(0, _wechatReduxDevtools.default)({
       realtime: true,
-      port: 8000,
-      maxAge: 30
+      port: 8000
     })]
   },
-  beforeRender: function beforeRender(_ref) {
-    var store = _ref.store,
-        historyActions = _ref.historyActions,
-        toBrowserUrl = _ref.toBrowserUrl,
-        transformRoute = _ref.transformRoute;
+  beforeRender: ({
+    store,
+    historyActions,
+    toBrowserUrl,
+    transformRoute
+  }) => {
     global.historyActions = historyActions;
     global.toUrl = toBrowserUrl;
     global.transformRoute = transformRoute;
@@ -37,26 +38,24 @@ App({
   globalData: {},
 
   onLaunch() {
-    var _this = this;
-
     console.log('...onLaunch');
     var logs = wx.getStorageSync('logs') || [];
     logs.unshift(Date.now());
     wx.setStorageSync('logs', logs);
     wx.login({
-      success: function success(res) {
+      success: res => {
         console.log(res.code);
       }
     });
     wx.getSetting({
-      success: function success(res) {
+      success: res => {
         if (res.authSetting['scope.userInfo']) {
           wx.getUserInfo({
-            success: function success(res) {
-              _this.globalData.userInfo = res.userInfo;
+            success: res => {
+              this.globalData.userInfo = res.userInfo;
 
-              if (_this.userInfoReadyCallback) {
-                _this.userInfoReadyCallback(res);
+              if (this.userInfoReadyCallback) {
+                this.userInfoReadyCallback(res);
               }
             }
           });

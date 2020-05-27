@@ -16,8 +16,6 @@ Page({
   },
 
   onLoad() {
-    var _this = this;
-
     console.log('...onLoad');
 
     if (app.globalData.userInfo) {
@@ -26,18 +24,17 @@ Page({
         hasUserInfo: true
       });
     } else if (this.data.canIUse) {
-      app.userInfoReadyCallback = function (res) {
-        _this.setData({
+      app.userInfoReadyCallback = res => {
+        this.setData({
           userInfo: res.userInfo,
           hasUserInfo: true
         });
       };
     } else {
       wx.getUserInfo({
-        success: function success(res) {
+        success: res => {
           app.globalData.userInfo = res.userInfo;
-
-          _this.setData({
+          this.setData({
             userInfo: res.userInfo,
             hasUserInfo: true
           });

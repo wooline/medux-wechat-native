@@ -1,21 +1,21 @@
 import './Global';
 
-import {defaultRouteParams, moduleGetter, routeConfig} from './modules/export';
+import {defaultRouteParams, locationMap, moduleGetter, routeConfig} from './modules/export';
 
 import {buildApp} from '@medux/wechat';
 import reduxDevtools from '@medux/wechat-redux-devtools';
 
 buildApp({
   moduleGetter,
-  appModuleName: 'app',
+  appModuleName: global.moduleNames.app,
   routeConfig,
+  locationMap,
   defaultRouteParams,
   storeOptions: {
     enhancers: [
       reduxDevtools({
         realtime: true,
         port: 8000,
-        maxAge: 30,
       }),
     ],
   },
@@ -23,6 +23,7 @@ buildApp({
     global.historyActions = historyActions;
     global.toUrl = toBrowserUrl;
     global.transformRoute = transformRoute;
+
     return store;
   },
 });

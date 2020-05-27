@@ -3,7 +3,7 @@
 exports.__esModule = true;
 exports.formatTime = void 0;
 
-var formatTime = function formatTime(date) {
+var formatTime = date => {
   var year = date.getFullYear();
   var month = date.getMonth() + 1;
   var day = date.getDate();
@@ -15,7 +15,7 @@ var formatTime = function formatTime(date) {
 
 exports.formatTime = formatTime;
 
-var formatNumber = function formatNumber(n) {
+var formatNumber = n => {
   var s = n.toString();
   return s[1] ? s : '0' + s;
 };
