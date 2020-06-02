@@ -2,11 +2,11 @@
 
 import {actions, moduleNames} from './modules/export';
 
-import {metaKeys} from './common/meta';
+import {message, metaKeys} from './common/base';
 
 type Actions = typeof actions;
 type MetaKeys = typeof metaKeys;
-
+type Message = typeof message;
 type EnumModuleNames = typeof moduleNames;
 
 declare global {
@@ -15,7 +15,7 @@ declare global {
   type RouteViews = import('./modules/export').RouteViews;
   type RouteData = RootState['route']['data'];
   type BaseRouteData = import('@medux/wechat').RouteData;
-  type CommonErrorCode = import('./common/meta').CommonErrorCode;
+  type CommonErrorCode = import('./common/base').CommonErrorCode;
   type DispatchProp = import('@medux/wechat').DispatchProp;
 
   interface ENV {
@@ -25,9 +25,11 @@ declare global {
     historyActions: BrowserRouter['historyActions'];
     toUrl: BrowserRouter['toUrl'];
     transformRoute: BrowserRouter['transformRoute'];
+    message: Message;
   }
   const global: ENV;
 }
 
 global.actions = actions;
 global.moduleNames = moduleNames;
+global.message = message;

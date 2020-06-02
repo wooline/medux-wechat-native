@@ -1,11 +1,12 @@
 import {BaseModelHandlers, BaseModelState, LoadingState, effect, reducer} from '@medux/wechat';
 
-import {CurUser, ProjectConfig} from '../../entity/session';
+import {CurUser, ProjectConfig, StartupStep} from '~/entity/session';
 import api from './api';
 
 export interface State extends BaseModelState {
   projectConfig?: ProjectConfig;
   curUser: CurUser;
+  startupStep: StartupStep;
   loading: {
     global: LoadingState;
   };
@@ -17,7 +18,7 @@ export const initModelState: State = {
     hasLogin: false,
     avatar: '',
   },
-
+  startupStep: StartupStep.init,
   loading: {
     global: LoadingState.Stop,
   },
@@ -27,8 +28,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
   @effect(null)
   protected async ['this.Init']() {
     const [projectConfig, curUser] = await Promise.all([api.getProjectConfig(), api.getCurUser()]);
-    this.updateState({curUser, projectConfig});
-    global.historyActions.redirectTo({url: '/modules/app/views/Welcome/export'});
-    console.log();
+    this.updateState({curUser, projectConfig, startupStep: StartupStep.configLoaded});
+    global.historyActions.navigateTo({url: '/app/Welcome'});
   }
 }

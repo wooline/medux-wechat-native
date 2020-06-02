@@ -1,18 +1,44 @@
 {
   "pages": [
-    "modules/app/views/Startup/export",
-    "modules/app/views/Welcome/export",
-    "pages/index/index",
-    "pages/logs/logs"
+    "modules/app/views/Home/page",
+    "modules/article/views/Outdoors/page",
+    "modules/contest/views/Home/page",
+    "modules/shop/views/Home/page",
+    "modules/my/views/Home/page",
+    "modules/post/views/List/page",
+    "modules/app/views/Welcome/page"
   ],
+  "tabBar": {
+    "custom": true,
+    "list": [
+      {
+        "pagePath": "modules/app/views/Home/page"
+      },
+      {
+        "pagePath": "modules/contest/views/Home/page"
+      },
+      {
+        "pagePath": "modules/shop/views/Home/page"
+      },
+      {
+        "pagePath": "modules/article/views/Outdoors/page"
+      },
+      {
+        "pagePath": "modules/my/views/Home/page"
+      }
+    ]
+  },
   "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle": "black"
+    "navigationStyle": "custom"
   },
   "usingComponents": {
-    "van-button": "@vant/weapp/button/index"
+    "global-search": "/modules/post/views/Search/component",
+    "navgation": "/components/Navgation/component",
+    "van-button": "@vant/weapp/button/index",
+    "van-search": "@vant/weapp/search/index",
+    "van-tabbar": "@vant/weapp/tabbar/index",
+    "van-tabbar-item": "@vant/weapp/tabbar-item/index",
+    "van-tag": "@vant/weapp/tag/index"
   },
   "sitemapLocation": "sitemap.json"
 }

@@ -1,9 +1,9 @@
-import {CurUser, ProjectConfig} from '../../entity/session';
+import {CurUser, ProjectConfig} from '~/entity/session';
 
 export class API {
   public getProjectConfig(): Promise<ProjectConfig> {
     return Promise.resolve({
-      startupPage: {linkUrl: 'aaa', imageUrl: '', times: 60},
+      startupPage: {linkUrl: 'aaa', imageUrl: '', times: 9},
     });
   }
   public getCurUser(): Promise<CurUser> {

@@ -1,6 +1,7 @@
 {
   "files.exclude": {
     "**/*.js": {"when": "$(basename).ts"},
+    "**/*.wxss": {"when": "$(basename).less"},
     "**/*.js.map": true
   },
   "search.exclude": {
@@ -14,6 +15,12 @@
   "editor.codeActionsOnSave": {
     "source.organizeImports": false,
     "source.fixAll": true
+  },
+  "less.compile": {
+    "compress": false,
+    "sourceMap": false,
+    "out": true,
+    "outExt": ".wxss"
   },
   "css.validate": false,
   "less.validate": false,

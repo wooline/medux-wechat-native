@@ -6,6 +6,8 @@ module.exports = {
   },
   globals: {
     global: true,
+    setInterval: true,
+    clearInterval: true,
     setTimeout: true,
     console: true,
     App: true,
@@ -29,6 +31,7 @@ module.exports = {
   rules: {
     'no-undef': 'error',
     'sort-imports': 'error',
+    '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/no-unused-vars': 'off',

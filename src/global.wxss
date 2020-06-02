@@ -1,0 +1,60 @@
+page {
+  background-color: #eee;
+}
+.g-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.g-fullScreen {
+  width: 100vw;
+  height: 100vh;
+}
+.g-container {
+  flex: auto;
+  overflow: auto;
+}
+.g-list-item {
+  background-color: #fff;
+  padding: 30rpx 25rpx;
+  margin: 30rpx 0;
+}
+.g-list-item .title {
+  line-height: 1.3;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+.g-list-item .summary {
+  display: flex;
+}
+.g-list-item .info {
+  border-bottom: 1px dotted #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10rpx 0 20rpx;
+  padding-bottom: 10rpx;
+}
+.g-list-item .thumb {
+  flex: none;
+  width: 250rpx;
+  height: 160rpx;
+  margin-right: 15rpx;
+}
+.g-list-item .text {
+  flex: auto;
+  font-weight: 150;
+  font-size: 25rpx;
+  line-height: 1.6em;
+  max-height: 160rpx;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+.g-list-item .date {
+  color: #999;
+  font-size: 12px;
+}

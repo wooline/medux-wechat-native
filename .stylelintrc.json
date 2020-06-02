@@ -1,21 +1,48 @@
 {
-  "extends": ["stylelint-config-standard", "stylelint-config-prettier"],
-  "plugins": ["stylelint-prettier", "stylelint-declaration-block-no-ignored-properties"],
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-prettier"
+  ],
+  "plugins": [
+    "stylelint-prettier"
+  ],
   "rules": {
     "prettier/prettier": true,
     "no-descending-specificity": null,
     "unit-case": null,
     "font-family-no-missing-generic-family-keyword": null,
+    "unit-no-unknown": [
+      true,
+      {
+        "ignoreUnits": [
+          "rpx"
+        ]
+      }
+    ],
+    "selector-type-no-unknown": [
+      true,
+      {
+        "ignoreTypes": [
+          "page"
+        ]
+      }
+    ],
     "at-rule-no-unknown": [
       true,
       {
-        "ignoreAtRules": ["plugin", "mixin"]
+        "ignoreAtRules": [
+          "plugin",
+          "mixin"
+        ]
       }
     ],
     "selector-pseudo-class-no-unknown": [
       true,
       {
-        "ignorePseudoClasses": ["global", "local"]
+        "ignorePseudoClasses": [
+          "global",
+          "local"
+        ]
       }
     ]
   }

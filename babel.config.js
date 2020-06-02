@@ -5,7 +5,7 @@ module.exports = {
       {
         loose: true,
         modules: 'cjs',
-        targets: {chrome: 60, ios: 10},
+        targets: {chrome: 58},
       },
     ],
     '@babel/preset-typescript',

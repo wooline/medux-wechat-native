@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "post-search": "/modules/post/views/Search/component"
+  }
+}

@@ -1,6 +1,6 @@
 "use strict";
 
-var app = getApp();
+const app = getApp();
 Page({
   data: {
     motto: 'sfsfs',

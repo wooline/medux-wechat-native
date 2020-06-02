@@ -9,7 +9,7 @@ class API {
       startupPage: {
         linkUrl: 'aaa',
         imageUrl: '',
-        times: 60
+        times: 9
       }
     });
   }

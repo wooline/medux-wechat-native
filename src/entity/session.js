@@ -2,7 +2,7 @@
 
 exports.__esModule = true;
 exports.StartupStep = void 0;
-var StartupStep;
+let StartupStep;
 exports.StartupStep = StartupStep;
 
 (function (StartupStep) {

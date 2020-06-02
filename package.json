@@ -10,8 +10,8 @@
     "tsc": "tsc",
     "babel": "babel ./src --out-dir ./src  --extensions \".ts\"",
     "babel-watch": "babel ./src --watch --out-dir ./src  --extensions \".ts\"",
-    "build": "npm run eslint && npm run tsc && npm run babel",
-    "start": "npm run eslint && npm run tsc && npm run babel-watch"
+    "build": "npm run eslint && npm run stylelint && npm run tsc && npm run babel",
+    "start": "npm run eslint && npm run stylelint && npm run tsc && npm run babel-watch"
   },
   "keywords": [],
   "author": {

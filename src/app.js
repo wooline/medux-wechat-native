@@ -18,7 +18,7 @@ var _wechatReduxDevtools = _interopRequireDefault(require("@medux/wechat-redux-d
   defaultRouteParams: _export.defaultRouteParams,
   storeOptions: {
     enhancers: [(0, _wechatReduxDevtools.default)({
-      realtime: true,
+      realtime: false,
       port: 8000
     })]
   },
@@ -35,11 +35,29 @@ var _wechatReduxDevtools = _interopRequireDefault(require("@medux/wechat-redux-d
   }
 });
 App({
-  globalData: {},
+  globalData: {
+    navHeight: 0
+  },
 
   onLaunch() {
-    console.log('...onLaunch');
-    var logs = wx.getStorageSync('logs') || [];
+    const menuButtonObject = wx.getMenuButtonBoundingClientRect();
+    const res = wx.getSystemInfoSync();
+    wx.getSystemInfo({
+      success: res => {
+        const statusBarHeight = res.statusBarHeight,
+              navTop = menuButtonObject.top,
+              navHeight = statusBarHeight + menuButtonObject.height + (menuButtonObject.top - statusBarHeight) * 2;
+        this.globalData.navHeight = navHeight;
+        this.globalData.navTop = navTop;
+        this.globalData.windowHeight = res.windowHeight;
+      },
+
+      fail(err) {
+        console.log(err);
+      }
+
+    });
+    const logs = wx.getStorageSync('logs') || [];
     logs.unshift(Date.now());
     wx.setStorageSync('logs', logs);
     wx.login({
