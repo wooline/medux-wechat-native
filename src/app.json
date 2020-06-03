@@ -5,7 +5,6 @@
     "modules/contest/views/Home/page",
     "modules/shop/views/Home/page",
     "modules/my/views/Home/page",
-    "modules/post/views/List/page",
     "modules/app/views/Welcome/page"
   ],
   "tabBar": {

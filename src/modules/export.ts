@@ -1,22 +1,17 @@
-import * as appModule from './app/module';
-import * as articleModule from './article/module';
-import * as contestModule from './contest/module';
-import * as myModule from './my/module';
-import * as postModule from './post/module';
-import * as shopModule from './shop/module';
 import * as wechat from '@medux/wechat';
 
 import {LocationMap, RouteConfig, exportActions} from '@medux/wechat';
 
-import adminRoleParams from './post/meta';
+import {defaultRouteParams as postParams} from '~/entity/post';
 
 export const defaultRouteParams: {[K in moduleNames]: any} = {
   app: null,
   article: null,
-  post: adminRoleParams,
+  post: postParams,
   shop: null,
   contest: null,
   my: null,
+  test: null,
 };
 
 export enum moduleNames {
@@ -26,27 +21,30 @@ export enum moduleNames {
   shop = 'shop',
   contest = 'contest',
   my = 'my',
+  test = 'test',
 }
 
-// 定义模块的加载方案，同步或者异步均可
 export const moduleGetter = {
   app: () => {
-    return appModule;
+    return {} as typeof import('./app/module');
   },
   article: () => {
-    return articleModule;
+    return {} as typeof import('./article/module');
   },
   post: () => {
-    return postModule;
+    return {} as typeof import('./post/module');
   },
   contest: () => {
-    return contestModule;
+    return {} as typeof import('./contest/module');
   },
   shop: () => {
-    return shopModule;
+    return {} as typeof import('./shop/module');
   },
   my: () => {
-    return myModule;
+    return {} as typeof import('./my/module');
+  },
+  test: () => {
+    return {} as typeof import('./test/module');
   },
 };
 export const actions = exportActions(moduleGetter);

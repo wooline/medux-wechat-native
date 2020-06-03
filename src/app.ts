@@ -1,22 +1,25 @@
 import './Global';
 
+import * as appModule from './modules/app/module';
+
 import {defaultRouteParams, locationMap, moduleGetter, routeConfig} from './modules/export';
 
 import {buildApp} from '@medux/wechat';
-import reduxDevtools from '@medux/wechat-redux-devtools';
+
+//import reduxDevtools from '@medux/wechat-redux-devtools';
 
 buildApp({
   moduleGetter,
-  appModuleName: global.moduleNames.app,
+  appModule,
   routeConfig,
   locationMap,
   defaultRouteParams,
   storeOptions: {
     enhancers: [
-      reduxDevtools({
-        realtime: false,
-        port: 8000,
-      }),
+      // reduxDevtools({
+      //   realtime: true,
+      //   port: 8000,
+      // }),
     ],
   },
   beforeRender: ({store, historyActions, toBrowserUrl, transformRoute}) => {

@@ -7,19 +7,19 @@ exports.ModelHandlers = exports.initModelState = void 0;
 
 var _resource = require("../../common/resource");
 
+var _post = require("../../entity/post");
+
 var _api = _interopRequireDefault(require("./api"));
 
-var _meta = _interopRequireDefault(require("./meta"));
-
 const initModelState = {
-  routeParams: _meta.default
+  routeParams: _post.defaultRouteParams
 };
 exports.initModelState = initModelState;
 
 class ModelHandlers extends _resource.CommonResourceHandlers {
   constructor(moduleName, store) {
     super({
-      defaultRouteParams: _meta.default,
+      defaultRouteParams: _post.defaultRouteParams,
       api: _api.default
     }, moduleName, store);
   }

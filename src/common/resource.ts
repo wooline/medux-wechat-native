@@ -244,19 +244,15 @@ export abstract class CommonResourceHandlers<
     const _listKey = Date.now().toString();
     const listView = view || this.state.routeParams?.listView || 'list';
     const enableRoute = this.config.enableRoute[listView];
-    if (enableRoute) {
+    const curPathname = this.rootState.route.data.paths;
+    if (enableRoute && curPathname.join('/') !== this.config.listPaths.join('/')) {
       //路由变换时会自动触发Action RouteParams
       //extend: this.rootState.route.data,
-      const curPathname = this.rootState.route.data.paths;
       const args = {paths: this.config.listPaths, params: {[this.moduleName]: {listView, listSearch, _listKey}}};
-      if (curPathname.join('/') === this.config.listPaths.join('/')) {
-        global.historyActions.redirectTo(args);
-      } else {
-        global.historyActions.navigateTo(args);
-      }
+      global.historyActions.navigateTo(args);
     } else {
       //不使用路由需要手动触发Action RouteParams
-      await this.dispatch(this.actions.RouteParams({...this.state.routeParams, listView, listSearch, _listKey}));
+      this.dispatch(this.actions.RouteParams({...this.state.routeParams, listView, listSearch, _listKey}));
     }
   }
   @effect()

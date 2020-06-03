@@ -1,35 +1,20 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 exports.__esModule = true;
 exports.routeConfig = exports.locationMap = exports.actions = exports.moduleGetter = exports.moduleNames = exports.defaultRouteParams = void 0;
 
-var appModule = _interopRequireWildcard(require("./app/module"));
-
-var articleModule = _interopRequireWildcard(require("./article/module"));
-
-var contestModule = _interopRequireWildcard(require("./contest/module"));
-
-var myModule = _interopRequireWildcard(require("./my/module"));
-
-var postModule = _interopRequireWildcard(require("./post/module"));
-
-var shopModule = _interopRequireWildcard(require("./shop/module"));
-
 var _wechat = require("@medux/wechat");
 
-var _meta = _interopRequireDefault(require("./post/meta"));
+var _post = require("../entity/post");
 
 const defaultRouteParams = {
   app: null,
   article: null,
-  post: _meta.default,
+  post: _post.defaultRouteParams,
   shop: null,
   contest: null,
-  my: null
+  my: null,
+  test: null
 };
 exports.defaultRouteParams = defaultRouteParams;
 let moduleNames;
@@ -42,26 +27,30 @@ exports.moduleNames = moduleNames;
   moduleNames["shop"] = "shop";
   moduleNames["contest"] = "contest";
   moduleNames["my"] = "my";
+  moduleNames["test"] = "test";
 })(moduleNames || (exports.moduleNames = moduleNames = {}));
 
 const moduleGetter = {
   app: () => {
-    return appModule;
+    return {};
   },
   article: () => {
-    return articleModule;
+    return {};
   },
   post: () => {
-    return postModule;
+    return {};
   },
   contest: () => {
-    return contestModule;
+    return {};
   },
   shop: () => {
-    return shopModule;
+    return {};
   },
   my: () => {
-    return myModule;
+    return {};
+  },
+  test: () => {
+    return {};
   }
 };
 exports.moduleGetter = moduleGetter;

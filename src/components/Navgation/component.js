@@ -124,7 +124,7 @@ Component({
     },
     // 返回事件
     back: function () {
-      global.historyActions.navigateBack(1);
+      global.historyActions.navigateBack(5);
       //this.triggerEvent('back', {delta: this.data.delta});
     },
     home: function () {

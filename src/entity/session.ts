@@ -13,11 +13,3 @@ export interface StartupPageConfig {
 export interface ProjectConfig {
   startupPage: StartupPageConfig;
 }
-
-export enum StartupStep {
-  init = 'init',
-  configLoaded = 'configLoaded',
-  startupImageLoaded = 'startupImageLoaded',
-  startupCountEnd = 'startupCountEnd',
-  startupAnimateEnd = 'startupAnimateEnd',
-}

@@ -1,7 +1,7 @@
 <view class="g-page">
   <navgation title="搜索结果" back="{{true}}" />
   <global-search />
-  <scroll-view class="g-container" refresher-enabled="{{true}}" scroll-y="{{true}}">
+  <scroll-view class="g-container" refresher-enabled="{{true}}" scroll-y="{{true}}" refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh" bindscrolltolower="onMore">
     <view wx:for="{{list}}" wx:key="id" class="g-list-item">
       <view class="title">{{item.title}}</view>
       <view class="info">

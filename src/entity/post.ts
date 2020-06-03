@@ -18,3 +18,18 @@ export interface Resource extends CommonResource {
   ListItem: ListItem;
   ListSummary: ListSummary;
 }
+
+export const defaultRouteParams: RouteParams = {
+  listSearch: {
+    pageSize: 10,
+    pageCurrent: 1,
+    sorterField: undefined,
+    sorterOrder: undefined,
+    term: 'abcde',
+  },
+  listView: '',
+  _listKey: '',
+  itemId: '',
+  itemView: '',
+  _itemKey: '',
+};

@@ -5,6 +5,9 @@ exports.default = exports.API = void 0;
 
 class API {
   getProjectConfig() {
+    const aaa = global.request('GET', '/api/projectConfig').then(res => {
+      console.log(7777, res);
+    });
     return Promise.resolve({
       startupPage: {
         linkUrl: 'aaa',

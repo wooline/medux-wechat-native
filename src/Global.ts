@@ -1,13 +1,15 @@
 // 将某些常用变量提升至global，对全局变量有洁癖者可忽略此文件
 
 import {actions, moduleNames} from './modules/export';
-
 import {message, metaKeys} from './common/base';
+
+import request from './common/request';
 
 type Actions = typeof actions;
 type MetaKeys = typeof metaKeys;
 type Message = typeof message;
 type EnumModuleNames = typeof moduleNames;
+type Request = typeof request;
 
 declare global {
   type BrowserRouter = import('./modules/export').BrowserRouter;
@@ -22,6 +24,7 @@ declare global {
     actions: Actions;
     moduleNames: EnumModuleNames;
     metaKeys: MetaKeys;
+    request: Request;
     historyActions: BrowserRouter['historyActions'];
     toUrl: BrowserRouter['toUrl'];
     transformRoute: BrowserRouter['transformRoute'];
@@ -33,3 +36,4 @@ declare global {
 global.actions = actions;
 global.moduleNames = moduleNames;
 global.message = message;
+global.request = request;

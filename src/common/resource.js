@@ -409,9 +409,9 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
 
         const listView = view || ((_this$state$routePara2 = this.state.routeParams) === null || _this$state$routePara2 === void 0 ? void 0 : _this$state$routePara2.listView) || 'list';
         const enableRoute = this.config.enableRoute[listView];
+        const curPathname = this.rootState.route.data.paths;
 
-        if (enableRoute) {
-          const curPathname = this.rootState.route.data.paths;
+        if (enableRoute && curPathname.join('/') !== this.config.listPaths.join('/')) {
           const args = {
             paths: this.config.listPaths,
             params: {
@@ -422,14 +422,9 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
               }
             }
           };
-
-          if (curPathname.join('/') === this.config.listPaths.join('/')) {
-            global.historyActions.redirectTo(args);
-          } else {
-            global.historyActions.navigateTo(args);
-          }
+          global.historyActions.navigateTo(args);
         } else {
-          await this.dispatch(this.actions.RouteParams(Object.assign(Object.assign({}, this.state.routeParams), {}, {
+          this.dispatch(this.actions.RouteParams(Object.assign(Object.assign({}, this.state.routeParams), {}, {
             listView,
             listSearch,
             _listKey

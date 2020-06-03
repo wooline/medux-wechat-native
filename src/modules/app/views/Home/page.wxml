@@ -1,4 +1,6 @@
 <view>
-  <post-search />
+  <navgation title="泽途体育" />
+  <global-search />
   首页
+  <button bind:tap="gotoTest">test</button>
 </view>
