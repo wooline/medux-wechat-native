@@ -8,8 +8,7 @@ sorterOrder = sorterOrder.toString();
 pageCurrent = parseInt(pageCurrent) || 1;
 pageSize = parseInt(pageSize) || 10;
 
-const start = (pageCurrent - 1) * pageSize;
-const end = start + pageSize;
+const postsData = database.data.posts;
 
 const result = {
   statusCode: 200,
@@ -18,7 +17,9 @@ const result = {
     'content-type': 'application/json; charset=utf-8',
   },
 };
-const postsData = database.data.posts;
+
+const start = (pageCurrent - 1) * pageSize;
+const end = start + pageSize;
 
 let resourceList = Object.keys(postsData).map((id) => {
   return postsData[id];

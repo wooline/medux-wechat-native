@@ -11,10 +11,10 @@ const defaultRouteParams = {
     term: 'abcde'
   },
   listView: '',
-  _listKey: '',
+  listKey: '',
   itemId: '',
   itemView: '',
-  _itemKey: ''
+  itemKey: ''
 };
 var _default = defaultRouteParams;
 exports.default = _default;

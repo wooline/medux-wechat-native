@@ -5,6 +5,8 @@ exports.routeConfig = exports.locationMap = exports.actions = exports.moduleGett
 
 var _wechat = require("@medux/wechat");
 
+var _contest = require("../entity/contest");
+
 var _post = require("../entity/post");
 
 const defaultRouteParams = {
@@ -12,7 +14,7 @@ const defaultRouteParams = {
   article: null,
   post: _post.defaultRouteParams,
   shop: null,
-  contest: null,
+  contest: _contest.defaultRouteParams,
   my: null,
   test: null
 };
@@ -90,6 +92,7 @@ const routeConfig = {
     '/app/Welcome': 'app.Welcome',
     '/app/Home': 'app.Home',
     '/post/List': 'post.List',
+    '/contest/:listView': 'contest.List',
     '/article/Outdoors': 'article.Outdoors'
   }]
 };

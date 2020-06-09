@@ -27,6 +27,7 @@ buildApp({
     global.historyActions = historyActions;
     global.toUrl = toBrowserUrl;
     global.transformRoute = transformRoute;
+    global.store = store;
     return store;
   },
 });

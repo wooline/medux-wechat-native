@@ -2,6 +2,7 @@ import * as wechat from '@medux/wechat';
 
 import {LocationMap, RouteConfig, exportActions} from '@medux/wechat';
 
+import {defaultRouteParams as contestParams} from '~/entity/contest';
 import {defaultRouteParams as postParams} from '~/entity/post';
 
 export const defaultRouteParams: {[K in moduleNames]: any} = {
@@ -9,7 +10,7 @@ export const defaultRouteParams: {[K in moduleNames]: any} = {
   article: null,
   post: postParams,
   shop: null,
-  contest: null,
+  contest: contestParams,
   my: null,
   test: null,
 };
@@ -82,6 +83,7 @@ export const routeConfig: RouteConfig = {
       '/app/Welcome': 'app.Welcome',
       '/app/Home': 'app.Home',
       '/post/List': 'post.List',
+      '/contest/:listView': 'contest.List',
       '/article/Outdoors': 'article.Outdoors',
     },
   ],

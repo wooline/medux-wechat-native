@@ -3,6 +3,7 @@
 import {actions, moduleNames} from './modules/export';
 import {message, metaKeys} from './common/base';
 
+import {Store} from 'redux';
 import request from './common/request';
 
 type Actions = typeof actions;
@@ -29,6 +30,7 @@ declare global {
     globalData: GlobalData;
   }
   interface ENV {
+    store: Store;
     actions: Actions;
     moduleNames: EnumModuleNames;
     metaKeys: MetaKeys;

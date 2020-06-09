@@ -65,6 +65,13 @@
 					"pathName": "modules/post/views/List/page",
 					"query": "q=%7B%22post%22%3A%7B%22listSearch%22%3A%7B%22term%22%3A%22%22%7D%2C%22listView%22%3A%22list%22%7D%7D",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "modules/app/views/Home/page",
+					"pathName": "modules/app/views/Home/page",
+					"query": "aa=1&bb=2#cc=3&dd=4",
+					"scene": null
 				}
 			]
 		}

@@ -36,6 +36,7 @@ var _wechatReduxDevtools = _interopRequireDefault(require("@medux/wechat-redux-d
     global.historyActions = historyActions;
     global.toUrl = toBrowserUrl;
     global.transformRoute = transformRoute;
+    global.store = store;
     return store;
   }
 });

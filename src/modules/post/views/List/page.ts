@@ -26,7 +26,7 @@ interface Methods extends DispatchProp {
   [key: string]: any;
 }
 
-export const component = connectComponent<RootState, StoreProps, {}, Data>(module, (state, data) => {
+const component = connectComponent<RootState, StoreProps, {}, Data>(module, (state, data) => {
   const projectConfig = state.app!.projectConfig;
   if (projectConfig) {
     const props = listPage.mapStateToProps(state.post!, data);

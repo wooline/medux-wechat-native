@@ -5,5 +5,5 @@ return {
     'x-delay': 0,
     'content-type': 'application/json; charset=utf-8',
   },
-  response: {...database.data.config, clientPublishPath: [request.protocol, '//', request.headers.host, '/client'].join('')},
+  response: {...database.data.config, clientPublishPath: [request.protocol, '://', request.headers.host, '/client'].join('')},
 };

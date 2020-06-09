@@ -2,9 +2,9 @@
 <block>
   <navgation title="搜索结果" back="{{true}}" />
   <global-search />
-  <scroll-view wx:if="{{inited && list && listSummary}}" class="g-container" refresher-enabled="{{true}}" scroll-y="{{true}}" refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh" bindscrolltolower="onMore">
-    <no-data wx:if="{{listSummary.totalPages===0}}" />
-    <view wx:if="{{listSummary.totalPages > 0}}" wx:for="{{list}}" wx:key="id" class="g-list-item">
+  <scroll-view wx:if="{{inited && listSummary}}" class="g-container" refresher-enabled="{{true}}" scroll-y="{{true}}" refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh" bindscrolltolower="onMore">
+    <no-data wx:if="{{listSummary.totalItems===0}}" />
+    <view wx:if="{{listSummary.totalItems > 0}}" wx:for="{{list}}" wx:key="id" class="g-list-item">
       <view class="title">{{item.title}}</view>
       <view class="info">
         <van-tag class="cate" color="#aaa" plain>{{cates[item.cate]}}</van-tag>

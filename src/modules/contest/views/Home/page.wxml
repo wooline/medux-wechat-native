@@ -1,4 +1,21 @@
-<view>
-  <post-search />
-  赛事首页
-</view>
+<wxs src="../../../../common/tools.wxs" module="tools" />
+<block>
+  <navgation title="赛事报名" showBack="{{false}}" />
+  <global-search />
+  <view wx:if="{{inited && listSummary && listSummary.category}}">
+    <view wx:for="{{listSummary.category}}" wx:key="id" wx:for-item="cate">
+      <view>{{cate.name}}</view>
+      <view wx:for="{{cate.list}}" wx:key="id" wx:for-item="idx" class="g-list-item">
+        <view class="title">{{list[idx].title}}</view>
+        <view class="info">
+          <van-tag class="cate" color="#aaa" plain>{{cates[list[idx].cate]}}</van-tag>
+          <text class="date">{{tools.dateFormat(list[idx].createdTime)}}</text>
+        </view>
+        <view class="summary">
+          <image class="thumb" wx:if="{{list[idx].thumb}}" lazy-load="{{true}}" src="{{clientPublishPath + list[idx].thumb}}" />
+          <text class="text">{{list[idx].summary}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</block>

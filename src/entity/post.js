@@ -8,12 +8,12 @@ const defaultRouteParams = {
     pageCurrent: 1,
     sorterField: undefined,
     sorterOrder: undefined,
-    term: 'abcde'
+    term: undefined
   },
   listView: '',
-  _listKey: '',
+  listKey: '',
   itemId: '',
   itemView: '',
-  _itemKey: ''
+  itemKey: ''
 };
 exports.defaultRouteParams = defaultRouteParams;

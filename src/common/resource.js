@@ -61,6 +61,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
 
       const defConfig = {
         viewName: {
+          category: 'category',
           list: 'list',
           detail: 'detail',
           create: 'create',
@@ -127,12 +128,12 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
       kind: "method",
       decorators: [_wechat.reducer],
       key: "putSearchList",
-      value: function putSearchList(list, listSummary, listSearch, listView = '', _listKey = '') {
+      value: function putSearchList(list, listSummary, listSearch, listView = '', listKey = '') {
         return Object.assign(Object.assign({}, this.state), {}, {
           routeParams: Object.assign(Object.assign({}, this.state.routeParams), {}, {
             listSearch,
             listView,
-            _listKey
+            listKey
           }),
           list,
           listSummary,
@@ -143,12 +144,12 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
       kind: "method",
       decorators: [_wechat.reducer],
       key: "putCurrentItem",
-      value: function putCurrentItem(currentItem, itemId = '', itemView = '', _itemKey = '') {
+      value: function putCurrentItem(currentItem, itemId = '', itemView = '', itemKey = '') {
         return Object.assign(Object.assign({}, this.state), {}, {
           routeParams: Object.assign(Object.assign({}, this.state.routeParams), {}, {
             itemView,
             itemId,
-            _itemKey
+            itemKey
           }),
           currentItem,
           itemLoading: undefined
@@ -199,8 +200,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
         var _this$state$routePara;
 
         const itemView = view || ((_this$state$routePara = this.state.routeParams) === null || _this$state$routePara === void 0 ? void 0 : _this$state$routePara.itemView) || 'detail';
-
-        const _itemKey = Date.now().toString();
+        const itemKey = Date.now().toString();
 
         if (!currentItem) {
           currentItem = Object.assign({}, this.config.newItem);
@@ -216,7 +216,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
                 [this.moduleName]: Object.assign(Object.assign({}, routeData), {}, {
                   itemId: currentItem,
                   itemView,
-                  _itemKey
+                  itemKey
                 })
               },
               paths: this.config.itemPaths
@@ -225,11 +225,11 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
             this.dispatch(this.actions.RouteParams(Object.assign(Object.assign({}, routeData), {}, {
               itemId: currentItem,
               itemView,
-              _itemKey
+              itemKey
             })));
           }
         } else {
-          this.dispatch(this.actions.putCurrentItem(currentItem, currentItem.id, itemView, _itemKey));
+          this.dispatch(this.actions.putCurrentItem(currentItem, currentItem.id, itemView, itemKey));
         }
       }
     }, {
@@ -417,8 +417,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
           listSearch = Object.assign(Object.assign({}, this.getNoneListSearch()), params);
         }
 
-        const _listKey = Date.now().toString();
-
+        const listKey = Date.now().toString();
         const listView = view || ((_this$state$routePara2 = this.state.routeParams) === null || _this$state$routePara2 === void 0 ? void 0 : _this$state$routePara2.listView) || 'list';
         const enableRoute = this.config.enableRoute[listView];
         const curPathname = this.rootState.route.data.paths;
@@ -430,7 +429,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
               [this.moduleName]: {
                 listView,
                 listSearch,
-                _listKey
+                listKey
               }
             }
           };
@@ -439,7 +438,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
           await this.dispatch(this.actions.RouteParams(Object.assign(Object.assign({}, this.state.routeParams), {}, {
             listView,
             listSearch,
-            _listKey
+            listKey
           })));
         }
       }
@@ -447,7 +446,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
       kind: "method",
       decorators: [(0, _wechat.effect)()],
       key: "fetchList",
-      value: async function fetchList(listSearch, listView, _listKey) {
+      value: async function fetchList(listSearch, listView, listKey) {
         this.listLoading = true;
         const {
           list,
@@ -457,20 +456,20 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
           throw e;
         });
         this.listLoading = false;
-        this.dispatch(this.actions.putSearchList(list, listSummary, listSearch, listView, _listKey));
+        this.dispatch(this.actions.putSearchList(list, listSummary, listSearch, listView, listKey));
       }
     }, {
       kind: "method",
       decorators: [(0, _wechat.effect)()],
       key: "fetchItem",
-      value: async function fetchItem(itemId, itemView, _itemKey) {
+      value: async function fetchItem(itemId, itemView, itemKey) {
         this.itemLoading = true;
         const currentItem = await this.config.api.getDetailItem(itemId).catch(e => {
           this.itemLoading = false;
           throw e;
         });
         this.itemLoading = false;
-        this.dispatch(this.actions.putCurrentItem(currentItem, itemId, itemView, _itemKey));
+        this.dispatch(this.actions.putCurrentItem(currentItem, itemId, itemView, itemKey));
       }
     }, {
       kind: "method",
@@ -484,24 +483,24 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
         const {
           listView,
           listSearch,
-          _listKey,
+          listKey,
           itemView,
           itemId,
-          _itemKey
+          itemKey
         } = routeParams;
 
         if (!this.listLoading) {
           if (listView) {
-            if (preRouteParams._listKey !== _listKey || !(0, _utils.simpleEqual)(preRouteParams.listSearch, listSearch)) {
-              await this.dispatch(this.callThisAction(this.fetchList, listSearch, listView, _listKey));
+            if (preRouteParams.listKey !== listKey || !(0, _utils.simpleEqual)(preRouteParams.listSearch, listSearch)) {
+              await this.dispatch(this.callThisAction(this.fetchList, listSearch, listView, listKey));
             }
           }
         }
 
         if (!this.itemLoading) {
           if (itemView) {
-            if (preRouteParams._itemKey !== _itemKey || preRouteParams.itemId !== itemId) {
-              await this.dispatch(this.callThisAction(this.fetchItem, itemId, itemView, _itemKey));
+            if (preRouteParams.itemKey !== itemKey || preRouteParams.itemId !== itemId) {
+              await this.dispatch(this.callThisAction(this.fetchItem, itemId, itemView, itemKey));
             }
           }
         }
