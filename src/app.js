@@ -1,15 +1,20 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
 
 require("./Global");
 
 var appModule = _interopRequireWildcard(require("./modules/app/module"));
 
-var _export = require("./modules/export");
-
 var _wechat = require("@medux/wechat");
 
+var _export = require("./modules/export");
+
+var _wechatReduxDevtools = _interopRequireDefault(require("@medux/wechat-redux-devtools"));
+
+(0, _wechat.setLoadingDepthTime)(1);
 (0, _wechat.buildApp)({
   moduleGetter: _export.moduleGetter,
   appModule,
@@ -17,7 +22,10 @@ var _wechat = require("@medux/wechat");
   locationMap: _export.locationMap,
   defaultRouteParams: _export.defaultRouteParams,
   storeOptions: {
-    enhancers: []
+    enhancers: [(0, _wechatReduxDevtools.default)({
+      realtime: false,
+      port: 8000
+    })]
   },
   beforeRender: ({
     store,
@@ -32,51 +40,60 @@ var _wechat = require("@medux/wechat");
   }
 });
 App({
-  globalData: {
-    navHeight: 0
-  },
+  globalData: {},
 
   onLaunch() {
-    const menuButtonObject = wx.getMenuButtonBoundingClientRect();
-    const res = wx.getSystemInfoSync();
-    wx.getSystemInfo({
-      success: res => {
-        const statusBarHeight = res.statusBarHeight,
-              navTop = menuButtonObject.top,
-              navHeight = statusBarHeight + menuButtonObject.height + (menuButtonObject.top - statusBarHeight) * 2;
-        this.globalData.navHeight = navHeight;
-        this.globalData.navTop = navTop;
-        this.globalData.windowHeight = res.windowHeight;
-      },
+    const systemInfo = wx.getSystemInfoSync();
 
-      fail(err) {
-        console.log(err);
-      }
+    if (!systemInfo.statusBarHeight) {
+      systemInfo.statusBarHeight = systemInfo.screenHeight - systemInfo.windowHeight - 20;
+    }
 
-    });
+    const isIOS = !!(systemInfo.system.toLowerCase().search('ios') + 1);
+    const rect = getMenuButtonBoundingClientRect(systemInfo);
+    const gap = rect.top - systemInfo.statusBarHeight;
+    const navHeight = systemInfo.statusBarHeight + rect.height + gap * 2;
+    const navPaddingTop = systemInfo.statusBarHeight;
+    this.globalData.navHeight = navHeight;
+    this.globalData.navPaddingTop = navPaddingTop;
     const logs = wx.getStorageSync('logs') || [];
     logs.unshift(Date.now());
     wx.setStorageSync('logs', logs);
-    wx.login({
-      success: res => {
-        console.log(res.code);
-      }
-    });
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          wx.getUserInfo({
-            success: res => {
-              this.globalData.userInfo = res.userInfo;
-
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res);
-              }
-            }
-          });
-        }
-      }
-    });
   }
 
 });
+
+function getMenuButtonBoundingClientRect(systemInfo) {
+  const ios = !!(systemInfo.system.toLowerCase().search('ios') + 1);
+  let rect = wx.getMenuButtonBoundingClientRect();
+
+  if (!rect || !rect.width || !rect.top || !rect.left || !rect.height) {
+    let gap = 0;
+    let width = 96;
+
+    if (systemInfo.platform === 'android') {
+      gap = 8;
+      width = 96;
+    } else if (systemInfo.platform === 'devtools') {
+      if (ios) {
+        gap = 5.5;
+      } else {
+        gap = 7.5;
+      }
+    } else {
+      gap = 4;
+      width = 88;
+    }
+
+    rect = {
+      bottom: systemInfo.statusBarHeight + gap + 32,
+      height: 32,
+      left: systemInfo.windowWidth - width - 10,
+      right: systemInfo.windowWidth - 10,
+      top: systemInfo.statusBarHeight + gap,
+      width
+    };
+  }
+
+  return rect;
+}

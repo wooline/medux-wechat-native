@@ -3,6 +3,7 @@
 exports.__esModule = true;
 exports.message = exports.CommonErrorCode = exports.metaKeys = void 0;
 const metaKeys = {
+  ApiServerPath: 'http://localhost:7445/api',
   LoginPathname: '/login',
   RegisterPathname: '/register',
   UserHomePathname: '/admin/home',

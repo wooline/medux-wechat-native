@@ -343,6 +343,18 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
     }, {
       kind: "method",
       decorators: [(0, _wechat.effect)(null)],
+      key: "changeListPage",
+      value: async function changeListPage(pageCurrent) {
+        await this.searchList({
+          params: {
+            pageCurrent
+          },
+          extend: 'current'
+        });
+      }
+    }, {
+      kind: "method",
+      decorators: [(0, _wechat.effect)(null)],
       key: "changeListPageSize",
       value: async function changeListPageSize(pageSize) {
         await this.searchList({
@@ -424,7 +436,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
           };
           global.historyActions.navigateTo(args);
         } else {
-          this.dispatch(this.actions.RouteParams(Object.assign(Object.assign({}, this.state.routeParams), {}, {
+          await this.dispatch(this.actions.RouteParams(Object.assign(Object.assign({}, this.state.routeParams), {}, {
             listView,
             listSearch,
             _listKey

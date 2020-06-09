@@ -1,17 +1,23 @@
-<view class="g-page">
+<wxs src="../../../../common/tools.wxs" module="tools" />
+<block>
   <navgation title="搜索结果" back="{{true}}" />
   <global-search />
-  <scroll-view class="g-container" refresher-enabled="{{true}}" scroll-y="{{true}}" refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh" bindscrolltolower="onMore">
-    <view wx:for="{{list}}" wx:key="id" class="g-list-item">
+  <scroll-view wx:if="{{inited && list && listSummary}}" class="g-container" refresher-enabled="{{true}}" scroll-y="{{true}}" refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh" bindscrolltolower="onMore">
+    <no-data wx:if="{{listSummary.totalPages===0}}" />
+    <view wx:if="{{listSummary.totalPages > 0}}" wx:for="{{list}}" wx:key="id" class="g-list-item">
       <view class="title">{{item.title}}</view>
       <view class="info">
-        <van-tag class="cate" color="#999" plain>赛事</van-tag>
-        <text class="date">2020/03/21</text>
+        <van-tag class="cate" color="#aaa" plain>{{cates[item.cate]}}</van-tag>
+        <text class="date">{{tools.dateFormat(item.createdTime)}}</text>
       </view>
       <view class="summary">
-        <image class="thumb" wx:if="{{item.thumb}}" lazy-load="{{true}}" src="{{item.thumb}}" />
+        <image class="thumb" wx:if="{{item.thumb}}" lazy-load="{{true}}" src="{{clientPublishPath + item.thumb}}" />
         <text class="text">{{item.summary}}</text>
       </view>
     </view>
+    <view wx:if="{{listSummary.totalPages > 0}}" class="g-pagination">
+      <view wx:if="{{listSummary.pageCurrent < listSummary.totalPages}}">加载更多...</view>
+      <view wx:else>没有更多数据了</view>
+    </view>
   </scroll-view>
-</view>
+</block>

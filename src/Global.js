@@ -12,3 +12,4 @@ global.actions = _export.actions;
 global.moduleNames = _export.moduleNames;
 global.message = _base.message;
 global.request = _request.default;
+global.metaKeys = _base.metaKeys;

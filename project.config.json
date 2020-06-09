@@ -63,7 +63,7 @@
 					"id": 0,
 					"name": "modules/post/views/List/page",
 					"pathName": "modules/post/views/List/page",
-					"query": "q=%7B%22post%22%3A%7B%22listSearch%22%3A%7B%22term%22%3A%22abcdedfdf%22%7D%2C%22listView%22%3A%22list%22%7D%7D",
+					"query": "q=%7B%22post%22%3A%7B%22listSearch%22%3A%7B%22term%22%3A%22%22%7D%2C%22listView%22%3A%22list%22%7D%7D",
 					"scene": null
 				}
 			]

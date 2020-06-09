@@ -5,7 +5,8 @@
     "modules/contest/views/Home/page",
     "modules/shop/views/Home/page",
     "modules/my/views/Home/page",
-    "modules/app/views/Welcome/page"
+    "modules/app/views/Welcome/page",
+    "modules/post/views/List/page"
   ],
   "tabBar": {
     "custom": true,
@@ -28,11 +29,15 @@
     ]
   },
   "window": {
+    "navigationBarTextStyle": "white",
     "navigationStyle": "custom"
   },
   "usingComponents": {
+    "no-data": "/components/NoData/component",
     "global-search": "/modules/post/views/Search/component",
-    "navgation": "/components/Navgation/component",
+    "navgation": "/modules/app/views//Navgation/component",
+    "van-loading": "@vant/weapp/loading/index",
+    "van-icon": "@vant/weapp/icon/index",
     "van-button": "@vant/weapp/button/index",
     "van-search": "@vant/weapp/search/index",
     "van-tabbar": "@vant/weapp/tabbar/index",

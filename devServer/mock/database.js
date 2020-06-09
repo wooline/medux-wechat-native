@@ -1,280 +1,86 @@
+/* global __server */
+const path = require('path');
 const crypto = require('crypto');
 const mockjs = require('mockjs');
-const timestamp = Date.now();
+const utils = require(path.join(__dirname, './utils'));
 const headers = {
   'x-delay': 0,
   'content-type': 'application/json; charset=utf-8',
 };
-
-function createMap(obj = {}, len = 50, prot) {
-  if (prot === undefined) {
-    prot = Object.keys(obj).length;
-  }
-  let protKeys = Object.keys(obj);
-  protKeys.length = prot;
-  protKeys = protKeys.reduce((pre, cur) => {
-    pre[cur] = true;
-    return pre;
-  }, {});
-  return new Proxy(obj, {
-    set: function (target, key, value, receiver) {
-      if (protKeys[key]) {
-        return false;
-      }
-      const result = Reflect.set(target, key, value, receiver);
-      const keys = Object.keys(target);
-      if (keys.length > len) {
-        Reflect.deleteProperty(target, keys[prot]);
-      }
-      return result;
-    },
-    deleteProperty: function (target, key) {
-      if (protKeys[key]) {
-        return false;
-      }
-      delete target[key];
-      return true;
-    },
-  });
-}
-
-function createArray(arr = [], len = 50, prot) {
-  if (prot === undefined) {
-    prot = arr.length;
-  }
-  return new Proxy(arr, {
-    get: function (target, key, receiver) {
-      switch (key) {
-        case 'push':
-          return (...args) => {
-            target.push(...args);
-            const splcie = target.length - len;
-            if (splcie > 0) {
-              target.splice(prot, splcie);
-            }
-            return target.length;
-          };
-          break;
-        case 'unshift':
-          return (...args) => {
-            target.splice(prot, 0, ...args);
-            if (target.length > len) {
-              target.length = len;
-            }
-            return target.length;
-          };
-          break;
-        case 'splice':
-          return (start, ...args) => {
-            target.splice(prot + start, ...args);
-            if (target.length > len) {
-              target.length = len;
-            }
-            return target.length;
-          };
-          break;
-      }
-      return Reflect.get(target, key, receiver);
-    },
-    set: function (target, key, value, receiver) {
-      const index = Number(key);
-      if (!isNaN(index)) {
-        if (index < prot) {
-          return true;
-        }
-        if (index > len - 1) {
-          key = len - 1;
-        }
-      } else if (key === 'length') {
-        if (value > len) {
-          value = len;
-        }
-      }
-      return Reflect.set(target, key, value, receiver);
-    },
-  });
-}
-
-function createUsers() {
-  const list = createMap({
-    superadmin: {
-      id: 'superadmin',
-      username: 'superadmin',
-      nickname: '张三',
-      password: '123456',
-      hasLogin: true,
-      gender: 'unknow',
-      post: 2,
-      roleId: '1',
-      roleName: '超级管理员',
-      status: 'enable',
-      loginTime: timestamp,
-      createdTime: timestamp,
-      email: 'wooline@qq.com',
-      avatar: '/client/imgs/u1.jpg',
-      fixed: true,
-    },
-    admin: {
-      id: 'admin',
-      username: 'admin',
-      nickname: '李四',
-      password: '123456',
-      hasLogin: true,
-      gender: 'unknow',
-      post: 1,
-      roleId: '2',
-      roleName: '普通管理员',
-      status: 'enable',
-      loginTime: timestamp,
-      createdTime: timestamp,
-      email: 'abcde@qq.com',
-      avatar: '/client/imgs/u1.jpg',
-      fixed: true,
-    },
-    editor: {
-      id: 'editor',
-      username: 'editor',
-      nickname: '莉莉',
-      password: '123456',
-      hasLogin: true,
-      gender: 'female',
-      post: 0,
-      roleId: '3',
-      roleName: '信息编辑',
-      status: 'enable',
-      loginTime: timestamp,
-      createdTime: timestamp,
-      email: 'revvc@sina.com.cn',
-      fixed: true,
-    },
-    editor2: {
-      id: 'editor2',
-      username: 'editor2',
-      nickname: '张小明',
-      password: '123456',
-      hasLogin: true,
-      gender: 'female',
-      post: 0,
-      roleId: '3',
-      roleName: '信息编辑',
-      status: 'enable',
-      loginTime: timestamp,
-      createdTime: timestamp,
-      email: '5564@sina.com.cn',
-      fixed: true,
-    },
-    member: {
-      id: 'member',
-      username: 'member',
-      nickname: '小明',
-      password: '123456',
-      hasLogin: true,
-      gender: 'female',
-      post: 2,
-      roleId: '4',
-      roleName: '普通会员',
-      status: 'enable',
-      loginTime: timestamp,
-      createdTime: timestamp,
-      email: 'xiaomin@qq.com',
-      fixed: true,
-    },
-  });
+const cates = {
+  '1': '赛事',
+  '1_1': '登山赛',
+  '1_2': '挑战赛',
+  '1_3': '越野赛',
+  '1_4': '城市赛',
+  '2': '户外',
+  '2_1': '自然风光',
+  '2_2': '名胜古迹',
+  '2_3': '休闲度假',
+};
+function createContests() {
+  const data = {};
   mockjs
     .mock({
       'list|25': [
         {
           'id|+1': 1,
-          username: '@last',
-          nickname: '@cname',
-          password: '123456',
-          hasLogin: true,
-          'gender|1': ['male', 'female', 'unknow'],
-          post: 0,
-          roleId: '4',
-          roleName: '普通会员',
-          'status|1': ['enable', 'disable', 'enable'],
-          loginTime: timestamp,
-          createdTime: timestamp,
-          avatar: '/client/imgs/u1.jpg',
-          email: '@email',
+          type: '赛事',
+          link: '',
+          title: '@ctitle(5,30)',
+          summary: '@cparagraph',
+          thumb: () => `/photos/${utils.randomNum(1, 18)}.jpg`,
+          createdTime: utils.getRandomTime,
+          updatedTime: utils.getRandomTime,
+          cate: () => `1_${utils.randomNum(1, 4)}`,
+          extra: {
+            addr: '@city(true)',
+            signUpTime: utils.getRandomTime,
+            activeTime: utils.getRandomTimeRange,
+          },
         },
       ],
     })
     .list.forEach((item) => {
-      item.loginTime = item.createdTime = timestamp + item.id * 1000;
-      item.id = item.username = item.username + item.id;
-      list[item.id] = item;
+      data[item.id] = item;
     });
-  return list;
+  return data;
 }
+function createArticles() {
+  const data = {};
+  mockjs
+    .mock({
+      'list|25': [
+        {
+          'id|+1': 26,
+          type: '文章',
+          link: '',
+          title: '@ctitle(5,30)',
+          summary: '@cparagraph',
+          thumb: () => `/photos/${utils.randomNum(1, 18)}.jpg`,
+          createdTime: utils.getRandomTime,
+          updatedTime: utils.getRandomTime,
+          cate: () => `2_${utils.randomNum(1, 3)}`,
+        },
+      ],
+    })
+    .list.forEach((item) => {
+      data[item.id] = item;
+    });
+  return data;
+}
+const contests = createContests();
+const articles = createArticles();
+const posts = {...contests, ...articles};
 
-function createPosts() {
-  const list = createMap({
-    1: {
-      id: '1',
-      title: '转让二手电脑一台',
-      content: mockjs.Random.cparagraph(1, 3),
-      author: {id: 'superadmin', name: '张三'},
-      editors: [{id: 'editor', name: '莉莉'}],
-      createdTime: timestamp,
-      status: 'resolved',
-      fixed: true,
-    },
-    2: {
-      id: '2',
-      title: '张家界五日游',
-      content: mockjs.Random.cparagraph(1, 3),
-      author: {id: 'superadmin', name: '张三'},
-      editors: [{id: 'editor2', name: '张小明'}],
-      createdTime: timestamp,
-      status: 'resolved',
-      fixed: true,
-    },
-    3: {
-      id: '3',
-      title: '走遍美利坚合众国',
-      content: mockjs.Random.cparagraph(1, 3),
-      author: {id: 'admin', name: '李四'},
-      editors: [
-        {id: 'editor', name: '莉莉'},
-        {id: 'editor2', name: '张小明'},
-      ],
-      createdTime: timestamp,
-      status: 'resolved',
-      fixed: true,
-    },
-    4: {
-      id: '4',
-      title: '中后台产品以效率为第一优先级',
-      content: mockjs.Random.cparagraph(1, 3),
-      author: {id: 'member', name: '小明'},
-      editors: [
-        {id: 'editor', name: '莉莉'},
-        {id: 'editor2', name: '张小明'},
-      ],
-      createdTime: timestamp,
-      status: 'resolved',
-      fixed: true,
-    },
-  });
-  list[5] = {
-    id: '5',
-    title: '感谢在此期间每一位提供反馈、建议以及贡献的人',
-    content: mockjs.Random.cparagraph(1, 3),
-    author: {id: 'member', name: '小明'},
-    editors: [{id: 'editor2', name: '张小明'}],
-    createdTime: timestamp,
-    status: 'resolved',
-  };
-  return list;
-}
 const data = {
   config: {
-    startupPage: {linkUrl: 'aaa', imageUrl: '', times: 9},
+    cates,
+    clientPublishPath: '',
+    startupPage: {linkUrl: 'aaa', imageUrl: '/imgs/startup.jpg', times: 2},
   },
-  users: createUsers(),
-  posts: createPosts(),
+  contests,
+  posts,
 };
 
 const database = {

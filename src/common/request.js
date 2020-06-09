@@ -2,11 +2,11 @@
 
 exports.__esModule = true;
 exports.default = request;
-const apiServerPath = {
-  '/api/': 'http://localhost:7445/api/'
-};
 
-function request(method, url, params = {}, data = {}) {
+function request(method, url, params = {}, args) {
+  const apiServerPath = {
+    '/api/': global.metaKeys.ApiServerPath + '/'
+  };
   url = url.replace(/:\w+/g, flag => {
     const key = flag.substr(1);
 
@@ -28,11 +28,18 @@ function request(method, url, params = {}, data = {}) {
       return false;
     }
   });
+  const data = args || params;
   return new Promise((resolve, reject) => {
     wx.request({
       method,
       url,
-      data,
+      data: Object.keys(data).reduce((prev, cur) => {
+        if (data[cur] !== undefined) {
+          prev[cur] = data[cur];
+        }
+
+        return prev;
+      }, {}),
 
       success(res) {
         if (res.statusCode === 200) {
@@ -46,8 +53,7 @@ function request(method, url, params = {}, data = {}) {
         reject({
           msg: '请求失败',
           url,
-          method,
-          data
+          method
         });
       }
 

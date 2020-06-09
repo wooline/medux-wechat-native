@@ -42,7 +42,7 @@ export class CommonResourceAPI implements ResourceAPI {
   }
 }
 
-export interface CommonResourceState<Resource extends CommonResource> extends BaseModelState<Resource['RouteParams']> {
+export interface CommonResourceState<Resource extends CommonResource = CommonResource> extends BaseModelState<Resource['RouteParams']> {
   list?: Resource['ListItem'][];
   listSummary?: Resource['ListSummary'];
   selectedRows?: Resource['ListItem'][];
@@ -215,6 +215,10 @@ export abstract class CommonResourceHandlers<
     await this.searchList({params: {sorterField, sorterOrder, pageCurrent: 1}, extend: 'current'});
   }
   @effect(null)
+  public async changeListPage(pageCurrent: number) {
+    await this.searchList({params: {pageCurrent}, extend: 'current'});
+  }
+  @effect(null)
   public async changeListPageSize(pageSize: number) {
     await this.searchList({params: {pageCurrent: 1, pageSize}, extend: 'current'});
   }
@@ -252,7 +256,7 @@ export abstract class CommonResourceHandlers<
       global.historyActions.navigateTo(args);
     } else {
       //不使用路由需要手动触发Action RouteParams
-      this.dispatch(this.actions.RouteParams({...this.state.routeParams, listView, listSearch, _listKey}));
+      await this.dispatch(this.actions.RouteParams({...this.state.routeParams, listView, listSearch, _listKey}));
     }
   }
   @effect()

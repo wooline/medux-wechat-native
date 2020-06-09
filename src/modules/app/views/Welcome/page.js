@@ -7,17 +7,29 @@ var _module = _interopRequireWildcard(require("../../module"));
 var _wechat = require("@medux/wechat");
 
 const page = (0, _wechat.connectPage)(_module, state => {
-  return {
-    timer: state.app.projectConfig.startupPage.times
-  };
+  const projectConfig = state.app.projectConfig;
+
+  if (projectConfig) {
+    const clientPublishPath = projectConfig.clientPublishPath;
+    const {
+      imageUrl,
+      linkUrl,
+      times
+    } = projectConfig.startupPage;
+    return {
+      inited: true,
+      imageUrl,
+      linkUrl,
+      times,
+      countdown: times,
+      clientPublishPath
+    };
+  } else {
+    return {};
+  }
 });
 let nid = 0;
 page({
-  data: {
-    timer: 0,
-    countdown: 0
-  },
-
   onSkip() {
     this.setData({
       countdown: 0
@@ -37,12 +49,6 @@ page({
         }
       }, 1000);
     }
-  },
-
-  onLoad() {
-    this.setData({
-      countdown: this.data.timer
-    });
   }
 
 });

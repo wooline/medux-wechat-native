@@ -836,10 +836,10 @@
   dependencies:
     redux "~4.0.5"
 
-"@medux/dev-utils@1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@medux/dev-utils/-/dev-utils-1.0.6.tgz#046b3ddf94594758de2f7c4cf5fa8bc7b5da32ca"
-  integrity sha512-TTf/vOckPT4KO9JPDRrI1dpfSwe4tjRF7Oy++yrJZ8nAA6jtP3w8FEY90DSTYeKPybAY6OcuxcqW5ADxBmRfKg==
+"@medux/dev-utils@1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@medux/dev-utils/-/dev-utils-1.0.8.tgz#4842d2ce8562e3b43df7720dc1993ab59204f840"
+  integrity sha512-O2b2GGLlo0qftHcoGK17lBfJ9rMCNI/AVbF1bj6DxUz/lS6xrHs3CdH9ubY5E/ut8qUgvBUNgFJV3UY19ML8dg==
   dependencies:
     "@medux/core" "^1.0.2"
 

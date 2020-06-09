@@ -2,9 +2,6 @@
 
 var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
 
-exports.__esModule = true;
-exports.component = void 0;
-
 var _module = _interopRequireWildcard(require("../../module"));
 
 var _wechat = require("@medux/wechat");
@@ -28,5 +25,4 @@ const component = (0, _wechat.connectComponent)(_module, state => {
 
   };
 });
-exports.component = component;
 component({});

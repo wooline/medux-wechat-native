@@ -1,5 +1,6 @@
 "use strict";
 
+exports.__esModule = true;
 const app = getApp();
 Page({
   data: {

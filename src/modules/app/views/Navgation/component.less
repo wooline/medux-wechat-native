@@ -1,0 +1,37 @@
+.navbar {
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-title {
+  width: 100%;
+  flex: auto;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.navbar-left {
+  box-sizing: border-box;
+  padding-left: 10px;
+  width: 70px;
+  display: flex;
+  align-items: center;
+  flex: none;
+  .hide {
+    display: none;
+  }
+}
+.navbar-right {
+  width: 70px;
+  flex: none;
+}

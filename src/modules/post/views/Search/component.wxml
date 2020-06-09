@@ -1,3 +1,1 @@
-<van-search value="{{term}}" placeholder="查询更多资讯" use-action-slot bind:search="onSearch">
-  <view slot="action" bind:tap="onClick">搜索</view>
-</van-search>
+<van-search value="{{term}}" background="#eee" placeholder="查询更多资讯" bind:search="onSearch" />

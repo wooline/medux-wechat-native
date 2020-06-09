@@ -2,16 +2,15 @@ import * as module from '../../module';
 
 import {connectComponent} from '@medux/wechat';
 
-interface Props {
+interface StoreProps {
   term: string;
 }
-interface Data {}
+interface OwnerProps {}
+interface ComponentState {}
 
-interface Method {
-  [key: string]: any;
-}
+type Data = StoreProps & OwnerProps & ComponentState;
 
-export const component = connectComponent<RootState, Props>(
+const component = connectComponent<RootState, StoreProps, {}>(
   module,
   (state) => {
     return {
@@ -21,11 +20,11 @@ export const component = connectComponent<RootState, Props>(
   },
   (dispatch) => {
     return {
-      onSearch(this: {data: Data & Props}, {detail}: {detail: string}) {
+      onSearch({detail}: {detail: string}) {
         dispatch(global.actions.post.doListSearch({term: detail}));
       },
     };
   }
 );
 
-component<Data & Props, any, Method>({});
+component<Data, {}, {}>({});

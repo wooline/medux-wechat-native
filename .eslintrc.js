@@ -16,6 +16,7 @@ module.exports = {
     wx: true,
     getApp: true,
     getCurrentPages: true,
+    Behavior: true,
   },
   parser: '@typescript-eslint/parser',
   extends: [
@@ -31,6 +32,7 @@ module.exports = {
   rules: {
     'no-undef': 'error',
     'sort-imports': 'error',
+    '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
@@ -47,13 +49,25 @@ module.exports = {
   settings: {},
   overrides: [
     {
-      files: ['**/*.js'],
+      files: ['**/*.js', '**/*.wxs'],
       env: {
         browser: false,
         node: true,
       },
       rules: {
         '@typescript-eslint/no-var-requires': 'off',
+      },
+    },
+    {
+      files: ['**/*.wxs'],
+      env: {
+        browser: false,
+        node: false,
+      },
+      globals: {
+        module: true,
+        getRegExp: true,
+        getDate: true,
       },
     },
   ],

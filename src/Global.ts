@@ -19,7 +19,15 @@ declare global {
   type BaseRouteData = import('@medux/wechat').RouteData;
   type CommonErrorCode = import('./common/base').CommonErrorCode;
   type DispatchProp = import('@medux/wechat').DispatchProp;
-
+  interface GlobalData {
+    isIOS?: boolean;
+    navHeight: number;
+    navPaddingTop: number;
+    menuButtonBoundingClientRect?: WechatMiniprogram.Rect;
+  }
+  interface APP {
+    globalData: GlobalData;
+  }
   interface ENV {
     actions: Actions;
     moduleNames: EnumModuleNames;
@@ -37,3 +45,4 @@ global.actions = actions;
 global.moduleNames = moduleNames;
 global.message = message;
 global.request = request;
+global.metaKeys = metaKeys;

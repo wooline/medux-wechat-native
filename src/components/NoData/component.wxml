@@ -1,0 +1,4 @@
+<view class="root">
+  <van-icon name="comment-o" size="16px" />
+  <text class="text">没有任何数据</text>
+</view>

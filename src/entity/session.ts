@@ -11,5 +11,7 @@ export interface StartupPageConfig {
   times: number;
 }
 export interface ProjectConfig {
+  clientPublishPath: string;
+  cates: {[cid: string]: string};
   startupPage: StartupPageConfig;
 }

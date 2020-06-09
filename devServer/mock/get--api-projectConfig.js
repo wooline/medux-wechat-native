@@ -1,9 +1,9 @@
-/* global database */
+/* global database,request */
 return {
-  statusCode: 504,
+  statusCode: 200,
   headers: {
     'x-delay': 0,
     'content-type': 'application/json; charset=utf-8',
   },
-  response: {startupPage: database.data.config.startupPage},
+  response: {...database.data.config, clientPublishPath: [request.protocol, '//', request.headers.host, '/client'].join('')},
 };

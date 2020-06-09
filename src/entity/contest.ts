@@ -1,10 +1,13 @@
-import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource, CommonResourceRouteParams} from './base';
+import {BaseListSearch, BaseListSummary, CommonResource, CommonResourceRouteParams} from './base';
+
+import {ListItem as BaseListItem} from './post';
 
 export interface ListItem extends BaseListItem {
-  title: string;
-  summary: string;
-  thumb: string;
-  link: string;
+  extra: {
+    addr: string;
+    signUpTime: number;
+    activeTime: [number, number];
+  };
 }
 export interface ListSearch extends BaseListSearch {}
 export interface ListSummary extends BaseListSummary {}

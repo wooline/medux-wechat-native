@@ -1,6 +1,4 @@
-<view>
-  <navgation title="泽途体育" />
+<block>
+  <navgation title="泽途体育" showBack="{{false}}" />
   <global-search />
-  首页
-  <button bind:tap="gotoTest">test</button>
-</view>
+</block>

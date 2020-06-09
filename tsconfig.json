@@ -11,7 +11,7 @@
     "noEmit": true,
     "sourceMap": false,
     "declaration": false,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strict": true,

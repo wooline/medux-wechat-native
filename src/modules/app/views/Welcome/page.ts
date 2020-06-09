@@ -1,27 +1,36 @@
 import * as module from '../../module';
 
 import {connectPage} from '@medux/wechat';
-interface Props {
-  timer: number;
-}
-interface Data {
+
+interface StoreProps {
+  inited: boolean;
+  linkUrl: string;
+  imageUrl: string;
+  times: number;
   countdown: number;
 }
+interface OwnerProps {}
+interface ComponentState {}
+type Data = StoreProps & OwnerProps & ComponentState;
 
-interface Config {
+interface Methods {
   [key: string]: any;
 }
 
-const page = connectPage<RootState, Props>(module, (state) => {
-  return {timer: state.app!.projectConfig!.startupPage.times};
+const page = connectPage<RootState, StoreProps>(module, (state) => {
+  const projectConfig = state.app!.projectConfig;
+  if (projectConfig) {
+    const clientPublishPath = projectConfig.clientPublishPath;
+    const {imageUrl, linkUrl, times} = projectConfig!.startupPage;
+    return {inited: true, imageUrl, linkUrl, times, countdown: times, clientPublishPath};
+  } else {
+    return {} as StoreProps;
+  }
 });
 
 let nid = 0;
-page<Data & Props, Config>({
-  data: {
-    timer: 0,
-    countdown: 0,
-  },
+
+page<Data, Methods>({
   onSkip() {
     this.setData({countdown: 0});
   },
@@ -36,8 +45,5 @@ page<Data & Props, Config>({
         }
       }, 1000);
     }
-  },
-  onLoad() {
-    this.setData({countdown: this.data.timer});
   },
 });

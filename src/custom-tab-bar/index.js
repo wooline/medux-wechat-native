@@ -1,5 +1,6 @@
 "use strict";
 
+exports.__esModule = true;
 Component({
   data: {
     active: 0,
@@ -9,7 +10,7 @@ Component({
       url: 'modules/app/views/Home/page'
     }, {
       icon: 'flag-o',
-      text: '赛事报名',
+      text: '赛事',
       url: 'modules/contest/views/Home/page'
     }, {
       icon: 'shopping-cart-o',

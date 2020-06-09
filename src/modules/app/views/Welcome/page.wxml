@@ -1,4 +1,7 @@
-<view class="g-page">
-  <image bindload="onComplete" class="g-fullScreen" mode="aspectFill" src="./imgs/welcome.jpg"></image>
-  <van-button class="timer" round type="info" bind:click="onSkip">{{countdown}} 跳过</van-button>
-</view>
+<block>
+  <navgation show="{{false}}" />
+  <view wx:if="{{inited}}">
+    <image bindload="onComplete" class="ad" mode="aspectFill" src="{{clientPublishPath + imageUrl}}"></image>
+    <van-button class="timer" round type="info" bind:click="onSkip">{{countdown}} 跳过</van-button>
+  </view>
+</block>

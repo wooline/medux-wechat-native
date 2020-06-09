@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "global-loading": "../GlobalLoading/component"
+  }
+}

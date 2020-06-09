@@ -5,16 +5,7 @@ exports.default = exports.API = void 0;
 
 class API {
   getProjectConfig() {
-    const aaa = global.request('GET', '/api/projectConfig').then(res => {
-      console.log(7777, res);
-    });
-    return Promise.resolve({
-      startupPage: {
-        linkUrl: 'aaa',
-        imageUrl: '',
-        times: 9
-      }
-    });
+    return global.request('GET', '/api/projectConfig');
   }
 
   getCurUser() {

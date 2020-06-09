@@ -1,0 +1,12 @@
+.root {
+  opacity: 0.5;
+  text-align: center;
+  padding: 40rpx;
+  display: flex;
+  justify-content: center;
+  margin: 1px 25rpx 0;
+}
+.root .text {
+  font-size: 14px;
+  margin-left: 5px;
+}

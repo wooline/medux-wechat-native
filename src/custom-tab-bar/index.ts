@@ -9,7 +9,7 @@ Component({
       },
       {
         icon: 'flag-o',
-        text: '赛事报名',
+        text: '赛事',
         url: 'modules/contest/views/Home/page',
       },
       {
@@ -44,3 +44,5 @@ Component({
     },
   },
 });
+
+export {};
