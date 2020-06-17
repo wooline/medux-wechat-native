@@ -12,11 +12,14 @@ var _wechat = require("@medux/wechat");
 var _api = _interopRequireDefault(require("./api"));
 
 const initModelState = {
+  showLoginPopup: false,
   curUser: {
     id: '',
     username: 'guest',
-    hasLogin: false,
-    avatar: ''
+    avatar: '',
+    loggedIn: false,
+    latestSigned: '',
+    signedDays: 0
   },
   loading: {
     global: _wechat.LoadingState.Stop
@@ -37,6 +40,62 @@ let ModelHandlers = (0, _decorate2.default)(null, function (_initialize, _BaseMo
     F: ModelHandlers,
     d: [{
       kind: "method",
+      decorators: [_wechat.reducer],
+      key: "putDatasource",
+      value: function putDatasource(dataSource) {
+        return Object.assign(Object.assign({}, this.state), {}, {
+          dataSource
+        });
+      }
+    }, {
+      kind: "method",
+      decorators: [_wechat.reducer],
+      key: "putCurUser",
+      value: function putCurUser(curUser) {
+        return Object.assign(Object.assign({}, this.state), {}, {
+          curUser
+        });
+      }
+    }, {
+      kind: "method",
+      decorators: [_wechat.reducer],
+      key: "showLoginPopup",
+      value: function showLoginPopup(_showLoginPopup) {
+        return Object.assign(Object.assign({}, this.state), {}, {
+          showLoginPopup: _showLoginPopup
+        });
+      }
+    }, {
+      kind: "method",
+      decorators: [(0, _wechat.effect)()],
+      key: "refreshDataSource",
+      value: async function refreshDataSource() {
+        const dataSource = await _api.default.getHomeData();
+        this.dispatch(this.callThisAction(this.putDatasource, dataSource));
+      }
+    }, {
+      kind: "method",
+      decorators: [(0, _wechat.effect)()],
+      key: "sign",
+      value: async function sign() {
+        const data = await _api.default.sign();
+        const curUser = this.state.curUser;
+        this.dispatch(this.callThisAction(this.putCurUser, Object.assign(Object.assign({}, curUser), data)));
+        global.historyActions.navigateTo('/app/signed');
+      }
+    }, {
+      kind: "method",
+      decorators: [(0, _wechat.effect)()],
+      key: "login",
+      value: async function login(data) {
+        const curUser = await _api.default.login(data);
+        this.updateState({
+          curUser,
+          showLoginPopup: false
+        });
+      }
+    }, {
+      kind: "method",
       decorators: [(0, _wechat.effect)()],
       key: 'this.Init',
       value: async function () {
@@ -48,6 +107,7 @@ let ModelHandlers = (0, _decorate2.default)(null, function (_initialize, _BaseMo
         global.historyActions.navigateTo({
           url: '/app/Welcome'
         });
+        this.refreshDataSource();
       }
     }]
   };

@@ -5,7 +5,7 @@
 	},
 	"miniprogramRoot": "src/",
 	"compileType": "miniprogram",
-	"libVersion": "2.11.0",
+	"libVersion": "2.11.1",
 	"projectname": "meduxWechatDemo",
 	"scripts": {
 		"beforeCompile": "",
@@ -35,7 +35,7 @@
 	},
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
-	"appid": "wx81aa0a9ccb3960f1",
+	"appid": "wxe2abd99a8c256611",
 	"condition": {
 		"search": {
 			"current": -1,
@@ -61,16 +61,23 @@
 			"list": [
 				{
 					"id": 0,
-					"name": "modules/post/views/List/page",
-					"pathName": "modules/post/views/List/page",
-					"query": "q=%7B%22post%22%3A%7B%22listSearch%22%3A%7B%22term%22%3A%22%22%7D%2C%22listView%22%3A%22list%22%7D%7D",
+					"name": "modules/my/views/Home/page",
+					"pathName": "modules/my/views/Home/page",
+					"query": "",
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "modules/app/views/Home/page",
-					"pathName": "modules/app/views/Home/page",
-					"query": "aa=1&bb=2#cc=3&dd=4",
+					"id": 1,
+					"name": "modules/grade/views/Detail/page",
+					"pathName": "modules/grade/views/Detail/page",
+					"query": "q={\"grade\":{\"itemView\":\"detail\",\"itemId\":\"51\"}}",
+					"scene": null
+				},
+				{
+					"id": 2,
+					"name": "modules/contest/views/Category/page",
+					"pathName": "modules/contest/views/Category/page",
+					"query": "",
 					"scene": null
 				}
 			]

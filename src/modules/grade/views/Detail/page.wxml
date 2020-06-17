@@ -1,0 +1,30 @@
+<import src="../../../../common/list.wxml" />
+<block>
+  <navigation title="成绩公示" showBack="{{true}}" />
+  <scroll-view wx:if="{{inited && itemDetail}}" class="g-container g-detail contest" scroll-y="{{true}}" refresher-enabled="{{true}}" refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh">
+    <template is="contestItem" data="{{itemDetail,clientPublishPath,cates}}" />
+    <view class="mainSingUp">
+      <view class="title">
+        <view class="subject">成绩公示</view>
+        <view class="btn">按分组排名</view>
+      </view>
+      <van-collapse accordion value="{{singUpType}}" bind:change="onSingUpTypeChange">
+        <van-collapse-item wx:for="{{itemDetail.groups}}" wx:key="id" title="{{item.name}} ▸" name="{{index}}">
+          <view class="gradeItem top3" wx:for="{{item.grades}}" wx:for-item="grade" wx:key="name">
+            <image mode="aspectFill" src="{{clientPublishPath + grade.avatar}}" />
+            <text class="uname">第{{index+1}}名：{{grade.name}}</text>
+          </view>
+          <text class="gradeItem">第4名：XXXXXXXXX</text>
+          <text class="gradeItem">第5名：XXXXXXXXX</text>
+          <text class="gradeItem">第6名：XXXXXXXXX</text>
+          <text class="gradeItem">第7名：XXXXXXXXX</text>
+          <text class="gradeItem">第8名：XXXXXXXXX</text>
+        </van-collapse-item>
+      </van-collapse>
+    </view>
+    <view class="download">
+      更多排名请下载文件:
+      <text class="link">榜单下载</text>
+    </view>
+  </scroll-view>
+</block>

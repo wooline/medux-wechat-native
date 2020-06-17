@@ -1,7 +1,5 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
 
 require("./Global");
@@ -12,8 +10,6 @@ var _wechat = require("@medux/wechat");
 
 var _export = require("./modules/export");
 
-var _wechatReduxDevtools = _interopRequireDefault(require("@medux/wechat-redux-devtools"));
-
 (0, _wechat.setLoadingDepthTime)(1);
 (0, _wechat.buildApp)({
   moduleGetter: _export.moduleGetter,
@@ -22,10 +18,7 @@ var _wechatReduxDevtools = _interopRequireDefault(require("@medux/wechat-redux-d
   locationMap: _export.locationMap,
   defaultRouteParams: _export.defaultRouteParams,
   storeOptions: {
-    enhancers: [(0, _wechatReduxDevtools.default)({
-      realtime: false,
-      port: 8000
-    })]
+    enhancers: []
   },
   beforeRender: ({
     store,

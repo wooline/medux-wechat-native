@@ -1,0 +1,23 @@
+<import src="../../../../common/list.wxml" />
+<block>
+  <navigation title="户外活动" showBack="{{false}}" />
+  <global-search />
+  <scroll-view wx:if="{{inited && listSummary && listSummary.category}}" class="g-container" scroll-y="{{true}}" refresher-enabled="{{true}}" refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh">
+    <swiper indicator-dots="{{true}}" autoplay="{{true}}">
+      <swiper-item class="g-swiper" wx:for="{{listSummary.recommend}}" wx:for-item="idx" wx:key="*this" bind:tap="navToItem" data-type="article" data-id="{{list[idx].id}}">
+        <template is="swiperItem" data="{{item:list[idx],clientPublishPath,cates}}"></template>
+      </swiper-item>
+    </swiper>
+    <view class="g-group" wx:for="{{listSummary.category}}" wx:key="id" wx:for-item="cate">
+      <view class="cateTitle article">
+        <view bind:tap="navToSubList" data-type="article" data-sid="{{cate.id}}" class="subject">
+          {{cate.name}} ▸
+        </view>
+      </view>
+      <view wx:for="{{cate.list}}" wx:key="*this" wx:for-item="idx" class="g-list-item" bind:tap="navToItem" data-type="article" data-id="{{list[idx].id}}">
+        <template is="articleList" data="{{item:list[idx],clientPublishPath,cates}}" />
+      </view>
+    </view>
+  </scroll-view>
+  <view class="g-tabbar-place"></view>
+</block>

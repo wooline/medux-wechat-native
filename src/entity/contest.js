@@ -12,9 +12,9 @@ const defaultRouteParams = {
     category: 'all'
   },
   listView: '',
-  listKey: '',
+  listKey: 0,
   itemId: '',
   itemView: '',
-  itemKey: ''
+  itemKey: 0
 };
 exports.defaultRouteParams = defaultRouteParams;

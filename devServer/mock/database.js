@@ -3,6 +3,7 @@ const path = require('path');
 const crypto = require('crypto');
 const mockjs = require('mockjs');
 const utils = require(path.join(__dirname, './utils'));
+const timestamp = Date.now();
 const headers = {
   'x-delay': 0,
   'content-type': 'application/json; charset=utf-8',
@@ -25,23 +26,30 @@ function createContests() {
       'list|25': [
         {
           'id|+1': 1,
-          type: '赛事',
+          type: 'contest',
           link: '',
           title: '@ctitle(5,30)',
           summary: '@cparagraph',
-          thumb: () => `/photos/${utils.randomNum(1, 18)}.jpg`,
+          thumb: utils.getRandomPhoto,
           createdTime: utils.getRandomTime,
-          updatedTime: utils.getRandomTime,
           cate: () => `1_${utils.randomNum(1, 4)}`,
+          'groups|1-5': [
+            {
+              'id|+1': 1,
+              'name|+1': ['个人赛', '团队赛', '男子组', '女子组', '越野组', '100公里', '10公里', '50公里', '老年组'],
+            },
+          ],
           extra: {
             addr: '@city(true)',
-            signUpTime: utils.getRandomTime,
             activeTime: utils.getRandomTimeRange,
+            'singUpNum|20-100': 20,
           },
         },
       ],
     })
     .list.forEach((item) => {
+      item.updatedTime = item.createdTime + 1000 * 3600 * 24 * 2;
+      item.extra.signUpTime = [item.extra.activeTime[0] - 1000 * 3600 * 24 * 20, item.extra.activeTime[0] - 1000 * 3600 * 24 * 2];
       data[item.id] = item;
     });
   return data;
@@ -53,25 +61,62 @@ function createArticles() {
       'list|25': [
         {
           'id|+1': 26,
-          type: '文章',
+          type: 'article',
           link: '',
           title: '@ctitle(5,30)',
           summary: '@cparagraph',
-          thumb: () => `/photos/${utils.randomNum(1, 18)}.jpg`,
+          thumb: utils.getRandomPhoto,
           createdTime: utils.getRandomTime,
-          updatedTime: utils.getRandomTime,
           cate: () => `2_${utils.randomNum(1, 3)}`,
         },
       ],
     })
     .list.forEach((item) => {
+      item.updatedTime = item.createdTime + 1000 * 3600 * 24 * 2;
+      data[item.id] = item;
+    });
+  return data;
+}
+function createGrades() {
+  const data = {};
+  mockjs
+    .mock({
+      'list|25': [
+        {
+          'id|+1': 51,
+          type: 'grade',
+          link: '',
+          title: '@ctitle(5,30)',
+          summary: '@cparagraph',
+          thumb: utils.getRandomPhoto,
+          createdTime: utils.getRandomTime,
+          cate: `1_${utils.randomNum(1, 4)}`,
+          top: utils.getRandomAvatars,
+          'groups|1-5': [
+            {
+              'id|+1': 1,
+              'name|+1': ['个人赛', '团队赛', '男子组', '女子组', '越野组', '100公里', '10公里', '50公里', '老年组'],
+              grades: utils.getRandomAvatars,
+            },
+          ],
+          extra: {
+            addr: '@city(true)',
+            activeTime: utils.getRandomTimeRange,
+            'singUpNum|20-100': 20,
+          },
+        },
+      ],
+    })
+    .list.forEach((item) => {
+      item.extra.signUpTime = [item.extra.activeTime[0] - 1000 * 3600 * 24 * 20, item.extra.activeTime[0] - 1000 * 3600 * 24 * 2];
+      item.updatedTime = item.createdTime + 1000 * 3600 * 24 * 2;
       data[item.id] = item;
     });
   return data;
 }
 const contests = createContests();
 const articles = createArticles();
-const posts = {...contests, ...articles};
+const grades = createGrades();
 
 const data = {
   config: {
@@ -80,7 +125,8 @@ const data = {
     startupPage: {linkUrl: 'aaa', imageUrl: '/imgs/startup.jpg', times: 2},
   },
   contests,
-  posts,
+  grades,
+  articles,
 };
 
 const database = {

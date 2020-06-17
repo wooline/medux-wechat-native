@@ -3,14 +3,16 @@ export interface BaseListSummary {
   pageSize: number;
   totalItems: number;
   totalPages: number;
+  recommend?: string[];
   categorys?: {id: string; name: string; list: string[]}[];
 }
-export interface BaseCategorySummary {
-  [index: number]: {name: string; id: string};
-}
+
 export interface BaseListItem {
   id: string;
 }
+
+export type BaseItemDetail = BaseListItem;
+
 export interface BaseListSearch {
   pageCurrent?: number;
   pageSize?: number;
@@ -27,10 +29,10 @@ export type ItemView = 'detail' | 'edit' | 'create' | 'summary' | '';
 export interface CommonResourceRouteParams<L = never, I = never> {
   listView: ListView | L;
   listSearch: BaseListSearch;
-  listKey: string;
+  listKey: number;
   itemView: ItemView | I;
   itemId: string;
-  itemKey: string;
+  itemKey: number;
 }
 
 export interface CommonResource<L = never, I = never> {
@@ -39,24 +41,25 @@ export interface CommonResource<L = never, I = never> {
   ListItem: BaseListItem;
   ListSummary: BaseListSummary;
   ListView: ListView | L;
+  ItemDetail: BaseItemDetail;
   ItemView: ItemView | I;
-  CategoryList: {[cid: string]: BaseListItem[]};
-  CategorySummary: BaseCategorySummary;
   CreateItem: any;
   UpdateItem: any;
 }
-export interface ProjectConfig {
-  tokenRenewalTime: number;
-  noticeTimer: number;
+
+export interface ListData {
+  listKey?: string;
+  list?: CommonResource['ListItem'][];
+  listSummary?: CommonResource['ListSummary'];
+  listSearch?: CommonResource['ListSearch'];
+}
+
+export interface ItemData {
+  itemKey?: string;
+  itemDetail?: CommonResource['ItemDetail'];
 }
 export interface TabNav {
   id: string;
   title: string;
   url: string;
 }
-
-// export interface CategoryList<L extends BaseListItem> {
-//   cid: string;
-//   cname: string;
-//   clist: L[];
-// }

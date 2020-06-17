@@ -1,0 +1,57 @@
+<wxs src="../../../../common/tools.wxs" module="tools" />
+<block>
+  <navigation title="赛事报名" showBack="{{false}}" />
+  <global-search />
+  <scroll-view wx:if="{{inited && listSummary}}" class="g-container" scroll-y="{{true}}" refresher-enabled="{{true}}" refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh">
+    <swiper indicator-dots="{{true}}" autoplay="{{true}}">
+      <swiper-item class="g-swiper" wx:for="{{listSummary.recommend}}" wx:for-item="idx" wx:key="*this" bind:tap="navToItem" data-type="contest" data-id="{{list[idx].id}}">
+        <image class="thumb" mode="aspectFill" wx:if="{{list[idx].thumb}}" src="{{clientPublishPath + list[idx].thumb}}" />
+        <view class="summary">
+          <view class="title">{{list[idx].title}}</view>
+          <view class="info">
+            <view class="cate">{{cates[list[idx].cate]}}</view>
+            <view class="date">{{tools.dateFormat(list[idx].createdTime)}}</view>
+          </view>
+        </view>
+      </swiper-item>
+    </swiper>
+    <view class="menu">
+      <view wx:for="{{listSummary.category}}" class="item" bind:tap="navToSubList" data-type="contest" data-sid="{{item.id}}" wx:key="id">
+        <image class="icon" mode="scaleToFill" src="../imgs/contest-icon0{{index+1}}.png" />
+        {{item.name}}
+      </view>
+    </view>
+    <view class="cateTitle">
+      <view class="subject">赛事报名 ▸</view>
+    </view>
+    <view wx:for="{{list}}" wx:key="id" class="g-list-item contest" bind:tap="navToItem" data-type="contest" data-id="{{item.id}}">
+      <view class="title">{{item.title}}</view>
+      <view class="info">
+        <text class="cate">{{cates[item.cate]}}</text>
+        <text class="cate" style="background-color:#666">团队赛</text>
+      </view>
+      <view class="summary">
+        <image class="thumb" wx:if="{{item.thumb}}" src="{{clientPublishPath + item.thumb}}" />
+        <view class="introduce">
+          <view>
+            <view class="field">活动地点：</view>
+            {{item.extra.addr}}
+          </view>
+          <view>
+            <view class="field">活动时间：</view>
+            {{tools.dateFormat(item.extra.activeTime[0])}} - {{tools.dateFormat(item.extra.activeTime[1],'MM/dd')}}
+          </view>
+          <view>
+            <view class="field">报名日期：</view>
+            {{tools.dateFormat(item.extra.signUpTime[0])}} - {{tools.dateFormat(item.extra.signUpTime[1],'MM/dd')}}
+          </view>
+        </view>
+      </view>
+      <view class="expiryDate" wx:if="{{!tools.checkExpiryDate(item.extra.activeTime[0])}}">
+        已完赛
+      </view>
+      <text class="text">{{item.summary}}</text>
+    </view>
+  </scroll-view>
+  <view class="g-tabbar-place"></view>
+</block>

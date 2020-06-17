@@ -4,8 +4,9 @@ import {DispatchProp, connectComponent} from '@medux/wechat';
 import {ListItem, ListSearch, ListSummary} from '~/entity/post';
 
 import listPageBehavior from '~/common/listPageBehavior';
+import navPageBehavior from '~/common/navPageBehavior';
 
-const listPage = listPageBehavior(global.actions.post);
+const listPage = listPageBehavior(global.actions.post, 'list');
 interface StoreProps {
   listSearch?: ListSearch;
   list?: ListItem[];
@@ -18,6 +19,7 @@ interface OwnerProps {}
 interface ComponentState {
   refreshing: boolean;
   loadMore: boolean;
+  templateNames: {[key: string]: string};
 }
 
 type Data = StoreProps & OwnerProps & ComponentState;
@@ -37,6 +39,14 @@ const component = connectComponent<RootState, StoreProps, {}, Data>(module, (sta
   }
 });
 
+const initData: any = {
+  templateNames: {
+    contest: 'contestList',
+    grade: 'gradeList',
+    article: 'articleList',
+  },
+};
 component<Data, {}, Methods>({
-  behaviors: [listPage.behavior],
+  behaviors: [listPage.behavior, navPageBehavior],
+  data: initData,
 });

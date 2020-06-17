@@ -1,0 +1,32 @@
+<wxs src="../../../../common/tools.wxs" module="tools" />
+<block>
+  <navigation title="{{cates[itemDetail.cate]}}" showBack="{{true}}" />
+  <scroll-view wx:if="{{inited && itemDetail}}" class="g-container g-detail" scroll-y="{{true}}" refresher-enabled="{{true}}" refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh">
+    <image class="mainCover" mode="aspectFill" wx:if="{{itemDetail.thumb}}" src="{{clientPublishPath + itemDetail.thumb}}" />
+    <view class="mainTitle article">
+      <view class="title">{{itemDetail.title}}</view>
+      <view class="info">
+        <text class="cate">{{cates[itemDetail.cate]}}</text>
+        <text class="date">{{tools.dateFormat(itemDetail.createdTime)}}</text>
+      </view>
+    </view>
+    <view class="mainSummary">
+      <view class="text">{{itemDetail.summary}}</view>
+      <view class="update">
+        <text class="author">admin</text>
+        发表于2020-03-21
+      </view>
+    </view>
+    <view class="mainContent">
+      新华社乌鲁木齐6月10日电（记者刘兵、于涛、阿依努尔）脱贫、全面小康、现代化，一个民族也不能少。在经济欠发达的新疆，尤其是深度贫困的南疆四地州，就业机会少、
+      增收难是摆在各族群众脱贫路上的最大难题。近年来，新疆各地在尽最大可能帮助贫困群众实现就近就地就业的同时，积极拓展就业渠道，搭建就业平台，联系经济发达省市
+      用工企业，为各族贫困群众实现就业、脱贫致富铺平道路。新华社记者近期采访在各地务工的新疆各族员工，他们纷纷表示，外出务工实现就业让自己及全家摆脱了贫困，生
+      活水平明显提高，对未来充满了希望。
+      <image class="photo" mode="widthFix" src="{{clientPublishPath + itemDetail.thumb}}" />
+      一个民族也不能少。在经济欠发达的新疆，尤其是深度贫困的南疆四地州，就业机会少、
+      增收难是摆在各族群众脱贫路上的最大难题。近年来，新疆各地在尽最大可能帮助贫困群众实现就近就地就业的同时，积极拓展就业渠道，搭建就业平台，联系经济发达省市
+      用工企业，为各族贫困群众实现就业、脱贫致富铺平道路。新华社记者近期采访在各地务工的新疆各族员工，他们纷纷表示，外出务工实现就业让自己及全家摆脱了贫困，生
+      活水平明显提高，对未来充满了希望。
+    </view>
+  </scroll-view>
+</block>

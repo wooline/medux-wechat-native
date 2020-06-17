@@ -1,4 +1,17 @@
-const timestamp = Date.now();
+const mockjs = require('mockjs');
+function getRandomPhoto() {
+  return `/photos/${randomNum(1, 18)}.jpg`;
+}
+const randomAvatars = new Array(14).fill(1).map((v, i) => {
+  return {name: mockjs.Random.cname(), avatar: `/photos/u${i + 1}.jpg`};
+});
+function getRandomAvatars() {
+  const num = 3;
+  const n = randomNum(0, randomAvatars.length - 1 - num);
+  return randomAvatars.slice(n, n + 3);
+}
+const timestamp = Date.now() + 1000 * 3600 * 24 * 50;
+
 function randomNum(minNum, maxNum) {
   //return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
   return Math.floor(Math.random() * (maxNum - minNum + 1) + minNum);
@@ -106,6 +119,8 @@ module.exports = {
   randomNum,
   getRandomTime,
   getRandomTimeRange,
+  getRandomAvatars,
+  getRandomPhoto,
   createArray,
   createMap,
 };

@@ -40,3 +40,22 @@ export const message = {
     });
   },
 };
+
+export function navToItem(type: string, id: string) {
+  global.historyActions.navigateTo(`/${type}/Detail?q={"${type}":{"itemView":"detail","itemId":"${id}"}}`);
+}
+export function navToList(type: string) {
+  const pages = {
+    contest: '/contest/category',
+    article: '/article/category',
+    grade: '/grade/list',
+  };
+  if (type === 'contest' || type === 'article') {
+    global.historyActions.switchTab(pages[type]);
+  } else {
+    global.historyActions.navigateTo(pages[type]);
+  }
+}
+export function navToSubList(type: string, subId: string) {
+  global.historyActions.navigateTo(`/${type}/List?q={"${type}":{"listSearch":{"category":"${subId}"}}}`);
+}

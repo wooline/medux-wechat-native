@@ -8,7 +8,22 @@ sorterOrder = sorterOrder.toString();
 pageCurrent = parseInt(pageCurrent) || 1;
 pageSize = parseInt(pageSize) || 10;
 
-const postsData = database.data.posts;
+const contests = Object.keys(database.data.contests)
+  .slice(0, 3)
+  .map((id) => {
+    return database.data.contests[id];
+  });
+const grades = Object.keys(database.data.grades)
+  .slice(0, 3)
+  .map((id) => {
+    return database.data.grades[id];
+  });
+const articles = Object.keys(database.data.articles)
+  .slice(0, 3)
+  .map((id) => {
+    return database.data.articles[id];
+  });
+const resourceList = [].concat(contests, grades, articles);
 
 const result = {
   statusCode: 200,
@@ -20,17 +35,6 @@ const result = {
 
 const start = (pageCurrent - 1) * pageSize;
 const end = start + pageSize;
-
-let resourceList = Object.keys(postsData).map((id) => {
-  return postsData[id];
-});
-
-if (term) {
-  resourceList = resourceList.filter((item) => item.title.includes(term));
-}
-if (title) {
-  resourceList = resourceList.filter((item) => item.title.includes(title));
-}
 
 if (sorterField === 'createdTime') {
   if (sorterOrder === 'ascend') {

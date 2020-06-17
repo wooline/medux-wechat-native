@@ -1,4 +1,4 @@
-import {BaseListItem, BaseListSearch, BaseListSummary} from '~/entity/base';
+import {BaseListItem, BaseListSearch, BaseListSummary, ListView} from '~/entity/base';
 
 import {CommonResourceState} from '~/common/resource';
 
@@ -19,27 +19,51 @@ interface Methods extends DispatchProp {
   [key: string]: any;
 }
 
-export default function (actions: {changeListPage: Function}) {
+export default function (actions: {changeListPageCurrent: Function}, listView: ListView) {
   return {
+    // mapStateToProps: <D extends Data>(moduleState: CommonResourceState, componentData: D) => {
+    //   type Result = Pick<D, keyof StoreProps>;
+    //   const listData: ListData = moduleState[listView] || {};
+    //   let {list} = listData;
+    //   const {listSearch = {}, listSummary} = listData;
+    //   if (componentData.listSummary !== listSummary) {
+    //     if (componentData.listSummary && listSummary && componentData.listSummary.pageCurrent < listSummary.pageCurrent) {
+    //       let index = componentData.list!.length;
+    //       const newData = {listSummary};
+    //       list!.forEach((item) => {
+    //         newData['list[' + index++ + ']'] = item;
+    //       });
+    //       return newData as Result;
+    //     }
+    //   } else {
+    //     list = componentData.list;
+    //   }
+    //   return {list, listSummary, listSearch} as Result;
+    // },
     mapStateToProps: <D extends Data>(moduleState: CommonResourceState, componentData: D) => {
       type Result = Pick<D, keyof StoreProps>;
-      let {list} = moduleState;
-      const {listSummary} = moduleState;
-      const listSearch = moduleState.routeParams!.listSearch;
-      if (componentData.listSummary !== listSummary) {
-        if (componentData.listSummary && listSummary && componentData.listSummary.pageCurrent < listSummary.pageCurrent) {
-          console.log('add List');
-          let index = componentData.list!.length;
-          const newData = {listSummary};
-          list!.forEach((item) => {
-            newData['list[' + index++ + ']'] = item;
-          });
-          return newData as Result;
+      const listData = moduleState[listView];
+      if (listData) {
+        let {list} = listData;
+        const {listSearch = {}, listSummary} = listData;
+        if (componentData.listSummary !== listSummary) {
+          if (componentData.listSummary && listSummary && componentData.listSummary.pageCurrent < listSummary.pageCurrent) {
+            console.log('addPage');
+            let index = componentData.list!.length;
+            const newData = {listSummary};
+            list!.forEach((item) => {
+              newData['list[' + index++ + ']'] = item;
+            });
+            return newData as Result;
+          }
+        } else {
+          //和store中的list不再是同一个对象，只要listSummary没更新则本地不更新
+          list = componentData.list!;
         }
+        return {list, listSummary, listSearch};
       } else {
-        list = componentData.list;
+        return {};
       }
-      return {list, listSummary, listSearch} as Result;
     },
     behavior: Behavior<Data, {}, Methods>({
       behaviors: [],
@@ -48,33 +72,35 @@ export default function (actions: {changeListPage: Function}) {
         loadMore: false,
       },
       methods: {
-        async onRefresh() {
+        onRefresh() {
           if (this.data.refreshing) {
             return;
           }
           this.setData({
             refreshing: true,
           });
-          await this.dispatch!(actions.changeListPage(1));
-          this.setData({
-            refreshing: false,
-          });
+          this.dispatch!(actions.changeListPageCurrent(1));
+          setTimeout(() => {
+            this.setData({
+              refreshing: false,
+            });
+          }, 1000);
         },
-        async onMore() {
-          console.log('onMore');
+        onMore() {
           const {pageCurrent, totalPages} = this.data.listSummary!;
           if (this.data.loadMore || pageCurrent >= totalPages) {
             return;
           }
-          console.log('loadMore start');
           this.setData({
             loadMore: true,
           });
-          await this.dispatch!(actions.changeListPage(pageCurrent + 1));
-          this.setData({
-            loadMore: false,
-          });
-          console.log('loadMore end');
+          console.log('loadMore...');
+          this.dispatch!(actions.changeListPageCurrent(pageCurrent + 1));
+          setTimeout(() => {
+            this.setData({
+              loadMore: false,
+            });
+          }, 1000);
         },
       },
     }),

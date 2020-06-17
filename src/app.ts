@@ -5,7 +5,7 @@ import * as appModule from './modules/app/module';
 import {buildApp, setLoadingDepthTime} from '@medux/wechat';
 import {defaultRouteParams, locationMap, moduleGetter, routeConfig} from './modules/export';
 
-import reduxDevtools from '@medux/wechat-redux-devtools';
+//import reduxDevtools from '@medux/wechat-redux-devtools';
 
 setLoadingDepthTime(1);
 
@@ -17,10 +17,10 @@ buildApp({
   defaultRouteParams,
   storeOptions: {
     enhancers: [
-      reduxDevtools({
-        realtime: false,
-        port: 8000,
-      }),
+      // reduxDevtools({
+      //   realtime: false,
+      //   port: 8000,
+      // }),
     ],
   },
   beforeRender: ({store, historyActions, toBrowserUrl, transformRoute}) => {

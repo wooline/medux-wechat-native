@@ -5,18 +5,22 @@ exports.routeConfig = exports.locationMap = exports.actions = exports.moduleGett
 
 var _wechat = require("@medux/wechat");
 
+var _article = require("../entity/article");
+
 var _contest = require("../entity/contest");
+
+var _grade = require("../entity/grade");
 
 var _post = require("../entity/post");
 
 const defaultRouteParams = {
   app: null,
-  article: null,
+  article: _article.defaultRouteParams,
   post: _post.defaultRouteParams,
   shop: null,
+  grade: _grade.defaultRouteParams,
   contest: _contest.defaultRouteParams,
-  my: null,
-  test: null
+  my: null
 };
 exports.defaultRouteParams = defaultRouteParams;
 let moduleNames;
@@ -28,8 +32,8 @@ exports.moduleNames = moduleNames;
   moduleNames["post"] = "post";
   moduleNames["shop"] = "shop";
   moduleNames["contest"] = "contest";
+  moduleNames["grade"] = "grade";
   moduleNames["my"] = "my";
-  moduleNames["test"] = "test";
 })(moduleNames || (exports.moduleNames = moduleNames = {}));
 
 const moduleGetter = {
@@ -45,13 +49,13 @@ const moduleGetter = {
   contest: () => {
     return {};
   },
+  grade: () => {
+    return {};
+  },
   shop: () => {
     return {};
   },
   my: () => {
-    return {};
-  },
-  test: () => {
     return {};
   }
 };
@@ -63,7 +67,8 @@ const locationMap = {
     const arr = location.pathname.match(/^\/modules(\/.*\/)views\//);
 
     if (arr) {
-      const pathname = location.pathname.replace(arr[0], arr[1]).replace(/\/page$/, '');
+      let pathname = location.pathname.replace(arr[0], arr[1]).replace(/\/page$/, '');
+      pathname = pathname.toLocaleLowerCase();
       return Object.assign(Object.assign({}, location), {}, {
         pathname
       });
@@ -76,7 +81,8 @@ const locationMap = {
     const arr = location.pathname.match(/^\/modules(\/.*\/)views\//);
 
     if (!arr) {
-      const pathname = '/modules' + location.pathname.replace(/(^\/\w+\/)/, '$1views/') + '/page';
+      let pathname = '/modules' + location.pathname.replace(/(^\/\w+\/)/, '$1views/') + '/page';
+      pathname = pathname.replace(/\w(?=\w+\/page)/, a => a.toLocaleUpperCase());
       return Object.assign(Object.assign({}, location), {}, {
         pathname
       });
@@ -92,8 +98,12 @@ const routeConfig = {
     '/app/Welcome': 'app.Welcome',
     '/app/Home': 'app.Home',
     '/post/List': 'post.List',
+    '/contest/detail': 'contest.Detail',
     '/contest/:listView': 'contest.List',
-    '/article/Outdoors': 'article.Outdoors'
+    '/grade/detail': 'grade.Detail',
+    '/grade/:listView': 'grade.List',
+    '/article/detail': 'article.Detail',
+    '/article/:listView': 'article.List'
   }]
 };
 exports.routeConfig = routeConfig;

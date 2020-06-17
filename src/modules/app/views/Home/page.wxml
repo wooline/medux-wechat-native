@@ -1,4 +1,68 @@
+<import src="../../../../common/list.wxml" />
 <block>
-  <navgation title="泽途体育" showBack="{{false}}" />
+  <navigation title="泽途体育" showBack="{{false}}" />
   <global-search />
+  <scroll-view wx:if="{{inited && recommend}}" class="g-container" scroll-y="{{true}}" refresher-enabled="{{true}}" refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh">
+    <swiper indicator-dots="{{true}}" autoplay="{{true}}">
+      <swiper-item class="g-swiper" wx:for="{{recommend}}" wx:key="id" bind:tap="navToItem" data-type="{{item.type}}" data-id="{{item.id}}">
+        <template is="swiperItem" data="{{item,clientPublishPath,cates}}"></template>
+      </swiper-item>
+    </swiper>
+    <view class="menu">
+      <view class="item">
+        <image class="icon" mode="scaleToFill" src="../imgs/home-icon01.png" />
+        今日步数
+      </view>
+      <view class="item" bind:tap="showSignPopup">
+        <image class="icon" mode="scaleToFill" src="../imgs/home-icon02.png" />
+        签到打卡
+      </view>
+      <view class="item" bind:tap="navToList" data-type="grade">
+        <image class="icon" mode="scaleToFill" src="../imgs/home-icon03.png" />
+        成绩公示
+      </view>
+    </view>
+    <view class="g-group">
+      <view class="cateTitle">
+        <view bind:tap="navToList" data-type="contest" class="subject">赛事报名 ▸</view>
+      </view>
+      <view wx:for="{{contests}}" wx:key="id" class="g-list-item contest" bind:tap="navToItem" data-type="{{item.type}}" data-id="{{item.id}}">
+        <template is="contestList" data="{{item,clientPublishPath,cates}}" />
+      </view>
+    </view>
+    <view class="g-group">
+      <view class="cateTitle grade">
+        <view bind:tap="navToList" data-type="grade" class="subject">成绩公示 ▸</view>
+      </view>
+      <view wx:for="{{grades}}" wx:key="id" class="g-list-item grade" bind:tap="navToItem" data-type="{{item.type}}" data-id="{{item.id}}">
+        <template is="gradeList" data="{{item,clientPublishPath,cates}}" />
+      </view>
+    </view>
+    <view class="g-group">
+      <view class="cateTitle article">
+        <view bind:tap="navToList" data-type="article" class="subject">户外活动 ▸</view>
+      </view>
+      <view wx:for="{{articles}}" wx:key="id" class="g-list-item article" bind:tap="navToItem" data-type="{{item.type}}" data-id="{{item.id}}">
+        <template is="articleList" data="{{item,clientPublishPath,cates}}" />
+      </view>
+    </view>
+    <view class="aboutUs">
+      <image class="logo" mode="scaleToFill" src="../imgs/logo.png" />
+      <view class="info">
+        <view class="title">湖南泽途体育文化有限公司</view>
+        <view class="ad">与你有泽，携手共途</view>
+        <view>Add: 湖南省长沙市岳麓区王家湾泽途体育</view>
+        <view>Tel: 0731-88712481</view>
+      </view>
+    </view>
+  </scroll-view>
+  <van-popup show="{{ showSignPopup }}" round closeable z-index="10000" bind:close="closeSignPopup">
+    <view class="popup">
+      <image src="../imgs/sign.png" mode="scaleToFill" class="bg" />
+      <view class="result {{signedDays<10?'':'mult'}}">{{signedDays}}</view>
+      <view class="points">+80积分</view>
+      <view class="sign" bind:tap="sign">立即签到</view>
+    </view>
+  </van-popup>
+  <view class="g-tabbar-place"></view>
 </block>

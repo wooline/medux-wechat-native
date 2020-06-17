@@ -1,0 +1,15 @@
+<import src="../../../../common/list.wxml" />
+<block>
+  <navigation title="成绩公示" back="{{true}}" />
+  <global-search />
+  <scroll-view wx:if="{{inited && listSummary}}" class="g-container" refresher-enabled="{{true}}" scroll-y="{{true}}" refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh" bindscrolltolower="onMore">
+    <no-data wx:if="{{listSummary.totalItems===0}}" />
+    <view wx:if="{{listSummary.totalItems > 0}}" wx:for="{{list}}" wx:key="id" class="g-list-item grade" bind:tap="navToItem" data-type="grade" data-id="{{item.id}}">
+      <template is="gradeList" data="{{item,clientPublishPath,cates}}" />
+    </view>
+    <view wx:if="{{listSummary.totalPages > 0}}" class="g-pagination">
+      <view wx:if="{{listSummary.pageCurrent < listSummary.totalPages}}">加载更多...</view>
+      <view wx:else>没有更多数据了</view>
+    </view>
+  </scroll-view>
+</block>

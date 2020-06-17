@@ -11,7 +11,7 @@ Component({
     }, {
       icon: 'flag-o',
       text: '赛事',
-      url: 'modules/contest/views/Home/page'
+      url: 'modules/contest/views/Category/page'
     }, {
       icon: 'shopping-cart-o',
       text: '商城',
@@ -19,7 +19,7 @@ Component({
     }, {
       icon: 'flower-o',
       text: '户外',
-      url: 'modules/article/views/Outdoors/page'
+      url: 'modules/article/views/Category/page'
     }, {
       icon: 'user-o',
       text: '我的',

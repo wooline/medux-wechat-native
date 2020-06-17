@@ -1,0 +1,19 @@
+<view class="root" catchtouchmove="maskEvents" wx:if="{{showLoginPopup}}">
+  <view class="mask" bind:tap="closePopup"></view>
+  <view class="panel">
+    <view class="title">
+      用户登录
+      <van-icon bind:tap="closePopup" class="closeBtn" name="clear" size="25px" />
+    </view>
+    <van-cell-group>
+      <van-field size="large" value="" clearable label="用户名" icon="question-o" placeholder="请输入用户名" bind:click-icon="onClickIcon" />
+      <van-field size="large" value="" type="password" label="密码" placeholder="请输入密码" border="{{ false }}" />
+    </van-cell-group>
+    <view class="control">
+      <van-button bind:tap="login" icon="user-o" style="margin-right:7px" color="#0089ff">
+        登录
+      </van-button>
+      <van-button plain type="primary">一键注册</van-button>
+    </view>
+  </view>
+</view>

@@ -1,1 +1,10 @@
-<view>个人首页</view>
+<block>
+  <navigation title="个人中心" showBack="{{false}}" />
+  <view class="g-container">
+    <van-cell-group>
+      <van-cell title="单元格" value="内容" />
+      <van-cell title="单元格" value="内容" label="描述信息" border="{{ false }}" />
+    </van-cell-group>
+  </view>
+  <view class="g-tabbar-place"></view>
+</block>

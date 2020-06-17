@@ -10,6 +10,12 @@ class API extends _resource.CommonResourceAPI {
     return global.request('GET', '/api/contest', this._filterEmpty(request));
   }
 
+  getDetailItem(id) {
+    return global.request('GET', '/api/contest/:id', {
+      id
+    });
+  }
+
 }
 
 exports.API = API;

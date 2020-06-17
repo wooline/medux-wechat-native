@@ -32,8 +32,8 @@ export const defaultRouteParams: RouteParams = {
     term: undefined,
   },
   listView: '',
-  listKey: '',
+  listKey: 0,
   itemId: '',
   itemView: '',
-  itemKey: '',
+  itemKey: 0,
 };

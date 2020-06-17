@@ -10,7 +10,9 @@ var _wechat = require("@medux/wechat");
 
 var _listPageBehavior = _interopRequireDefault(require("../../../../common/listPageBehavior"));
 
-const listPage = (0, _listPageBehavior.default)(global.actions.post);
+var _navPageBehavior = _interopRequireDefault(require("../../../../common/navPageBehavior"));
+
+const listPage = (0, _listPageBehavior.default)(global.actions.post, 'list');
 const component = (0, _wechat.connectComponent)(_module, (state, data) => {
   const projectConfig = state.app.projectConfig;
 
@@ -29,6 +31,14 @@ const component = (0, _wechat.connectComponent)(_module, (state, data) => {
     return {};
   }
 });
+const initData = {
+  templateNames: {
+    contest: 'contestList',
+    grade: 'gradeList',
+    article: 'articleList'
+  }
+};
 component({
-  behaviors: [listPage.behavior]
+  behaviors: [listPage.behavior, _navPageBehavior.default],
+  data: initData
 });

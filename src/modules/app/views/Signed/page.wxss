@@ -1,0 +1,39 @@
+page {
+  background-color: #0089ff;
+}
+.g-container {
+  border-top: 1px dashed #4eacff;
+}
+.calendar {
+  --calendar-height: 420px;
+}
+.calendar .van-calendar__month-title {
+  background-color: #e7f5fa;
+  font-weight: bold;
+}
+.calendar .van-calendar__header {
+  background-color: #0089ff;
+  color: #fff;
+}
+.calendar .van-calendar__top-info {
+  top: 2px;
+  color: #f60;
+}
+.van-calendar__selected-day .van-calendar__top-info {
+  color: #fff;
+}
+.info {
+  opacity: 0.7;
+  color: #fff;
+  font-size: 12px;
+  padding: 35rpx 25rpx;
+  padding-bottom: 40rpx;
+  line-height: 1.8;
+}
+.prize {
+  opacity: 0.9;
+  text-align: center;
+}
+.prize .van-button--plain {
+  background: rgba(255, 255, 255, 0.1);
+}

@@ -2,6 +2,11 @@ import {BaseListSearch, BaseListSummary, CommonResource, CommonResourceRoutePara
 
 import {ListItem as BaseListItem} from './post';
 
+export interface Group {
+  id: string;
+  name: string;
+  price: number;
+}
 export interface ListItem extends BaseListItem {
   extra: {
     addr: string;
@@ -11,6 +16,9 @@ export interface ListItem extends BaseListItem {
 }
 export interface ListSearch extends BaseListSearch {}
 export interface ListSummary extends BaseListSummary {}
+export interface ItemDetail extends ListItem {
+  groups: Group[];
+}
 
 export interface RouteParams extends CommonResourceRouteParams {
   listSearch: ListSearch;
@@ -32,8 +40,8 @@ export const defaultRouteParams: RouteParams = {
     category: 'all',
   },
   listView: '',
-  listKey: '',
+  listKey: 0,
   itemId: '',
   itemView: '',
-  itemKey: '',
+  itemKey: 0,
 };

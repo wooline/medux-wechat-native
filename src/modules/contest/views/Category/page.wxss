@@ -1,0 +1,32 @@
+.menu {
+  padding: 40rpx 25rpx;
+  display: flex;
+  justify-content: space-around;
+}
+.menu .item {
+  text-align: center;
+  font-size: 12px;
+}
+.menu .icon {
+  display: block;
+  width: 120rpx;
+  height: 120rpx;
+  margin-bottom: 6rpx;
+}
+.cateTitle {
+  padding: 15rpx 25rpx;
+  background-color: #0089ff;
+  color: #fff;
+  font-size: 14px;
+  border-bottom: #0071d4;
+}
+.g-list-item {
+  padding-bottom: 30rpx;
+}
+.g-list-item .summary {
+  background-color: #eee;
+  margin-bottom: 25rpx;
+}
+.g-list-item .text {
+  color: #999;
+}

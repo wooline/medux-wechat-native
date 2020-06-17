@@ -1,6 +1,9 @@
 "use strict";
 
 exports.__esModule = true;
+exports.navToItem = navToItem;
+exports.navToList = navToList;
+exports.navToSubList = navToSubList;
 exports.message = exports.CommonErrorCode = exports.metaKeys = void 0;
 const metaKeys = {
   ApiServerPath: 'http://localhost:7445/api',
@@ -44,3 +47,25 @@ const message = {
   }
 };
 exports.message = message;
+
+function navToItem(type, id) {
+  global.historyActions.navigateTo(`/${type}/Detail?q={"${type}":{"itemView":"detail","itemId":"${id}"}}`);
+}
+
+function navToList(type) {
+  const pages = {
+    contest: '/contest/category',
+    article: '/article/category',
+    grade: '/grade/list'
+  };
+
+  if (type === 'contest' || type === 'article') {
+    global.historyActions.switchTab(pages[type]);
+  } else {
+    global.historyActions.navigateTo(pages[type]);
+  }
+}
+
+function navToSubList(type, subId) {
+  global.historyActions.navigateTo(`/${type}/List?q={"${type}":{"listSearch":{"category":"${subId}"}}}`);
+}

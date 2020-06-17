@@ -1,5 +1,5 @@
 /* global request,database */
-let {term = '', category = '', title = '', sorterField = '', sorterOrder = '', pageCurrent, pageSize, purviews} = request.query;
+let {term = '', category = '', title = '', sorterField = '', sorterOrder = '', pageCurrent, pageSize} = request.query;
 
 term = term.toString();
 category = category.toString();
@@ -25,7 +25,7 @@ let resourceList = Object.keys(contestsData).map((id) => {
 
 let list, listSummary;
 
-if (category) {
+if (category === 'all') {
   const cates = database.data.config.cates;
   const categorySummary = Object.keys(cates).reduce((result, key) => {
     const arr = key.split('_');
@@ -40,22 +40,29 @@ if (category) {
       const item = contestsData[id];
       const arr = item.cate.split('_');
       const category = categorySummary[arr[1]];
-      if (category.length < 5) {
+      if (category.length < 1) {
         list.push(item);
         category.push(list.length - 1);
       }
     }
   }
   listSummary = {
+    pageCurrent,
+    pageSize: list.length,
     totalItems: list.length,
+    totalPages: 1,
     category: Object.keys(categorySummary).map((id) => {
-      return {id: '1_' + id, name: cates['1_' + id], list: categorySummary[id]};
+      return {id: '1_' + id, name: cates['1_' + id]};
     }),
+    recommend: [0, 1, 2, 3],
   };
 } else {
   const start = (pageCurrent - 1) * pageSize;
   const end = start + pageSize;
 
+  if (category) {
+    resourceList = resourceList.filter((item) => item.cate === category);
+  }
   if (term) {
     resourceList = resourceList.filter((item) => item.title.includes(term));
   }

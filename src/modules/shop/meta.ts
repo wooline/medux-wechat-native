@@ -10,9 +10,9 @@ const defaultRouteParams: RouteParams = {
     term: 'abcde',
   },
   listView: '',
-  listKey: '',
+  listKey: 0,
   itemId: '',
   itemView: '',
-  itemKey: '',
+  itemKey: 0,
 };
 export default defaultRouteParams;

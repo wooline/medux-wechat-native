@@ -1,9 +1,10 @@
 export interface CurUser {
   id: string;
   username: string;
-  hasLogin: boolean;
   avatar: string;
-  expired?: number;
+  loggedIn: boolean;
+  latestSigned: string;
+  signedDays: number;
 }
 export interface StartupPageConfig {
   linkUrl: string;

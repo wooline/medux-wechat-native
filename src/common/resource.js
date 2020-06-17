@@ -72,6 +72,8 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
           list: true,
           detail: false
         },
+        listView: ['list', 'selector', 'category'],
+        itemView: ['detail', 'edit', 'create', 'summary'],
         listPaths: ['app.Main', this.moduleName + '.List'],
         itemPaths: ['app.Main', this.moduleName + '.List', this.moduleName + '.Detail']
       };
@@ -128,15 +130,14 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
       kind: "method",
       decorators: [_wechat.reducer],
       key: "putSearchList",
-      value: function putSearchList(list, listSummary, listSearch, listView = '', listKey = '') {
+      value: function putSearchList(list, listSummary, listSearch, listView, listKey) {
         return Object.assign(Object.assign({}, this.state), {}, {
-          routeParams: Object.assign(Object.assign({}, this.state.routeParams), {}, {
+          [listView]: {
+            listKey,
             listSearch,
-            listView,
-            listKey
-          }),
-          list,
-          listSummary,
+            list,
+            listSummary
+          },
           listLoading: undefined
         });
       }
@@ -144,14 +145,13 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
       kind: "method",
       decorators: [_wechat.reducer],
       key: "putCurrentItem",
-      value: function putCurrentItem(currentItem, itemId = '', itemView = '', itemKey = '') {
+      value: function putCurrentItem(itemDetail, itemId, itemView, itemKey) {
         return Object.assign(Object.assign({}, this.state), {}, {
-          routeParams: Object.assign(Object.assign({}, this.state.routeParams), {}, {
-            itemView,
+          [itemView]: {
+            itemKey,
             itemId,
-            itemKey
-          }),
-          currentItem,
+            itemDetail
+          },
           itemLoading: undefined
         });
       }
@@ -166,12 +166,12 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
       }
     }, {
       kind: "method",
-      decorators: [_wechat.reducer],
-      key: "clearList",
-      value: function clearList() {
-        return Object.assign(Object.assign({}, this.state), {}, {
-          list: undefined
-        });
+      decorators: [(0, _wechat.effect)(null)],
+      key: "refreshCurrentItem",
+      value: async function refreshCurrentItem() {
+        var _this$state$routePara;
+
+        await this.openCurrentItem((_this$state$routePara = this.state.routeParams) === null || _this$state$routePara === void 0 ? void 0 : _this$state$routePara.itemId);
       }
     }, {
       kind: "method",
@@ -180,56 +180,71 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
       value: async function closeCurrentItem() {
         const itemView = this.state.routeParams.itemView;
         const enableRoute = this.config.enableRoute[itemView];
-        this.dispatch(this.actions.putCurrentItem());
+        const routeData = this.state.routeParams;
 
         if (enableRoute) {
-          const routeData = this.state.routeParams;
           global.historyActions.navigateTo({
             params: {
-              [this.moduleName]: Object.assign({}, routeData)
+              [this.moduleName]: Object.assign(Object.assign({}, routeData), {}, {
+                itemId: '',
+                itemView: '',
+                itemKey: ''
+              })
             },
             paths: this.config.listPaths
           });
+        } else {
+          this.dispatch(this.actions.RouteParams(Object.assign(Object.assign({}, routeData), {}, {
+            itemId: '',
+            itemView: '',
+            itemKey: ''
+          })));
         }
       }
     }, {
       kind: "method",
       decorators: [(0, _wechat.effect)(null)],
       key: "openCurrentItem",
-      value: async function openCurrentItem(view, currentItem) {
-        var _this$state$routePara;
+      value: async function openCurrentItem(currentItem, view) {
+        var _this$state$routePara2;
 
-        const itemView = view || ((_this$state$routePara = this.state.routeParams) === null || _this$state$routePara === void 0 ? void 0 : _this$state$routePara.itemView) || 'detail';
-        const itemKey = Date.now().toString();
+        const itemView = view || ((_this$state$routePara2 = this.state.routeParams) === null || _this$state$routePara2 === void 0 ? void 0 : _this$state$routePara2.itemView) || 'detail';
+        const itemKey = Date.now();
 
         if (!currentItem) {
-          currentItem = Object.assign({}, this.config.newItem);
+          currentItem = Object.assign(Object.assign({}, this.config.newItem), {}, {
+            id: ''
+          });
         }
 
-        if (typeof currentItem === 'string') {
-          const enableRoute = this.config.enableRoute[itemView];
-          const routeData = this.state.routeParams;
+        let itemId = currentItem;
 
-          if (enableRoute) {
-            global.historyActions.navigateTo({
-              params: {
-                [this.moduleName]: Object.assign(Object.assign({}, routeData), {}, {
-                  itemId: currentItem,
-                  itemView,
-                  itemKey
-                })
-              },
-              paths: this.config.itemPaths
-            });
-          } else {
-            this.dispatch(this.actions.RouteParams(Object.assign(Object.assign({}, routeData), {}, {
-              itemId: currentItem,
-              itemView,
-              itemKey
-            })));
-          }
+        if (typeof currentItem !== 'string') {
+          itemId = currentItem.id;
+          this.dispatch(this.actions.putCurrentItem(currentItem, itemId, itemView, itemKey));
+        }
+
+        const enableRoute = this.config.enableRoute[itemView];
+        const routeData = this.state.routeParams;
+        const curPathname = this.rootState.route.data.paths;
+
+        if (enableRoute && curPathname.join('/') !== this.config.itemPaths.join('/')) {
+          global.historyActions.navigateTo({
+            params: {
+              [this.moduleName]: Object.assign(Object.assign({}, routeData), {}, {
+                itemId,
+                itemView,
+                itemKey
+              })
+            },
+            paths: this.config.itemPaths
+          });
         } else {
-          this.dispatch(this.actions.putCurrentItem(currentItem, currentItem.id, itemView, itemKey));
+          this.dispatch(this.actions.RouteParams(Object.assign(Object.assign({}, routeData), {}, {
+            itemId,
+            itemView,
+            itemKey
+          })));
         }
       }
     }, {
@@ -320,8 +335,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
       decorators: [(0, _wechat.effect)(null)],
       key: "refreshListSearch",
       value: async function refreshListSearch() {
-        this.dispatch(this.actions.putSelectedRows());
-        await this.searchList({
+        this.searchList({
           params: {},
           extend: 'current'
         });
@@ -343,8 +357,8 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
     }, {
       kind: "method",
       decorators: [(0, _wechat.effect)(null)],
-      key: "changeListPage",
-      value: async function changeListPage(pageCurrent) {
+      key: "changeListPageCurrent",
+      value: async function changeListPageCurrent(pageCurrent) {
         await this.searchList({
           params: {
             pageCurrent
@@ -369,11 +383,11 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
       kind: "method",
       decorators: [(0, _wechat.effect)(null)],
       key: "resetListSearch",
-      value: async function resetListSearch(options = {}, view) {
+      value: async function resetListSearch(options = {}) {
         await this.searchList({
           params: options,
           extend: 'default'
-        }, view);
+        });
       }
     }, {
       kind: "method",
@@ -405,8 +419,6 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
         params,
         extend
       }, view) {
-        var _this$state$routePara2;
-
         let listSearch;
 
         if (extend === 'default') {
@@ -417,8 +429,9 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
           listSearch = Object.assign(Object.assign({}, this.getNoneListSearch()), params);
         }
 
-        const listKey = Date.now().toString();
-        const listView = view || ((_this$state$routePara2 = this.state.routeParams) === null || _this$state$routePara2 === void 0 ? void 0 : _this$state$routePara2.listView) || 'list';
+        const listKey = Date.now();
+        const routeData = this.state.routeParams;
+        const listView = view || (routeData === null || routeData === void 0 ? void 0 : routeData.listView) || 'list';
         const enableRoute = this.config.enableRoute[listView];
         const curPathname = this.rootState.route.data.paths;
 
@@ -426,20 +439,45 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
           const args = {
             paths: this.config.listPaths,
             params: {
-              [this.moduleName]: {
+              [this.moduleName]: Object.assign(Object.assign({}, routeData), {}, {
                 listView,
                 listSearch,
                 listKey
-              }
+              })
             }
           };
           global.historyActions.navigateTo(args);
         } else {
-          await this.dispatch(this.actions.RouteParams(Object.assign(Object.assign({}, this.state.routeParams), {}, {
+          await this.dispatch(this.actions.RouteParams(Object.assign(Object.assign({}, routeData), {}, {
             listView,
             listSearch,
             listKey
           })));
+        }
+      }
+    }, {
+      kind: "method",
+      decorators: [(0, _wechat.effect)()],
+      key: "loadMoreList",
+      value: async function loadMoreList(pageCurrent) {
+        if (!this.listLoading) {
+          const routeData = this.state.routeParams;
+          const currentListSearch = this.getCurrentListSearch();
+          const listSearch = Object.assign(Object.assign({}, currentListSearch), {}, {
+            pageCurrent
+          });
+          const listView = routeData.listView;
+          const listKey = -1;
+          this.listLoading = true;
+          const {
+            list,
+            listSummary
+          } = await this.config.api.searchList(listSearch).catch(e => {
+            this.listLoading = false;
+            throw e;
+          });
+          this.listLoading = false;
+          this.dispatch(this.actions.putSearchList(list, listSummary, currentListSearch, listView, listKey));
         }
       }
     }, {
@@ -464,21 +502,18 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
       key: "fetchItem",
       value: async function fetchItem(itemId, itemView, itemKey) {
         this.itemLoading = true;
-        const currentItem = await this.config.api.getDetailItem(itemId).catch(e => {
+        const item = await this.config.api.getDetailItem(itemId).catch(e => {
           this.itemLoading = false;
           throw e;
         });
         this.itemLoading = false;
-        this.dispatch(this.actions.putCurrentItem(currentItem, itemId, itemView, itemKey));
+        this.dispatch(this.actions.putCurrentItem(item, itemId, itemView, itemKey));
       }
     }, {
       kind: "method",
       decorators: [(0, _wechat.effect)(null)],
       key: 'this.Init,this.RouteParams',
-      value: async function (args) {
-        var _this$prevState;
-
-        const preRouteParams = ((_this$prevState = this.prevState) === null || _this$prevState === void 0 ? void 0 : _this$prevState.routeParams) || {};
+      value: async function (routeState, action) {
         const routeParams = this.state.routeParams || {};
         const {
           listView,
@@ -491,7 +526,14 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
 
         if (!this.listLoading) {
           if (listView) {
-            if (preRouteParams.listKey !== listKey || !(0, _utils.simpleEqual)(preRouteParams.listSearch, listSearch)) {
+            const {
+              listKey: prevListkey,
+              listSearch: prevListSearch
+            } = this.state[listView] || {
+              listKey: 0
+            };
+
+            if (action !== 'POP' && (listKey > prevListkey || !(0, _utils.simpleEqual)(listSearch, prevListSearch))) {
               await this.dispatch(this.callThisAction(this.fetchList, listSearch, listView, listKey));
             }
           }
@@ -499,8 +541,27 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
 
         if (!this.itemLoading) {
           if (itemView) {
-            if (preRouteParams.itemKey !== itemKey || preRouteParams.itemId !== itemId) {
+            const {
+              itemKey: prevItemkey,
+              itemId: prevItemId
+            } = this.state[itemView] || {
+              itemKey: 0
+            };
+
+            if (action !== 'POP' && (itemKey > prevItemkey || itemId !== prevItemId)) {
               await this.dispatch(this.callThisAction(this.fetchItem, itemId, itemView, itemKey));
+            }
+          } else {
+            const data = this.config.itemView.reduce((prev, view) => {
+              if (this.state[view]) {
+                prev[view] = undefined;
+              }
+
+              return prev;
+            }, {});
+
+            if (Object.keys(data).length) {
+              this.updateState(data);
             }
           }
         }

@@ -1,0 +1,27 @@
+.gradeItem {
+  margin: auto;
+  width: 250px;
+  display: block;
+  padding: 10px 0 10px 10px;
+  border-bottom: 1px dashed #ccc;
+  color: #666;
+}
+.top3 image {
+  width: 200px;
+  height: 125px;
+}
+.top3 .uname {
+  font-weight: bold;
+  display: block;
+  padding-top: 5px;
+}
+.download {
+  font-size: 14px;
+  padding: 40rpx 25rpx;
+  color: #666;
+  text-align: center;
+}
+.download .link {
+  text-decoration: underline;
+  color: #0089ff;
+}

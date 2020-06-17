@@ -23,6 +23,7 @@
       true,
       {
         "ignoreTypes": [
+          "swiper",
           "page"
         ]
       }

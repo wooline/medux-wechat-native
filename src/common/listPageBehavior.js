@@ -3,38 +3,44 @@
 exports.__esModule = true;
 exports.default = _default;
 
-function _default(actions) {
+function _default(actions, listView) {
   return {
     mapStateToProps: (moduleState, componentData) => {
-      let {
-        list
-      } = moduleState;
-      const {
-        listSummary
-      } = moduleState;
-      const listSearch = moduleState.routeParams.listSearch;
+      const listData = moduleState[listView];
 
-      if (componentData.listSummary !== listSummary) {
-        if (componentData.listSummary && listSummary && componentData.listSummary.pageCurrent < listSummary.pageCurrent) {
-          console.log('add List');
-          let index = componentData.list.length;
-          const newData = {
-            listSummary
-          };
-          list.forEach(item => {
-            newData['list[' + index++ + ']'] = item;
-          });
-          return newData;
+      if (listData) {
+        let {
+          list
+        } = listData;
+        const {
+          listSearch = {},
+          listSummary
+        } = listData;
+
+        if (componentData.listSummary !== listSummary) {
+          if (componentData.listSummary && listSummary && componentData.listSummary.pageCurrent < listSummary.pageCurrent) {
+            console.log('addPage');
+            let index = componentData.list.length;
+            const newData = {
+              listSummary
+            };
+            list.forEach(item => {
+              newData['list[' + index++ + ']'] = item;
+            });
+            return newData;
+          }
+        } else {
+          list = componentData.list;
         }
-      } else {
-        list = componentData.list;
-      }
 
-      return {
-        list,
-        listSummary,
-        listSearch
-      };
+        return {
+          list,
+          listSummary,
+          listSearch
+        };
+      } else {
+        return {};
+      }
     },
     behavior: Behavior({
       behaviors: [],
@@ -43,7 +49,7 @@ function _default(actions) {
         loadMore: false
       },
       methods: {
-        async onRefresh() {
+        onRefresh() {
           if (this.data.refreshing) {
             return;
           }
@@ -51,14 +57,15 @@ function _default(actions) {
           this.setData({
             refreshing: true
           });
-          await this.dispatch(actions.changeListPage(1));
-          this.setData({
-            refreshing: false
-          });
+          this.dispatch(actions.changeListPageCurrent(1));
+          setTimeout(() => {
+            this.setData({
+              refreshing: false
+            });
+          }, 1000);
         },
 
-        async onMore() {
-          console.log('onMore');
+        onMore() {
           const {
             pageCurrent,
             totalPages
@@ -68,15 +75,16 @@ function _default(actions) {
             return;
           }
 
-          console.log('loadMore start');
           this.setData({
             loadMore: true
           });
-          await this.dispatch(actions.changeListPage(pageCurrent + 1));
-          this.setData({
-            loadMore: false
-          });
-          console.log('loadMore end');
+          console.log('loadMore...');
+          this.dispatch(actions.changeListPageCurrent(pageCurrent + 1));
+          setTimeout(() => {
+            this.setData({
+              loadMore: false
+            });
+          }, 1000);
         }
 
       }

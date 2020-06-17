@@ -1,5 +1,5 @@
 import {Actions, BaseModelHandlers, BaseModelState, RouteData, effect, reducer} from '@medux/wechat';
-import {BaseCategorySummary, BaseListItem, BaseListSearch, BaseListSummary, CommonResource, ListView} from '~/entity/base';
+import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource, ListView} from '~/entity/base';
 
 import {simpleEqual} from './utils';
 
@@ -42,24 +42,23 @@ export class CommonResourceAPI implements ResourceAPI {
   }
 }
 
-export interface CommonResourceState<Resource extends CommonResource = CommonResource> extends BaseModelState<Resource['RouteParams']> {
-  list?: Resource['ListItem'][];
-  listSummary?: Resource['ListSummary'];
-  selectedRows?: Resource['ListItem'][];
-  currentItem?: any;
-}
+export type CommonResourceState<Resource extends CommonResource = CommonResource> = BaseModelState<Resource['RouteParams']> &
+  {[view in Resource['ListView']]?: {listKey: number; list: Resource['ListItem'][]; listSummary: Resource['ListSummary']; listSearch: Resource['ListSearch']}} &
+  {[view in Resource['ItemView']]?: {itemKey: number; itemId: string; itemDetail: Resource['ItemDetail']}} & {selectedRows?: Resource['ListItem'][]};
 
 export interface Config<Resource extends CommonResource> {
   api: ResourceAPI;
   defaultRouteParams: Resource['RouteParams'];
   newItem?: Resource['CreateItem'];
+  listView?: Resource['ListView'][];
+  itemView?: Resource['ItemView'][];
   enableRoute?: {[view in Resource['ListView'] | Resource['ItemView']]?: boolean};
   listPaths?: string[];
   itemPaths?: string[];
 }
 export abstract class CommonResourceHandlers<
   Resource extends CommonResource = CommonResource,
-  State extends CommonResourceState<Resource> = CommonResourceState<Resource>,
+  State extends CommonResourceState<CommonResource> = CommonResourceState<CommonResource>,
   RootState extends {route: {location: {pathname: string; search: string}; data: RouteData}} = {route: {location: {pathname: string; search: string}; data: RouteData}}
 > extends BaseModelHandlers<State, RootState> {
   protected config: Required<Config<Resource>> & {noneListSearch: Resource['RouteParams']['listSearch']};
@@ -78,6 +77,8 @@ export abstract class CommonResourceHandlers<
       },
       newItem: {},
       enableRoute: {list: true, detail: false},
+      listView: ['list', 'selector', 'category'],
+      itemView: ['detail', 'edit', 'create', 'summary'],
       listPaths: ['app.Main', this.moduleName + '.List'],
       itemPaths: ['app.Main', this.moduleName + '.List', this.moduleName + '.Detail'],
     };
@@ -98,54 +99,56 @@ export abstract class CommonResourceHandlers<
     return this.config.noneListSearch;
   }
   @reducer
-  public putSearchList(list: Resource['ListItem'][], listSummary: Resource['ListSummary'], listSearch: Resource['ListSearch'], listView: string = '', listKey: string = ''): State {
-    return {...this.state, routeParams: {...this.state.routeParams, listSearch, listView, listKey}, list, listSummary, listLoading: undefined};
+  public putSearchList(list: Resource['ListItem'][], listSummary: Resource['ListSummary'], listSearch: Resource['ListSearch'], listView: string, listKey: number): State {
+    return {...this.state, [listView]: {listKey, listSearch, list, listSummary}, listLoading: undefined};
   }
   @reducer
-  public putCurrentItem(currentItem?: any, itemId: string = '', itemView: string = '', itemKey: string = ''): State {
-    return {...this.state, routeParams: {...this.state.routeParams, itemView, itemId, itemKey}, currentItem, itemLoading: undefined};
+  public putCurrentItem(itemDetail: any, itemId: string, itemView: string, itemKey: number): State {
+    return {...this.state, [itemView]: {itemKey, itemId, itemDetail}, itemLoading: undefined};
   }
   @reducer
   public putSelectedRows(selectedRows?: Resource['ListItem'][]): State {
     return {...this.state, selectedRows};
   }
-  @reducer
-  public clearList(): State {
-    return {...this.state, list: undefined};
+  @effect(null)
+  public async refreshCurrentItem() {
+    await this.openCurrentItem(this.state.routeParams?.itemId);
   }
   @effect(null)
   public async closeCurrentItem() {
     const itemView = this.state.routeParams!.itemView;
     const enableRoute = this.config.enableRoute[itemView];
-    this.dispatch(this.actions.putCurrentItem());
+    const routeData = this.state.routeParams;
     if (enableRoute) {
-      const routeData = this.state.routeParams;
       global.historyActions.navigateTo({
-        params: {[this.moduleName]: {...routeData}},
+        params: {[this.moduleName]: {...routeData, itemId: '', itemView: '', itemKey: ''}},
         paths: this.config.listPaths,
       });
+    } else {
+      this.dispatch(this.actions.RouteParams({...routeData, itemId: '', itemView: '', itemKey: ''}));
     }
   }
   @effect(null)
-  public async openCurrentItem(view: Resource['ItemView'], currentItem?: any) {
+  public async openCurrentItem(currentItem: any, view?: Resource['ItemView']) {
     const itemView = view || this.state.routeParams?.itemView || 'detail';
-    const itemKey = Date.now().toString();
+    const itemKey = Date.now();
     if (!currentItem) {
-      currentItem = {...this.config.newItem};
+      currentItem = {...this.config.newItem, id: ''};
     }
-    if (typeof currentItem === 'string') {
-      const enableRoute = this.config.enableRoute[itemView];
-      const routeData = this.state.routeParams;
-      if (enableRoute) {
-        global.historyActions.navigateTo({params: {[this.moduleName]: {...routeData, itemId: currentItem, itemView, itemKey}}, paths: this.config.itemPaths});
-      } else {
-        this.dispatch(this.actions.RouteParams({...routeData, itemId: currentItem, itemView, itemKey}));
-      }
+    let itemId = currentItem;
+    if (typeof currentItem !== 'string') {
+      itemId = currentItem.id;
+      this.dispatch(this.actions.putCurrentItem(currentItem, itemId, itemView, itemKey));
+    }
+    const enableRoute = this.config.enableRoute[itemView];
+    const routeData = this.state.routeParams;
+    const curPathname = this.rootState.route.data.paths;
+    if (enableRoute && curPathname.join('/') !== this.config.itemPaths.join('/')) {
+      global.historyActions.navigateTo({params: {[this.moduleName]: {...routeData, itemId, itemView, itemKey}}, paths: this.config.itemPaths});
     } else {
-      this.dispatch(this.actions.putCurrentItem(currentItem, currentItem.id, itemView, itemKey));
+      this.dispatch(this.actions.RouteParams({...routeData, itemId, itemView, itemKey}));
     }
   }
-
   @effect()
   public async createItem(data: Resource['CreateItem'], callback?: (res: any) => void) {
     return this.config.api.createItem!(data).then(
@@ -208,15 +211,14 @@ export abstract class CommonResourceHandlers<
   }
   @effect(null)
   public async refreshListSearch() {
-    this.dispatch(this.actions.putSelectedRows());
-    await this.searchList({params: {}, extend: 'current'});
+    this.searchList({params: {}, extend: 'current'});
   }
   @effect(null)
   public async sortListSearch(sorterField: string, sorterOrder: 'ascend' | 'descend' | undefined) {
     await this.searchList({params: {sorterField, sorterOrder, pageCurrent: 1}, extend: 'current'});
   }
   @effect(null)
-  public async changeListPage(pageCurrent: number) {
+  public async changeListPageCurrent(pageCurrent: number) {
     await this.searchList({params: {pageCurrent}, extend: 'current'});
   }
   @effect(null)
@@ -224,8 +226,8 @@ export abstract class CommonResourceHandlers<
     await this.searchList({params: {pageCurrent: 1, pageSize}, extend: 'current'});
   }
   @effect(null)
-  public async resetListSearch(options: Resource['ListSearch'] = {}, view?: Resource['ListView']) {
-    await this.searchList({params: options, extend: 'default'}, view);
+  public async resetListSearch(options: Resource['ListSearch'] = {}) {
+    await this.searchList({params: options, extend: 'default'});
   }
   @effect(null)
   public async noneListSearch(options: Resource['ListSearch'] = {}) {
@@ -246,22 +248,41 @@ export abstract class CommonResourceHandlers<
       listSearch = {...this.getNoneListSearch(), ...params};
     }
 
-    const listKey = Date.now().toString();
-    const listView = view || this.state.routeParams?.listView || 'list';
+    const listKey = Date.now();
+    const routeData = this.state.routeParams;
+    const listView = view || routeData?.listView || 'list';
     const enableRoute = this.config.enableRoute[listView];
+
     const curPathname = this.rootState.route.data.paths;
     if (enableRoute && curPathname.join('/') !== this.config.listPaths.join('/')) {
       //路由变换时会自动触发Action RouteParams
       //extend: this.rootState.route.data,
-      const args = {paths: this.config.listPaths, params: {[this.moduleName]: {listView, listSearch, listKey}}};
+      const args = {paths: this.config.listPaths, params: {[this.moduleName]: {...routeData, listView, listSearch, listKey}}};
       global.historyActions.navigateTo(args);
     } else {
       //不使用路由需要手动触发Action RouteParams
-      await this.dispatch(this.actions.RouteParams({...this.state.routeParams, listView, listSearch, listKey}));
+      await this.dispatch(this.actions.RouteParams({...routeData, listView, listSearch, listKey}));
     }
   }
   @effect()
-  protected async fetchList(listSearch: Resource['ListSearch'], listView: ListView, listKey: string) {
+  public async loadMoreList(pageCurrent: number) {
+    if (!this.listLoading) {
+      const routeData = this.state.routeParams!;
+      const currentListSearch = this.getCurrentListSearch();
+      const listSearch = {...currentListSearch, pageCurrent};
+      const listView = routeData.listView;
+      const listKey = -1; //表明当前数据其实是失真的，因为有部分数据记录在componentState里面
+      this.listLoading = true;
+      const {list, listSummary} = await this.config.api.searchList!(listSearch).catch((e) => {
+        this.listLoading = false;
+        throw e;
+      });
+      this.listLoading = false;
+      this.dispatch(this.actions.putSearchList(list, listSummary, currentListSearch, listView, listKey));
+    }
+  }
+  @effect()
+  protected async fetchList(listSearch: Resource['ListSearch'], listView: ListView, listKey: number) {
     this.listLoading = true;
     const {list, listSummary} = await this.config.api.searchList!(listSearch).catch((e) => {
       this.listLoading = false;
@@ -271,37 +292,46 @@ export abstract class CommonResourceHandlers<
     this.dispatch(this.actions.putSearchList(list, listSummary, listSearch, listView, listKey));
   }
   @effect()
-  protected async fetchItem(itemId: string, itemView: string, itemKey: string) {
+  protected async fetchItem(itemId: string, itemView: string, itemKey: number) {
     this.itemLoading = true;
-    const currentItem = await this.config.api.getDetailItem!(itemId).catch((e) => {
+    const item = await this.config.api.getDetailItem!(itemId).catch((e) => {
       this.itemLoading = false;
       throw e;
     });
     this.itemLoading = false;
-    this.dispatch(this.actions.putCurrentItem(currentItem, itemId, itemView, itemKey));
+    this.dispatch(this.actions.putCurrentItem(item, itemId, itemView, itemKey));
   }
   @effect(null)
-  protected async ['this.Init,this.RouteParams'](args: any) {
-    const preRouteParams: Resource['RouteParams'] = this.prevState?.routeParams! || {};
-    //const preRouteParams: Resource['RouteParams'] = this.state.preRouteParams! || {};
+  protected async ['this.Init,this.RouteParams'](routeState: any, action?: string) {
     const routeParams: Resource['RouteParams'] = this.state.routeParams! || {};
     const {listView, listSearch, listKey, itemView, itemId, itemKey} = routeParams;
     if (!this.listLoading) {
       if (listView) {
-        if (preRouteParams.listKey !== listKey || !simpleEqual(preRouteParams.listSearch, listSearch)) {
+        const {listKey: prevListkey, listSearch: prevListSearch} = this.state[listView] || {listKey: 0};
+        //const preRouteParams: Resource['RouteParams'] = this.state.preRouteParams! || {};
+        //如果是后退操作，不验证版本，解决loadMoreList的刷新问题
+        if (action !== 'POP' && (listKey > prevListkey || !simpleEqual(listSearch, prevListSearch))) {
           await this.dispatch(this.callThisAction(this.fetchList, listSearch, listView, listKey));
         }
       }
     }
     if (!this.itemLoading) {
       if (itemView) {
-        if (preRouteParams.itemKey !== itemKey || preRouteParams.itemId !== itemId) {
+        const {itemKey: prevItemkey, itemId: prevItemId} = this.state[itemView] || {itemKey: 0};
+        if (action !== 'POP' && (itemKey > prevItemkey || itemId !== prevItemId)) {
           await this.dispatch(this.callThisAction(this.fetchItem, itemId, itemView, itemKey));
         }
+      } else {
+        const data = this.config.itemView.reduce((prev, view) => {
+          if (this.state[view]) {
+            prev[view] = undefined;
+          }
+          return prev;
+        }, {} as any);
+        if (Object.keys(data).length) {
+          this.updateState(data);
+        }
       }
-      //  else if (routeParams.itemView) {
-      //   this.dispatch(this.actions.closeCurrentItem());
-      // }
     }
   }
 }

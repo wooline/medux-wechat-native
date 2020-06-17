@@ -1,12 +1,19 @@
 {
   "pages": [
     "modules/app/views/Home/page",
-    "modules/article/views/Outdoors/page",
-    "modules/contest/views/Home/page",
-    "modules/shop/views/Home/page",
-    "modules/my/views/Home/page",
     "modules/app/views/Welcome/page",
-    "modules/post/views/List/page"
+    "modules/app/views/Signed/page",
+    "modules/article/views/Category/page",
+    "modules/article/views/List/page",
+    "modules/article/views/Detail/page",
+    "modules/contest/views/Category/page",
+    "modules/contest/views/List/page",
+    "modules/contest/views/Detail/page",
+    "modules/grade/views/List/page",
+    "modules/grade/views/Detail/page",
+    "modules/shop/views/Home/page",
+    "modules/post/views/List/page",
+    "modules/my/views/Home/page"
   ],
   "tabBar": {
     "custom": true,
@@ -15,13 +22,13 @@
         "pagePath": "modules/app/views/Home/page"
       },
       {
-        "pagePath": "modules/contest/views/Home/page"
+        "pagePath": "modules/contest/views/Category/page"
       },
       {
         "pagePath": "modules/shop/views/Home/page"
       },
       {
-        "pagePath": "modules/article/views/Outdoors/page"
+        "pagePath": "modules/article/views/Category/page"
       },
       {
         "pagePath": "modules/my/views/Home/page"
@@ -35,14 +42,20 @@
   "usingComponents": {
     "no-data": "/components/NoData/component",
     "global-search": "/modules/post/views/Search/component",
-    "navgation": "/modules/app/views//Navgation/component",
+    "navigation": "/modules/app/views//Navigation/component",
     "van-loading": "@vant/weapp/loading/index",
     "van-icon": "@vant/weapp/icon/index",
     "van-button": "@vant/weapp/button/index",
     "van-search": "@vant/weapp/search/index",
     "van-tabbar": "@vant/weapp/tabbar/index",
     "van-tabbar-item": "@vant/weapp/tabbar-item/index",
-    "van-tag": "@vant/weapp/tag/index"
+    "van-collapse": "@vant/weapp/collapse/index",
+    "van-collapse-item": "@vant/weapp/collapse-item/index",
+    "van-calendar": "@vant/weapp/calendar/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-cell-group": "@vant/weapp/cell-group/index",
+    "van-field": "@vant/weapp/field/index"
   },
   "sitemapLocation": "sitemap.json"
 }

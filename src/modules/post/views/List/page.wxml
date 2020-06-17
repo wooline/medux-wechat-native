@@ -1,19 +1,11 @@
-<wxs src="../../../../common/tools.wxs" module="tools" />
+<import src="../../../../common/list.wxml" />
 <block>
-  <navgation title="搜索结果" back="{{true}}" />
+  <navigation title="搜索结果" back="{{true}}" />
   <global-search />
   <scroll-view wx:if="{{inited && listSummary}}" class="g-container" refresher-enabled="{{true}}" scroll-y="{{true}}" refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh" bindscrolltolower="onMore">
     <no-data wx:if="{{listSummary.totalItems===0}}" />
-    <view wx:if="{{listSummary.totalItems > 0}}" wx:for="{{list}}" wx:key="id" class="g-list-item">
-      <view class="title">{{item.title}}</view>
-      <view class="info">
-        <van-tag class="cate" color="#aaa" plain>{{cates[item.cate]}}</van-tag>
-        <text class="date">{{tools.dateFormat(item.createdTime)}}</text>
-      </view>
-      <view class="summary">
-        <image class="thumb" wx:if="{{item.thumb}}" lazy-load="{{true}}" src="{{clientPublishPath + item.thumb}}" />
-        <text class="text">{{item.summary}}</text>
-      </view>
+    <view wx:if="{{listSummary.totalItems > 0}}" wx:for="{{list}}" wx:key="id" class="g-list-item {{item.type}}" bind:tap="navToItem" data-type="{{item.type}}" data-id="{{item.id}}">
+      <template is="{{templateNames[item.type]}}" data="{{item,clientPublishPath,cates}}" />
     </view>
     <view wx:if="{{listSummary.totalPages > 0}}" class="g-pagination">
       <view wx:if="{{listSummary.pageCurrent < listSummary.totalPages}}">加载更多...</view>
