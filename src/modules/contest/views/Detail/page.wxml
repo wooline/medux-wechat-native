@@ -7,7 +7,7 @@
     <view class="mainSingUp">
       <view class="title">
         <view class="subject">参赛组别</view>
-        <view wx:if="{{!tools.checkExpiryDate(itemDetail.extra.activeTime[0])}}" class="btn">
+        <view bind:tap="navToItem" data-type="grade" data-id="51" wx:if="{{!tools.checkExpiryDate(itemDetail.activeTime[0])}}" class="btn">
           已结束，查询成绩 ▸
         </view>
       </view>
@@ -16,7 +16,7 @@
           <view class="singUp">
             <view>
               <view class="field">报名价格：</view>
-              <text class="price">¥899</text>
+              <text class="price">¥{{item.price}}</text>
             </view>
             <view>
               <view class="field">以报名：</view>
@@ -42,7 +42,7 @@
               <view class="field">完赛后：</view>
               公布成绩颁发奖杯
             </view>
-            <van-button wx:if="{{tools.checkExpiryDate(itemDetail.extra.activeTime[0])}}" class="btn" type="warning" size="small">
+            <van-button bind:tap="signUp" data-id="{{itemDetail.id}}" data-gid="{{item.id}}" wx:if="{{tools.checkExpiryDate(itemDetail.activeTime[0])}}" class="btn" type="warning" size="small">
               立即报名该组别
             </van-button>
           </view>

@@ -34,6 +34,7 @@ buildApp({
 
 App<APP>({
   globalData: {} as any,
+
   onLaunch() {
     const systemInfo = wx.getSystemInfoSync();
     if (!systemInfo.statusBarHeight) {
@@ -46,6 +47,7 @@ App<APP>({
     const navPaddingTop = systemInfo.statusBarHeight;
     this.globalData.navHeight = navHeight;
     this.globalData.navPaddingTop = navPaddingTop;
+
     // 展示本地存储能力
     const logs = wx.getStorageSync('logs') || [];
     logs.unshift(Date.now());
@@ -58,7 +60,7 @@ App<APP>({
     //     // 发送 res.code 到后台换取 openId, sessionKey, unionId
     //   },
     // });
-    // // 获取用户信息
+    // 获取用户信息
     // wx.getSetting({
     //   success: (res) => {
     //     if (res.authSetting['scope.userInfo']) {

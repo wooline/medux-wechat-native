@@ -19,6 +19,7 @@ const cates = {
   '2_2': '名胜古迹',
   '2_3': '休闲度假',
 };
+const groups = ['个人赛', '团队赛', '男子组', '女子组', '越野组', '100公里', '10公里', '50公里', '老年组'];
 function createContests() {
   const data = {};
   mockjs
@@ -36,20 +37,19 @@ function createContests() {
           'groups|1-5': [
             {
               'id|+1': 1,
-              'name|+1': ['个人赛', '团队赛', '男子组', '女子组', '越野组', '100公里', '10公里', '50公里', '老年组'],
+              'name|+1': groups,
+              'price|20-500': 20,
             },
           ],
-          extra: {
-            addr: '@city(true)',
-            activeTime: utils.getRandomTimeRange,
-            'singUpNum|20-100': 20,
-          },
+          addr: '@city(true)',
+          activeTime: utils.getRandomTimeRange,
+          'singUpNum|20-100': 20,
         },
       ],
     })
     .list.forEach((item) => {
       item.updatedTime = item.createdTime + 1000 * 3600 * 24 * 2;
-      item.extra.signUpTime = [item.extra.activeTime[0] - 1000 * 3600 * 24 * 20, item.extra.activeTime[0] - 1000 * 3600 * 24 * 2];
+      item.signUpTime = [item.activeTime[0] - 1000 * 3600 * 24 * 20, item.activeTime[0] - 1000 * 3600 * 24 * 2];
       data[item.id] = item;
     });
   return data;
@@ -95,20 +95,77 @@ function createGrades() {
           'groups|1-5': [
             {
               'id|+1': 1,
-              'name|+1': ['个人赛', '团队赛', '男子组', '女子组', '越野组', '100公里', '10公里', '50公里', '老年组'],
+              'name|+1': groups,
               grades: utils.getRandomAvatars,
             },
           ],
-          extra: {
+          addr: '@city(true)',
+          activeTime: utils.getRandomTimeRange,
+          'singUpNum|20-100': 20,
+        },
+      ],
+    })
+    .list.forEach((item) => {
+      item.signUpTime = [item.activeTime[0] - 1000 * 3600 * 24 * 20, item.activeTime[0] - 1000 * 3600 * 24 * 2];
+      item.updatedTime = item.createdTime + 1000 * 3600 * 24 * 2;
+      data[item.id] = item;
+    });
+  return data;
+}
+function createContacts() {
+  const data = {};
+  mockjs
+    .mock({
+      'list|5': [
+        {
+          'id|+1': 1,
+          name: '@cname',
+          'gender|0-1': 0,
+          'mobile|13000000000-19000000000': 13000000000,
+          createdTime: utils.getRandomTime,
+          birthday: '@date',
+          'iid|43000000000000-44000000000000': 43000000000000,
+          addr: '@city(true)',
+          'dressSize|0-2': 0,
+        },
+      ],
+    })
+    .list.forEach((item) => {
+      data[item.id] = item;
+    });
+  return data;
+}
+function createSigneds() {
+  const data = {};
+  mockjs
+    .mock({
+      'list|15': [
+        {
+          'id|+1': 1,
+          'cid|1-25': 1,
+          cname: '@ctitle(5,30)',
+          thumb: utils.getRandomPhoto,
+          activeTime: utils.getRandomTimeRange,
+          'cgid|0-2': 0,
+          'cgname|1': groups,
+          'price|50-200': 50,
+          createdTime: utils.getRandomTime,
+          master: {
+            'id|+1': 1,
+            username: '@cname',
+            'gender|0-1': 0,
+            'mobile|13000000000-19000000000': 13000000000,
+            createdTime: utils.getRandomTime,
+            birthday: '@date',
+            'iid|43000000000000-44000000000000': 43000000000000,
             addr: '@city(true)',
-            activeTime: utils.getRandomTimeRange,
-            'singUpNum|20-100': 20,
+            'dressSize|0-2': 0,
           },
         },
       ],
     })
     .list.forEach((item) => {
-      item.extra.signUpTime = [item.extra.activeTime[0] - 1000 * 3600 * 24 * 20, item.extra.activeTime[0] - 1000 * 3600 * 24 * 2];
+      item.signUpTime = [item.activeTime[0] - 1000 * 3600 * 24 * 20, item.activeTime[0] - 1000 * 3600 * 24 * 2];
       item.updatedTime = item.createdTime + 1000 * 3600 * 24 * 2;
       data[item.id] = item;
     });
@@ -117,6 +174,8 @@ function createGrades() {
 const contests = createContests();
 const articles = createArticles();
 const grades = createGrades();
+const contacts = createContacts();
+const signeds = createSigneds();
 
 const data = {
   config: {
@@ -127,6 +186,8 @@ const data = {
   contests,
   grades,
   articles,
+  contacts,
+  signeds,
 };
 
 const database = {

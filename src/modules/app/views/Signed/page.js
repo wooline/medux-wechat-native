@@ -7,26 +7,7 @@ var _module = _interopRequireWildcard(require("../../module"));
 var _wechat = require("@medux/wechat");
 
 const page = (0, _wechat.connectPage)(_module, state => {
-  const projectConfig = state.app.projectConfig;
-
-  if (projectConfig) {
-    const clientPublishPath = projectConfig.clientPublishPath;
-    const {
-      imageUrl,
-      linkUrl,
-      times
-    } = projectConfig.startupPage;
-    return {
-      inited: true,
-      imageUrl,
-      linkUrl,
-      times,
-      countdown: times,
-      clientPublishPath
-    };
-  } else {
-    return {};
-  }
+  return {};
 });
 const today = new Date().getTime();
 const selectedDates = {
@@ -38,7 +19,6 @@ const initData = {
   minDate: today - 1000 * 3600 * 24 * 30 * 3,
   maxDate: today,
   today: today,
-  showPopup: true,
 
   formatter(day) {
     if (day.type !== 'disabled') {
@@ -55,18 +35,5 @@ const initData = {
 
 };
 page({
-  data: initData,
-
-  showPopup() {
-    this.setData({
-      showPopup: true
-    });
-  },
-
-  closePopup() {
-    this.setData({
-      showPopup: false
-    });
-  }
-
+  data: initData
 });

@@ -8,4 +8,5 @@
     <view class="navbar-title">{{title}}</view>
     <view class="navbar-right"></view>
   </view>
+  <view wx:if="{{show}}" class="g-navbar-place" style="height:{{navHeight}}px;"></view>
 </block>

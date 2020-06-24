@@ -4,6 +4,7 @@ import {DispatchProp, connectComponent} from '@medux/wechat';
 
 import {ItemDetail} from '~/entity/contest';
 import detailPageBehavior from '~/common/detailPageBehavior';
+import navPageBehavior from '~/common/navPageBehavior';
 
 const detailPage = detailPageBehavior(global.actions.contest, 'detail');
 
@@ -40,9 +41,13 @@ const initData: any = {
   singUpType: 0,
 };
 component<Data, {}, Methods>({
-  behaviors: [detailPage.behavior],
+  behaviors: [detailPage.behavior, navPageBehavior],
   data: initData,
   methods: {
+    signUp(e: any) {
+      const {id, gid} = e.currentTarget.dataset;
+      global.historyActions.navigateTo({paths: ['app.Main', 'signed.Detail'], params: {signed: {itemId: 'create', itemView: 'detail', itemKey: Date.now(), cid: id, cgid: gid}}});
+    },
     onSingUpTypeChange(event: {detail: string}) {
       this.setData({
         singUpType: event.detail,

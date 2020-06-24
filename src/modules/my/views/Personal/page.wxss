@@ -1,0 +1,11 @@
+.avatar {
+  text-align: center;
+  padding: 35rpx 25rpx 25rpx;
+  background: #fff;
+}
+.avatar .uploader {
+  display: inline-block;
+}
+.avatar .van-uploader__preview {
+  margin-right: 18px;
+}

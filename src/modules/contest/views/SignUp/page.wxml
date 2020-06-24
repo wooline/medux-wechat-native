@@ -1,0 +1,18 @@
+<block>
+  <navigation title="报名参赛" back="{{true}}" />
+  <scroll-view wx:if="{{itemDetail}}" class="g-container" scroll-y="{{true}}">
+    <van-panel title="{{itemDetail.title}}" desc="组别:{{itemDetail.groups[gindex].name}}" status="¥120" use-footer-slot header-class="header" footer-class="footer">
+      <van-cell-group border="{{false}}">
+        <van-field value="" clearable label="姓名" placeholder="请输入参赛者姓名" />
+        <van-field value="" clearable label="手机号" placeholder="请输入手机号" border="{{ false }}" />
+        <van-field value="" clearable label="身份证" placeholder="请输入身份证号码" border="{{ false }}" />
+      </van-cell-group>
+      <view slot="footer">
+        <van-button bind:tap="signUp" size="small" type="info" style="margin-right:5px">
+          提交
+        </van-button>
+        <van-button bind:tap="navBack" size="small">取消</van-button>
+      </view>
+    </van-panel>
+  </scroll-view>
+</block>

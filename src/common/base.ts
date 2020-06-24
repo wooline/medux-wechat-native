@@ -1,6 +1,7 @@
 export const metaKeys = {
-  ApiServerPath: 'http://localhost:7445/api',
-  //ApiServerPath: 'http://192.168.31.53:7445/api',
+  //ApiServerPath: 'http://localhost:7445/api',
+  ApiServerPath: 'http://192.168.31.53:7449/api',
+  //ApiServerPath: 'http://test.80zp.com/api',
   LoginPathname: '/login',
   RegisterPathname: '/register',
   UserHomePathname: '/admin/home',
@@ -41,8 +42,8 @@ export const message = {
   },
 };
 
-export function navToItem(type: string, id: string) {
-  global.historyActions.navigateTo(`/${type}/Detail?q={"${type}":{"itemView":"detail","itemId":"${id}"}}`);
+export function navToItem(type: string, id: string, view: string = 'detail') {
+  global.historyActions.navigateTo(`/${type}/${view}?q={"${type}":{"itemView":"${view}","itemId":"${id}"}}`);
 }
 export function navToList(type: string) {
   const pages = {

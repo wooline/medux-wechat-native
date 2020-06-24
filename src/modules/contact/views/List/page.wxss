@@ -1,0 +1,10 @@
+.con {
+  padding: 25rpx;
+  background-color: #fff;
+}
+.g-pagination {
+  padding-top: 10px;
+}
+.van-cell:active {
+  opacity: 0.6;
+}

@@ -10,7 +10,7 @@
     </swiper>
     <view class="menu">
       <view class="item">
-        <image class="icon" mode="scaleToFill" src="../imgs/home-icon01.png" />
+        <image class="icon" bind:tap="todaySteps" mode="scaleToFill" src="../imgs/home-icon01.png" />
         今日步数
       </view>
       <view class="item" bind:tap="showSignPopup">

@@ -1,10 +1,17 @@
 <block>
   <navigation title="个人中心" showBack="{{false}}" />
-  <view class="g-container">
-    <van-cell-group>
-      <van-cell title="单元格" value="内容" />
-      <van-cell title="单元格" value="内容" label="描述信息" border="{{ false }}" />
-    </van-cell-group>
+  <view class="info">
+    <image class="avatar" mode="aspectFill" src="{{avatar}}" />
+    <view class="nickName">{{nickName}}</view>
+    <view class="score">admin,积分:{{score}}</view>
   </view>
-  <view class="g-tabbar-place"></view>
+  <van-cell-group class="menu">
+    <van-cell title="个人资料" is-link bind:click="navTo" data-url="/my/personal" />
+    <van-cell title="我的赛事" is-link bind:click="navTo" data-url="/contest/list" />
+    <van-cell title="常用联系人" is-link bind:click="navTo" data-url="/contact/list" />
+    <van-cell title="我的足迹" is-link bind:click="navTo" data-url="/my/footmark" />
+    <van-cell title="我的订单" is-link />
+    <van-cell title="我的积分" is-link />
+  </van-cell-group>
+  <view class="g-tabbar-place" style="margin-top:15px"></view>
 </block>

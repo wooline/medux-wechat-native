@@ -2,20 +2,13 @@ import * as module from '../../module';
 
 import {connectPage} from '@medux/wechat';
 
-interface StoreProps {
-  inited: boolean;
-  linkUrl: string;
-  imageUrl: string;
-  times: number;
-  countdown: number;
-}
+interface StoreProps {}
 interface OwnerProps {}
 interface ComponentState {
   minDate: number;
   maxDate: number;
   selectedDate: number[];
   today: number;
-  showPopup: boolean;
 }
 type Data = StoreProps & OwnerProps & ComponentState;
 
@@ -24,14 +17,7 @@ interface Methods {
 }
 
 const page = connectPage<RootState, StoreProps>(module, (state) => {
-  const projectConfig = state.app!.projectConfig;
-  if (projectConfig) {
-    const clientPublishPath = projectConfig.clientPublishPath;
-    const {imageUrl, linkUrl, times} = projectConfig!.startupPage;
-    return {inited: true, imageUrl, linkUrl, times, countdown: times, clientPublishPath};
-  } else {
-    return {} as StoreProps;
-  }
+  return {};
 });
 
 const today = new Date().getTime();
@@ -45,7 +31,6 @@ const initData: any = {
   minDate: today - 1000 * 3600 * 24 * 30 * 3,
   maxDate: today,
   today: today,
-  showPopup: true,
   formatter(day: {date: Date; type: string; topInfo: string}) {
     if (day.type !== 'disabled') {
       const date = day.date;
@@ -60,10 +45,4 @@ const initData: any = {
 };
 page<Data, Methods>({
   data: initData,
-  showPopup() {
-    this.setData({showPopup: true});
-  },
-  closePopup() {
-    this.setData({showPopup: false});
-  },
 });

@@ -1,0 +1,7 @@
+<block>
+  <navigation title="我的足迹" showBack="{{true}}}" />
+  <view class="info">到过18个城市：xxxx</view>
+  <view class="g-container">
+    <map style="width: 100%; height: 100%;" latitude="23.099994" longitude="113.324520"></map>
+  </view>
+</block>

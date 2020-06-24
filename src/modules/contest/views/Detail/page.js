@@ -10,6 +10,8 @@ var _wechat = require("@medux/wechat");
 
 var _detailPageBehavior = _interopRequireDefault(require("../../../../common/detailPageBehavior"));
 
+var _navPageBehavior = _interopRequireDefault(require("../../../../common/navPageBehavior"));
+
 const detailPage = (0, _detailPageBehavior.default)(global.actions.contest, 'detail');
 const component = (0, _wechat.connectComponent)(_module, (state, data) => {
   const projectConfig = state.app.projectConfig;
@@ -33,9 +35,28 @@ const initData = {
   singUpType: 0
 };
 component({
-  behaviors: [detailPage.behavior],
+  behaviors: [detailPage.behavior, _navPageBehavior.default],
   data: initData,
   methods: {
+    signUp(e) {
+      const {
+        id,
+        gid
+      } = e.currentTarget.dataset;
+      global.historyActions.navigateTo({
+        paths: ['app.Main', 'signed.Detail'],
+        params: {
+          signed: {
+            itemId: 'create',
+            itemView: 'detail',
+            itemKey: Date.now(),
+            cid: id,
+            cgid: gid
+          }
+        }
+      });
+    },
+
     onSingUpTypeChange(event) {
       this.setData({
         singUpType: event.detail

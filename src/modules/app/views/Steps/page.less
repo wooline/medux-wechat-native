@@ -1,0 +1,68 @@
+page {
+  background-color: #0089ff;
+}
+.today {
+  border-top: 1px dashed #4eacff;
+  text-align: center;
+  padding: 25px;
+  color: #fff;
+  font-size: 16px;
+  .num {
+    font-weight: bold;
+    color: #ff0;
+    font-size: 18px;
+  }
+  .comeOn {
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 2;
+  }
+}
+.chart {
+  background-color: #eee;
+  padding: 30px 25rpx 0;
+  .content {
+    display: flex;
+    height: 230px;
+    align-items: flex-end;
+    justify-content: space-between;
+    view {
+      font-size: 11px;
+      display: block;
+      height: 100px;
+      width: 2.7%;
+      background-color: #f60;
+    }
+    text {
+      display: none;
+      margin-left: -50%;
+      top: -15px;
+      position: relative;
+    }
+    .future {
+      background-color: #ddd;
+      height: 10%;
+    }
+    .cur {
+      background-color: #0089ff;
+      text {
+        display: block;
+      }
+    }
+    view:hover {
+      background-color: #f30;
+      text {
+        display: block;
+      }
+    }
+  }
+}
+.info {
+  font-size: 12px;
+  opacity: 0.8;
+  line-height: 1.8;
+  padding: 25rpx;
+  color: #fff;
+}

@@ -17,30 +17,29 @@
   height: 100%;
 }
 .root .panel {
+  position: relative;
   border-radius: 20px;
   margin: auto;
   margin-top: 150px;
   text-align: left;
   width: 90%;
-  background-color: #0089ff;
+  height: 250px;
+  background-color: #fff;
   overflow: hidden;
+  padding-top: 30px;
 }
-.root .title {
-  position: relative;
-  color: #fff;
-  padding: 35rpx 0;
-  font-weight: bold;
-  font-size: 18px;
-  text-align: center;
+.root .closeBtn {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  opacity: 0.8;
+}
+.root .wechat {
+  padding: 40px 30px;
+  border-top: 1px #eee solid;
 }
 .root .control {
   padding: 35rpx 0;
   text-align: center;
   background-color: #fff;
-}
-.root .closeBtn {
-  position: absolute;
-  right: 8px;
-  top: 8px;
-  opacity: 0.8;
 }

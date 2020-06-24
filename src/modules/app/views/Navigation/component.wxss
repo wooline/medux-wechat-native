@@ -2,8 +2,11 @@
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
-  position: relative;
+  position: fixed;
   display: flex;
+  left: 0;
+  top: 0;
+  z-index: 9000;
   justify-content: space-between;
   align-items: center;
 }

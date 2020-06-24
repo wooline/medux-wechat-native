@@ -35,21 +35,19 @@
         <view class="introduce">
           <view>
             <view class="field">活动地点：</view>
-            {{item.extra.addr}}
+            {{item.addr}}
           </view>
           <view>
             <view class="field">活动时间：</view>
-            {{tools.dateFormat(item.extra.activeTime[0])}} - {{tools.dateFormat(item.extra.activeTime[1],'MM/dd')}}
+            {{tools.dateFormat(item.activeTime[0])}} - {{tools.dateFormat(item.activeTime[1],'MM/dd')}}
           </view>
           <view>
             <view class="field">报名日期：</view>
-            {{tools.dateFormat(item.extra.signUpTime[0])}} - {{tools.dateFormat(item.extra.signUpTime[1],'MM/dd')}}
+            {{tools.dateFormat(item.signUpTime[0])}} - {{tools.dateFormat(item.signUpTime[1],'MM/dd')}}
           </view>
         </view>
       </view>
-      <view class="expiryDate" wx:if="{{!tools.checkExpiryDate(item.extra.activeTime[0])}}">
-        已完赛
-      </view>
+      <view class="expiryDate" wx:if="{{!tools.checkExpiryDate(item.activeTime[0])}}">已完赛</view>
       <text class="text">{{item.summary}}</text>
     </view>
   </scroll-view>

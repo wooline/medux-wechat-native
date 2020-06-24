@@ -31,7 +31,10 @@
 			"ignore": [],
 			"disablePlugins": [],
 			"outputPath": ""
-		}
+		},
+		"useIsolateContext": true,
+		"useCompilerModule": false,
+		"userConfirmedUseCompilerModuleSwitch": false
 	},
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
@@ -61,8 +64,8 @@
 			"list": [
 				{
 					"id": 0,
-					"name": "modules/my/views/Home/page",
-					"pathName": "modules/my/views/Home/page",
+					"name": "modules/my/views/Personal/page",
+					"pathName": "modules/my/views/Personal/page",
 					"query": "",
 					"scene": null
 				},

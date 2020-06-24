@@ -7,11 +7,15 @@ var _wechat = require("@medux/wechat");
 
 var _article = require("../entity/article");
 
+var _contact = require("../entity/contact");
+
 var _contest = require("../entity/contest");
 
 var _grade = require("../entity/grade");
 
 var _post = require("../entity/post");
+
+var _signed = require("../entity/signed");
 
 const defaultRouteParams = {
   app: null,
@@ -20,6 +24,8 @@ const defaultRouteParams = {
   shop: null,
   grade: _grade.defaultRouteParams,
   contest: _contest.defaultRouteParams,
+  contact: _contact.defaultRouteParams,
+  signed: _signed.defaultRouteParams,
   my: null
 };
 exports.defaultRouteParams = defaultRouteParams;
@@ -34,6 +40,8 @@ exports.moduleNames = moduleNames;
   moduleNames["contest"] = "contest";
   moduleNames["grade"] = "grade";
   moduleNames["my"] = "my";
+  moduleNames["contact"] = "contact";
+  moduleNames["signed"] = "signed";
 })(moduleNames || (exports.moduleNames = moduleNames = {}));
 
 const moduleGetter = {
@@ -57,6 +65,12 @@ const moduleGetter = {
   },
   my: () => {
     return {};
+  },
+  contact: () => {
+    return {};
+  },
+  signed: () => {
+    return {};
   }
 };
 exports.moduleGetter = moduleGetter;
@@ -67,8 +81,8 @@ const locationMap = {
     const arr = location.pathname.match(/^\/modules(\/.*\/)views\//);
 
     if (arr) {
-      let pathname = location.pathname.replace(arr[0], arr[1]).replace(/\/page$/, '');
-      pathname = pathname.toLocaleLowerCase();
+      let pathname = location.pathname.replace(arr[0], arr[1]);
+      pathname = pathname.replace(/\w(?=\w+\/page)/, a => a.toLowerCase()).replace(/\/page$/, '');
       return Object.assign(Object.assign({}, location), {}, {
         pathname
       });
@@ -82,7 +96,7 @@ const locationMap = {
 
     if (!arr) {
       let pathname = '/modules' + location.pathname.replace(/(^\/\w+\/)/, '$1views/') + '/page';
-      pathname = pathname.replace(/\w(?=\w+\/page)/, a => a.toLocaleUpperCase());
+      pathname = pathname.replace(/\w(?=\w+\/page)/, a => a.toUpperCase());
       return Object.assign(Object.assign({}, location), {}, {
         pathname
       });
@@ -99,11 +113,16 @@ const routeConfig = {
     '/app/Home': 'app.Home',
     '/post/List': 'post.List',
     '/contest/detail': 'contest.Detail',
+    '/contest/signUp': 'contest.SignUp',
     '/contest/:listView': 'contest.List',
     '/grade/detail': 'grade.Detail',
     '/grade/:listView': 'grade.List',
     '/article/detail': 'article.Detail',
-    '/article/:listView': 'article.List'
+    '/article/:listView': 'article.List',
+    '/contact/detail': 'contact.Detail',
+    '/contact/:listView': 'contact.List',
+    '/signed/detail': 'signed.Detail',
+    '/signed/:listView': 'signed.List'
   }]
 };
 exports.routeConfig = routeConfig;

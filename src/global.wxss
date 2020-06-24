@@ -13,6 +13,10 @@ swiper {
   flex: none;
   height: 49px;
 }
+.g-navbar-place {
+  flex: none;
+  width: 100%;
+}
 .g-search {
   display: block;
 }
@@ -31,7 +35,7 @@ swiper {
 }
 .g-list-item .title {
   line-height: 1.5;
-  font-size: 32rpx;
+  font-size: 33rpx;
   font-weight: bold;
 }
 .g-list-item .summary {
@@ -341,6 +345,9 @@ swiper {
   background-color: #fff;
   color: #f60;
 }
+.g-detail.contest .mainSingUp .title .btn:active {
+  opacity: 0.6;
+}
 .g-detail.contest .mainSingUp .singUp {
   color: #666;
   line-height: 2;
@@ -364,4 +371,17 @@ swiper {
 }
 .g-detail.contest .mainContent {
   font-size: 15px;
+}
+.g-form .val {
+  color: #000;
+}
+.g-form .placeHolder {
+  color: #cbcbcb;
+}
+.g-form .footer {
+  text-align: right;
+}
+.g-form .con {
+  padding: 6px 0;
+  text-align: center;
 }

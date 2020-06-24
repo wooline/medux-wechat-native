@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "devtools": "remotedev --hostname=localhost --port=8000",
+    "dev-tools": "remotedev --hostname=localhost --port=8000",
     "dev-server": "node ./devServer/start.js",
     "compile": "./node_modules/typescript/bin/tsc",
     "stylelint": "stylelint \"./src/**/*.less\"",
@@ -12,7 +12,8 @@
     "babel": "babel ./src --out-dir ./src  --extensions \".ts\"",
     "babel-watch": "babel ./src --watch --out-dir ./src  --extensions \".ts\"",
     "build": "npm run eslint && npm run stylelint && npm run tsc && npm run babel",
-    "start": "npm run eslint && npm run stylelint && npm run tsc && concurrently \"npm:babel-watch\" \"npm:dev-server\""
+    "start": "npm run eslint && npm run stylelint && npm run tsc && concurrently \"npm:babel-watch\" \"npm:dev-server\"",
+    "push": "scp -r devServer/* root@127.0.0.1:/var/www/ztty-wechat"
   },
   "keywords": [],
   "author": {

@@ -25,7 +25,6 @@
   padding: 25rpx;
   padding-bottom: 40rpx;
   display: flex;
-  align-items: center;
   font-size: 10px;
   white-space: nowrap;
 }
@@ -35,9 +34,10 @@
   color: #666;
 }
 .aboutUs .logo {
+  margin-top: 3px;
   margin-right: 10rpx;
-  width: 65px;
-  height: 65px;
+  width: 40px;
+  height: 40px;
 }
 .van-popup .van-popup__close-icon {
   color: #fff;

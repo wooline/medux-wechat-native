@@ -28,10 +28,11 @@ Component({
   },
   methods: {
     onChange(event) {
-      this.setData({
-        active: event.detail
+      global.historyActions.switchTab(this.data.list[event.detail].url).then(() => {
+        this.setData({
+          active: event.detail
+        });
       });
-      global.historyActions.switchTab(this.data.list[event.detail].url);
     },
 
     init() {

@@ -1,0 +1,30 @@
+<block>
+  <navigation title="个人资料" back="{{true}}" />
+  <view class="avatar">
+    <van-uploader class="uploader" file-list="{{ avatarUpload }}" />
+  </view>
+  <van-cell-group class="g-form">
+    <van-field value="admin" disabled label="用户名" input-align="right" />
+    <van-field value="{{nickName}}" clearable label="昵称" placeholder="请输入昵称" input-align="right" />
+    <van-cell title="性别">
+      <picker value="{{_gender}}" range="{{genderOptions}}" range-key="name" bindchange="onGenderChange">
+        <view class="val">{{genderOptions[_gender].name}}</view>
+      </picker>
+    </van-cell>
+    <van-cell title="出生日期">
+      <picker value="{{_birthday}}" mode="date" bindchange="onBirthdayChange">
+        <view class="val" wx:if="{{_birthday}}">{{_birthday}}</view>
+        <view class="placeHolder" wx:else>请选择</view>
+      </picker>
+    </van-cell>
+    <van-field type="number" value="" clearable label="手机号" placeholder="请输入手机号" input-align="right" />
+    <van-cell>
+      <view class="con">
+        <van-button size="small" type="info" style="margin-right:8px" bind:tap="submit">
+          提交
+        </van-button>
+        <van-button size="small" bind:tap="navBack">取消</van-button>
+      </view>
+    </van-cell>
+  </van-cell-group>
+</block>

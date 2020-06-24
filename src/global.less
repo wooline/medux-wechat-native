@@ -9,9 +9,14 @@ page {
 swiper {
   height: 200px;
 }
+
 .g-tabbar-place {
   flex: none;
   height: 49px;
+}
+.g-navbar-place {
+  flex: none;
+  width: 100%;
 }
 .g-search {
   display: block;
@@ -30,7 +35,7 @@ swiper {
   }
   .title {
     line-height: 1.5;
-    font-size: 32rpx;
+    font-size: 33rpx;
     font-weight: bold;
   }
   .summary {
@@ -358,6 +363,9 @@ swiper {
           font-size: 12px;
           background-color: #fff;
           color: #f60;
+          &:active {
+            opacity: 0.6;
+          }
         }
       }
       .singUp {
@@ -386,6 +394,21 @@ swiper {
     .mainContent {
       font-size: 15px;
     }
+  }
+}
+.g-form {
+  .val {
+    color: #000;
+  }
+  .placeHolder {
+    color: #cbcbcb;
+  }
+  .footer {
+    text-align: right;
+  }
+  .con {
+    padding: 6px 0;
+    text-align: center;
   }
 }
 // .g-container {

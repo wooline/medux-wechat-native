@@ -9,18 +9,14 @@ var _decorate2 = _interopRequireDefault(require("@babel/runtime/helpers/decorate
 
 var _wechat = require("@medux/wechat");
 
+var _session = require("../../entity/session");
+
 var _api = _interopRequireDefault(require("./api"));
 
 const initModelState = {
   showLoginPopup: false,
-  curUser: {
-    id: '',
-    username: 'guest',
-    avatar: '',
-    loggedIn: false,
-    latestSigned: '',
-    signedDays: 0
-  },
+  curUser: _session.guest,
+  steps: [364, 1234, 7867, 433, 0, 645, 10867, 345, 8620, 2124, 13656, 364, 1234, 7867, 433, 0, 645, 10867, 345, 8620, 2124, 364, 1234, 7867, 433, 0, 645, 10867, 345, 8620, 2124].slice(0, 30),
   loading: {
     global: _wechat.LoadingState.Stop
   }
@@ -59,11 +55,31 @@ let ModelHandlers = (0, _decorate2.default)(null, function (_initialize, _BaseMo
     }, {
       kind: "method",
       decorators: [_wechat.reducer],
+      key: "putSteps",
+      value: function putSteps(steps) {
+        return Object.assign(Object.assign({}, this.state), {}, {
+          steps
+        });
+      }
+    }, {
+      kind: "method",
+      decorators: [_wechat.reducer],
       key: "showLoginPopup",
       value: function showLoginPopup(_showLoginPopup) {
         return Object.assign(Object.assign({}, this.state), {}, {
           showLoginPopup: _showLoginPopup
         });
+      }
+    }, {
+      kind: "method",
+      decorators: [(0, _wechat.effect)()],
+      key: "getTodaySteps",
+      value: async function getTodaySteps() {
+        const data = await wx.getWeRunData();
+        const result = data;
+        console.log(result);
+        this.dispatch(this.callThisAction(this.putSteps, [364, 1234, 7867, 433, 0, 645, 10867, 345, 8620, 2124, 13656, 364, 1234, 7867, 433, 0, 645, 10867, 345, 8620, 2124, 364, 1234, 7867, 433, 0, 645, 10867, 345, 8620, 2124].slice(0, 30)));
+        global.historyActions.navigateTo('/app/steps');
       }
     }, {
       kind: "method",
@@ -78,6 +94,8 @@ let ModelHandlers = (0, _decorate2.default)(null, function (_initialize, _BaseMo
       decorators: [(0, _wechat.effect)()],
       key: "sign",
       value: async function sign() {
+        const location = await wx.getLocation({});
+        console.log(location);
         const data = await _api.default.sign();
         const curUser = this.state.curUser;
         this.dispatch(this.callThisAction(this.putCurUser, Object.assign(Object.assign({}, curUser), data)));
@@ -93,6 +111,52 @@ let ModelHandlers = (0, _decorate2.default)(null, function (_initialize, _BaseMo
           curUser,
           showLoginPopup: false
         });
+      }
+    }, {
+      kind: "method",
+      decorators: [(0, _wechat.effect)()],
+      key: "logout",
+      value: async function logout() {
+        this.updateState({
+          curUser: _session.guest
+        });
+      }
+    }, {
+      kind: "method",
+      decorators: [(0, _wechat.effect)()],
+      key: "loginWithWechat",
+      value: async function loginWithWechat(wuser) {
+        const curUser = {
+          id: 'admin',
+          username: wuser.nickName,
+          nickName: wuser.nickName,
+          gender: wuser.gender,
+          loggedIn: true,
+          avatar: wuser.avatarUrl,
+          latestSigned: '2020/06/16',
+          signedDays: 2,
+          score: 234
+        };
+        this.updateState({
+          curUser,
+          showLoginPopup: false
+        });
+        global.message.success('登录成功！');
+      }
+    }, {
+      kind: "method",
+      decorators: [(0, _wechat.effect)(null)],
+      key: _wechat.ActionTypes.Error,
+      value: async function (error) {
+        if (error.code === global.commonErrorCode.unauthorized) {
+          const curUser = this.state.curUser;
+
+          if (curUser.loggedIn) {
+            this.dispatch(this.actions.logout());
+          }
+
+          this.dispatch(this.actions.showLoginPopup(true));
+        }
       }
     }, {
       kind: "method",

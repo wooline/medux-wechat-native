@@ -1,0 +1,8 @@
+<block>
+  <view wx:if="{{!options}}" class="placeholder">loading...</view>
+  <view wx:elif="{{options.length===0}}" class="placeholder">无常用联系人</view>
+  <picker wx:else value="{{index}}" range="{{options}}" range-key="name" bindchange="onSelect">
+    <view wx:if="{{index>-1}}" class="val">{{list[index].name}}</view>
+    <view wx:else class="placeholder">请选择</view>
+  </picker>
+</block>

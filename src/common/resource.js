@@ -70,12 +70,12 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
         newItem: {},
         enableRoute: {
           list: true,
-          detail: false
+          detail: true
         },
         listView: ['list', 'selector', 'category'],
         itemView: ['detail', 'edit', 'create', 'summary'],
         listPaths: ['app.Main', this.moduleName + '.List'],
-        itemPaths: ['app.Main', this.moduleName + '.List', this.moduleName + '.Detail']
+        itemPaths: ['app.Main', this.moduleName + '.Detail']
       };
       this.config = Object.assign(Object.assign({}, defConfig), configOptions);
       this.config.noneListSearch = Object.keys(this.config.defaultRouteParams.listSearch).reduce((prev, cur) => {
@@ -125,6 +125,12 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
       key: "getNoneListSearch",
       value: function getNoneListSearch() {
         return this.config.noneListSearch;
+      }
+    }, {
+      kind: "method",
+      key: "createNewItem",
+      value: function createNewItem() {
+        return this.config.newItem;
       }
     }, {
       kind: "method",
@@ -502,10 +508,20 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
       key: "fetchItem",
       value: async function fetchItem(itemId, itemView, itemKey) {
         this.itemLoading = true;
-        const item = await this.config.api.getDetailItem(itemId).catch(e => {
-          this.itemLoading = false;
-          throw e;
-        });
+        let item;
+
+        if (itemId === 'create') {
+          item = await this.createNewItem().catch(e => {
+            this.itemLoading = false;
+            throw e;
+          });
+        } else {
+          item = await this.config.api.getDetailItem(itemId).catch(e => {
+            this.itemLoading = false;
+            throw e;
+          });
+        }
+
         this.itemLoading = false;
         this.dispatch(this.actions.putCurrentItem(item, itemId, itemView, itemKey));
       }
@@ -550,18 +566,6 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
 
             if (action !== 'POP' && (itemKey > prevItemkey || itemId !== prevItemId)) {
               await this.dispatch(this.callThisAction(this.fetchItem, itemId, itemView, itemKey));
-            }
-          } else {
-            const data = this.config.itemView.reduce((prev, view) => {
-              if (this.state[view]) {
-                prev[view] = undefined;
-              }
-
-              return prev;
-            }, {});
-
-            if (Object.keys(data).length) {
-              this.updateState(data);
             }
           }
         }

@@ -1,4 +1,4 @@
-import {CurUser, ProjectConfig} from '~/entity/session';
+import {CurUser, ProjectConfig, guest} from '~/entity/session';
 
 import {DataSource} from '~/entity/home';
 import {dateFormat} from '~/common/dateHelper';
@@ -8,23 +8,19 @@ export class API {
     return global.request('GET', '/api/projectConfig');
   }
   public getCurUser(): Promise<CurUser> {
-    return Promise.resolve({
-      id: '',
-      username: 'guest',
-      loggedIn: false,
-      avatar: '',
-      latestSigned: '',
-      signedDays: 0,
-    });
+    return Promise.resolve(guest);
   }
   public login(request: {username: string; password: string}): Promise<CurUser> {
     return Promise.resolve({
       id: 'admin',
       username: 'admin',
+      nickName: 'admin',
+      gender: 0,
       loggedIn: true,
       avatar: '',
       latestSigned: '2020/06/16',
       signedDays: 2,
+      score: 234,
     });
   }
   public sign(): Promise<{latestSigned: string; signedDays: number}> {

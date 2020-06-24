@@ -1,6 +1,6 @@
 <block>
   <navigation title="签到打卡" showBack="{{true}}" />
-  <view class="g-container">
+  <view class="container">
     <van-calendar color="#f60" row-height="50" show-title="{{ false }}" poppable="{{ false }}" show-confirm="{{ false }}" min-date="{{ minDate }}" max-date="{{ maxDate }}" formatter="{{ formatter }}" default-date="{{today}}" class="calendar" />
     <view class="info">说明：这篇文章主要为大家详细介绍了微信小程序模板template使用的相关资料，具有一定的参考价值，感兴趣的小伙伴们可以</view>
     <view class="prize">

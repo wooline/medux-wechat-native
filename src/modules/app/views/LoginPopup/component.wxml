@@ -1,19 +1,30 @@
 <view class="root" catchtouchmove="maskEvents" wx:if="{{showLoginPopup}}">
   <view class="mask" bind:tap="closePopup"></view>
   <view class="panel">
-    <view class="title">
-      用户登录
-      <van-icon bind:tap="closePopup" class="closeBtn" name="clear" size="25px" />
-    </view>
-    <van-cell-group>
-      <van-field size="large" value="" clearable label="用户名" icon="question-o" placeholder="请输入用户名" bind:click-icon="onClickIcon" />
-      <van-field size="large" value="" type="password" label="密码" placeholder="请输入密码" border="{{ false }}" />
-    </van-cell-group>
-    <view class="control">
-      <van-button bind:tap="login" icon="user-o" style="margin-right:7px" color="#0089ff">
-        登录
-      </van-button>
-      <van-button plain type="primary">一键注册</van-button>
-    </view>
+    <van-icon bind:tap="closePopup" class="closeBtn" name="cross" color="#666" size="25px" />
+    <van-tabs active="{{tabActived}}" border="{{false}}" color="#f60">
+      <van-tab title="微信登录">
+        <view class="wechat">
+          <button type="primary" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" style="margin-bottom:7px">
+            使用当前微信号登录
+          </button>
+          <van-button block icon="plus" type="primary" bind:tap="switchTab" plain>
+            原账号绑定到当前微信号
+          </van-button>
+        </view>
+      </van-tab>
+      <van-tab title="账号密码登录">
+        <van-cell-group>
+          <van-field size="large" value="" clearable label="用户名" icon="question-o" placeholder="请输入用户名" bind:click-icon="onClickIcon" />
+          <van-field size="large" value="" type="password" label="密码" placeholder="请输入密码" border="{{ false }}" />
+        </van-cell-group>
+        <view class="control">
+          <van-button bind:tap="login" icon="star-o" color="#0089ff" style="margin-right:7px">
+            登录
+          </van-button>
+          <van-button bind:tap="switchTab" icon="plus" color="#0089ff" plain>注册</van-button>
+        </view>
+      </van-tab>
+    </van-tabs>
   </view>
 </view>

@@ -1,0 +1,20 @@
+<block>
+  <navigation title="常用联系人" back="{{true}}" />
+  <scroll-view wx:if="{{listSummary}}" class="g-container" refresher-enabled="{{true}}" scroll-y="{{true}}" refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh" bindscrolltolower="onMore">
+    <no-data wx:if="{{listSummary.totalItems===0}}" />
+    <view class="con">
+      <van-button icon="plus" block color="#0089ff" size="small" bind:tap="createItem">
+        添加联系人
+      </van-button>
+    </view>
+    <van-cell-group>
+      <van-cell wx:if="{{listSummary.totalItems > 0}}" wx:for="{{list}}" wx:key="id" center bind:click="navToDetail" data-index="{{index}}" title="{{item.name}}" label="手机:{{item.mobile}}" border="{{index<list.length-1}}">
+        <van-icon slot="right-icon" size="18px" style="padding:5px;background-color:#fff" color="#ccc" name="clear" data-index="{{index}}" catchtap="deleteItem" />
+      </van-cell>
+    </van-cell-group>
+    <view wx:if="{{listSummary.totalPages > 0}}" class="g-pagination">
+      <view wx:if="{{listSummary.pageCurrent < listSummary.totalPages}}">加载更多...</view>
+      <view wx:else>没有更多数据了</view>
+    </view>
+  </scroll-view>
+</block>

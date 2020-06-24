@@ -1,7 +1,7 @@
 // 将某些常用变量提升至global，对全局变量有洁癖者可忽略此文件
 
+import {CommonErrorCode, message, metaKeys} from './common/base';
 import {actions, moduleNames} from './modules/export';
-import {message, metaKeys} from './common/base';
 
 import {Store} from 'redux';
 import request from './common/request';
@@ -10,6 +10,7 @@ type Actions = typeof actions;
 type MetaKeys = typeof metaKeys;
 type Message = typeof message;
 type EnumModuleNames = typeof moduleNames;
+type EnumCommonErrorCode = typeof CommonErrorCode;
 type Request = typeof request;
 
 declare global {
@@ -32,6 +33,7 @@ declare global {
   interface ENV {
     store: Store;
     actions: Actions;
+    commonErrorCode: EnumCommonErrorCode;
     moduleNames: EnumModuleNames;
     metaKeys: MetaKeys;
     request: Request;
@@ -48,3 +50,4 @@ global.moduleNames = moduleNames;
 global.message = message;
 global.request = request;
 global.metaKeys = metaKeys;
+global.commonErrorCode = CommonErrorCode;

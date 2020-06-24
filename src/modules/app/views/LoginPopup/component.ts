@@ -9,7 +9,9 @@ interface StoreProps {
   curUser: CurUser;
 }
 interface OwnerProps {}
-interface ComponentState {}
+interface ComponentState {
+  tabActived: number;
+}
 interface Methods extends DispatchProp {
   [key: string]: any;
 }
@@ -32,11 +34,21 @@ const component = connectComponent<RootState, StoreProps>(
     };
   }
 );
-
+const initData: any = {
+  tabActived: 0,
+};
 component<Data, Properties, Methods>({
+  data: initData,
   methods: {
+    bindGetUserInfo(e: any) {
+      this.dispatch!(global.actions.app.loginWithWechat(e.detail.userInfo));
+    },
     login() {
       this.dispatch!(global.actions.app.login({username: '', password: ''}));
+    },
+    switchTab() {
+      const tabActived = this.data.tabActived ? 0 : 1;
+      this.setData({tabActived});
     },
     maskEvents() {
       return false;

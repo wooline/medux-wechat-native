@@ -36,7 +36,7 @@ type Data = StoreProps & OwnerProps & ComponentState;
 interface Methods extends DispatchProp {
   [key: string]: any;
 }
-
+const aaa = 0;
 const component = connectComponent<RootState, StoreProps, {}, Data>(module, (state, data) => {
   const {projectConfig, dataSource, curUser} = state.app!;
   if (projectConfig && dataSource) {
@@ -66,6 +66,13 @@ component<Data, {}, Methods>({
     },
   },
   methods: {
+    todaySteps() {
+      if (this.data.loggedIn) {
+        this.dispatch!(global.actions.app.getTodaySteps());
+      } else {
+        this.dispatch!(global.actions.app.showLoginPopup(true));
+      }
+    },
     showSignPopup() {
       if (this.data.loggedIn) {
         if (this.data.latestSigned && this.data.latestSigned === dateFormat()) {

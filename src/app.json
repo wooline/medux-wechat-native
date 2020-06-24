@@ -3,17 +3,19 @@
     "modules/app/views/Home/page",
     "modules/app/views/Welcome/page",
     "modules/app/views/Signed/page",
+    "modules/app/views/Steps/page",
     "modules/article/views/Category/page",
     "modules/article/views/List/page",
     "modules/article/views/Detail/page",
     "modules/contest/views/Category/page",
     "modules/contest/views/List/page",
     "modules/contest/views/Detail/page",
-    "modules/grade/views/List/page",
-    "modules/grade/views/Detail/page",
+    "modules/contest/views/SignUp/page",
     "modules/shop/views/Home/page",
     "modules/post/views/List/page",
-    "modules/my/views/Home/page"
+    "modules/my/views/Home/page",
+    "modules/my/views/Footmark/page",
+    "modules/my/views/Personal/page"
   ],
   "tabBar": {
     "custom": true,
@@ -55,7 +57,27 @@
     "van-popup": "@vant/weapp/popup/index",
     "van-cell": "@vant/weapp/cell/index",
     "van-cell-group": "@vant/weapp/cell-group/index",
-    "van-field": "@vant/weapp/field/index"
+    "van-field": "@vant/weapp/field/index",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-panel": "@vant/weapp/panel/index",
+    "van-uploader": "@vant/weapp/uploader/index",
+    "van-swipe-cell": "@vant/weapp/swipe-cell/index",
+    "van-dialog": "@vant/weapp/dialog/index"
   },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于:我的足迹"
+    }
+  },
+  "subpackages": [
+    {
+      "root": "modules/grade/",
+      "pages": [
+        "views/List/page",
+        "views/Detail/page"
+      ]
+    }
+  ],
   "sitemapLocation": "sitemap.json"
 }

@@ -1,0 +1,68 @@
+page {
+  background-color: #0089ff;
+}
+.today {
+  border-top: 1px dashed #4eacff;
+  text-align: center;
+  padding: 25px;
+  color: #fff;
+  font-size: 16px;
+}
+.today .num {
+  font-weight: bold;
+  color: #ff0;
+  font-size: 18px;
+}
+.today .comeOn {
+  display: block;
+  text-align: center;
+  font-size: 11px;
+  font-style: italic;
+  line-height: 2;
+}
+.chart {
+  background-color: #eee;
+  padding: 30px 25rpx 0;
+}
+.chart .content {
+  display: flex;
+  height: 230px;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.chart .content view {
+  font-size: 11px;
+  display: block;
+  height: 100px;
+  width: 2.7%;
+  background-color: #f60;
+}
+.chart .content text {
+  display: none;
+  margin-left: -50%;
+  top: -15px;
+  position: relative;
+}
+.chart .content .future {
+  background-color: #ddd;
+  height: 10%;
+}
+.chart .content .cur {
+  background-color: #0089ff;
+}
+.chart .content .cur text {
+  display: block;
+}
+.chart .content view:hover {
+  background-color: #f30;
+}
+.chart .content view:hover text {
+  display: block;
+}
+.info {
+  font-size: 12px;
+  opacity: 0.8;
+  line-height: 1.8;
+  padding: 25rpx;
+  color: #fff;
+}

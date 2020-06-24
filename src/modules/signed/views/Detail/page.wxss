@@ -1,0 +1,11 @@
+page {
+  background-color: #fff;
+}
+.header .van-cell__title {
+  font-weight: bold;
+}
+.header .van-cell__value {
+  color: #f30;
+  font-weight: bold;
+  font-size: 20px;
+}

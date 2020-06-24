@@ -1,0 +1,21 @@
+<block>
+  <navigation title="今日步数" showBack="{{true}}" />
+  <view class="today">
+    <van-icon name="good-job" class="icon" />
+    今日共计
+    <text class="num">{{steps[29]}}</text>
+    步
+    <text class="comeOn">“继续加油哦...“</text>
+  </view>
+  <view class="chart">
+    <view class="content">
+      <view wx:for="{{steps}}" style="height:{{sizes[index]}}px" wx:key="*this" class="{{index===29?'cur':''}}">
+        <text>{{item}}</text>
+      </view>
+      <view class="future"></view>
+      <view class="future"></view>
+      <view class="future"></view>
+    </view>
+  </view>
+  <view class="info">说明：这篇文章主要为大家详细介绍了微信小程序模板template使用的相关资料，具有一定的参考价值，感兴趣的小伙伴们可以</view>
+</block>

@@ -6,7 +6,7 @@ exports.navToList = navToList;
 exports.navToSubList = navToSubList;
 exports.message = exports.CommonErrorCode = exports.metaKeys = void 0;
 const metaKeys = {
-  ApiServerPath: 'http://localhost:7445/api',
+  ApiServerPath: 'http://192.168.31.53:7449/api',
   LoginPathname: '/login',
   RegisterPathname: '/register',
   UserHomePathname: '/admin/home',
@@ -48,8 +48,8 @@ const message = {
 };
 exports.message = message;
 
-function navToItem(type, id) {
-  global.historyActions.navigateTo(`/${type}/Detail?q={"${type}":{"itemView":"detail","itemId":"${id}"}}`);
+function navToItem(type, id, view = 'detail') {
+  global.historyActions.navigateTo(`/${type}/${view}?q={"${type}":{"itemView":"${view}","itemId":"${id}"}}`);
 }
 
 function navToList(type) {

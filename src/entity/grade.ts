@@ -1,6 +1,6 @@
 import {BaseListSearch, BaseListSummary, CommonResource, CommonResourceRouteParams} from './base';
 
-import {ListItem as BaseListItem} from './post';
+import {ListItem as BaseListItem} from './contest';
 
 export interface Group {
   id: string;
@@ -10,11 +10,6 @@ export interface Group {
 
 export interface ListItem extends BaseListItem {
   groups: Group[];
-  extra: {
-    addr: string;
-    signUpTime: number;
-    activeTime: [number, number];
-  };
 }
 export interface ItemDetail extends ListItem {
   groups: Group[];

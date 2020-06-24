@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "contact-selector": "../../../contact/views/Selector/component"
+  }
+}

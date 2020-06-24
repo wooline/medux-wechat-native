@@ -15,6 +15,7 @@ var _navPageBehavior = _interopRequireDefault(require("../../../../common/navPag
 var _refreshPageBehavior = _interopRequireDefault(require("../../../../common/refreshPageBehavior"));
 
 const listPage = (0, _refreshPageBehavior.default)(global.actions.app);
+const aaa = 0;
 const component = (0, _wechat.connectComponent)(_module, (state, data) => {
   const {
     projectConfig,
@@ -68,6 +69,14 @@ component({
 
   },
   methods: {
+    todaySteps() {
+      if (this.data.loggedIn) {
+        this.dispatch(global.actions.app.getTodaySteps());
+      } else {
+        this.dispatch(global.actions.app.showLoginPopup(true));
+      }
+    },
+
     showSignPopup() {
       if (this.data.loggedIn) {
         if (this.data.latestSigned && this.data.latestSigned === (0, _dateHelper.dateFormat)()) {
