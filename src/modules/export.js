@@ -83,7 +83,7 @@ const locationMap = {
     if (arr) {
       let pathname = location.pathname.replace(arr[0], arr[1]);
       pathname = pathname.replace(/\w(?=\w+\/page)/, a => a.toLowerCase()).replace(/\/page$/, '');
-      return Object.assign(Object.assign({}, location), {}, {
+      return Object.assign({}, location, {
         pathname
       });
     }
@@ -97,7 +97,7 @@ const locationMap = {
     if (!arr) {
       let pathname = '/modules' + location.pathname.replace(/(^\/\w+\/)/, '$1views/') + '/page';
       pathname = pathname.replace(/\w(?=\w+\/page)/, a => a.toUpperCase());
-      return Object.assign(Object.assign({}, location), {}, {
+      return Object.assign({}, location, {
         pathname
       });
     }

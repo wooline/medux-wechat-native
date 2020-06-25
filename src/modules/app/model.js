@@ -39,7 +39,7 @@ let ModelHandlers = (0, _decorate2.default)(null, function (_initialize, _BaseMo
       decorators: [_wechat.reducer],
       key: "putDatasource",
       value: function putDatasource(dataSource) {
-        return Object.assign(Object.assign({}, this.state), {}, {
+        return Object.assign({}, this.state, {
           dataSource
         });
       }
@@ -48,7 +48,7 @@ let ModelHandlers = (0, _decorate2.default)(null, function (_initialize, _BaseMo
       decorators: [_wechat.reducer],
       key: "putCurUser",
       value: function putCurUser(curUser) {
-        return Object.assign(Object.assign({}, this.state), {}, {
+        return Object.assign({}, this.state, {
           curUser
         });
       }
@@ -57,7 +57,7 @@ let ModelHandlers = (0, _decorate2.default)(null, function (_initialize, _BaseMo
       decorators: [_wechat.reducer],
       key: "putSteps",
       value: function putSteps(steps) {
-        return Object.assign(Object.assign({}, this.state), {}, {
+        return Object.assign({}, this.state, {
           steps
         });
       }
@@ -66,7 +66,7 @@ let ModelHandlers = (0, _decorate2.default)(null, function (_initialize, _BaseMo
       decorators: [_wechat.reducer],
       key: "showLoginPopup",
       value: function showLoginPopup(_showLoginPopup) {
-        return Object.assign(Object.assign({}, this.state), {}, {
+        return Object.assign({}, this.state, {
           showLoginPopup: _showLoginPopup
         });
       }
@@ -98,7 +98,7 @@ let ModelHandlers = (0, _decorate2.default)(null, function (_initialize, _BaseMo
         console.log(location);
         const data = await _api.default.sign();
         const curUser = this.state.curUser;
-        this.dispatch(this.callThisAction(this.putCurUser, Object.assign(Object.assign({}, curUser), data)));
+        this.dispatch(this.callThisAction(this.putCurUser, Object.assign({}, curUser, data)));
         global.historyActions.navigateTo('/app/signed');
       }
     }, {

@@ -22,7 +22,7 @@ const component = (0, _wechat.connectComponent)(_module, (state, data) => {
       clientPublishPath,
       cates
     } = projectConfig;
-    return Object.assign(Object.assign({}, props), {}, {
+    return Object.assign({}, props, {
       inited: true,
       clientPublishPath,
       cates

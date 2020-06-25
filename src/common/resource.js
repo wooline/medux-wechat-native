@@ -77,7 +77,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
         listPaths: ['app.Main', this.moduleName + '.List'],
         itemPaths: ['app.Main', this.moduleName + '.Detail']
       };
-      this.config = Object.assign(Object.assign({}, defConfig), configOptions);
+      this.config = Object.assign({}, defConfig, configOptions);
       this.config.noneListSearch = Object.keys(this.config.defaultRouteParams.listSearch).reduce((prev, cur) => {
         prev[cur] = undefined;
         return prev;
@@ -137,7 +137,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
       decorators: [_wechat.reducer],
       key: "putSearchList",
       value: function putSearchList(list, listSummary, listSearch, listView, listKey) {
-        return Object.assign(Object.assign({}, this.state), {}, {
+        return Object.assign({}, this.state, {
           [listView]: {
             listKey,
             listSearch,
@@ -152,7 +152,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
       decorators: [_wechat.reducer],
       key: "putCurrentItem",
       value: function putCurrentItem(itemDetail, itemId, itemView, itemKey) {
-        return Object.assign(Object.assign({}, this.state), {}, {
+        return Object.assign({}, this.state, {
           [itemView]: {
             itemKey,
             itemId,
@@ -166,7 +166,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
       decorators: [_wechat.reducer],
       key: "putSelectedRows",
       value: function putSelectedRows(selectedRows) {
-        return Object.assign(Object.assign({}, this.state), {}, {
+        return Object.assign({}, this.state, {
           selectedRows
         });
       }
@@ -191,7 +191,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
         if (enableRoute) {
           global.historyActions.navigateTo({
             params: {
-              [this.moduleName]: Object.assign(Object.assign({}, routeData), {}, {
+              [this.moduleName]: Object.assign({}, routeData, {
                 itemId: '',
                 itemView: '',
                 itemKey: ''
@@ -200,7 +200,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
             paths: this.config.listPaths
           });
         } else {
-          this.dispatch(this.actions.RouteParams(Object.assign(Object.assign({}, routeData), {}, {
+          this.dispatch(this.actions.RouteParams(Object.assign({}, routeData, {
             itemId: '',
             itemView: '',
             itemKey: ''
@@ -218,7 +218,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
         const itemKey = Date.now();
 
         if (!currentItem) {
-          currentItem = Object.assign(Object.assign({}, this.config.newItem), {}, {
+          currentItem = Object.assign({}, this.config.newItem, {
             id: ''
           });
         }
@@ -237,7 +237,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
         if (enableRoute && curPathname.join('/') !== this.config.itemPaths.join('/')) {
           global.historyActions.navigateTo({
             params: {
-              [this.moduleName]: Object.assign(Object.assign({}, routeData), {}, {
+              [this.moduleName]: Object.assign({}, routeData, {
                 itemId,
                 itemView,
                 itemKey
@@ -246,7 +246,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
             paths: this.config.itemPaths
           });
         } else {
-          this.dispatch(this.actions.RouteParams(Object.assign(Object.assign({}, routeData), {}, {
+          this.dispatch(this.actions.RouteParams(Object.assign({}, routeData, {
             itemId,
             itemView,
             itemKey
@@ -411,7 +411,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
       key: "doListSearch",
       value: async function doListSearch(options = {}) {
         await this.searchList({
-          params: Object.assign(Object.assign({}, options), {}, {
+          params: Object.assign({}, options, {
             pageCurrent: 1
           }),
           extend: 'current'
@@ -428,11 +428,11 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
         let listSearch;
 
         if (extend === 'default') {
-          listSearch = Object.assign(Object.assign({}, this.getDefaultListSearch()), params);
+          listSearch = Object.assign({}, this.getDefaultListSearch(), params);
         } else if (extend === 'current') {
-          listSearch = Object.assign(Object.assign({}, this.getCurrentListSearch()), params);
+          listSearch = Object.assign({}, this.getCurrentListSearch(), params);
         } else {
-          listSearch = Object.assign(Object.assign({}, this.getNoneListSearch()), params);
+          listSearch = Object.assign({}, this.getNoneListSearch(), params);
         }
 
         const listKey = Date.now();
@@ -445,7 +445,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
           const args = {
             paths: this.config.listPaths,
             params: {
-              [this.moduleName]: Object.assign(Object.assign({}, routeData), {}, {
+              [this.moduleName]: Object.assign({}, routeData, {
                 listView,
                 listSearch,
                 listKey
@@ -454,7 +454,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
           };
           global.historyActions.navigateTo(args);
         } else {
-          await this.dispatch(this.actions.RouteParams(Object.assign(Object.assign({}, routeData), {}, {
+          await this.dispatch(this.actions.RouteParams(Object.assign({}, routeData, {
             listView,
             listSearch,
             listKey
@@ -469,7 +469,7 @@ let CommonResourceHandlers = (0, _decorate2.default)(null, function (_initialize
         if (!this.listLoading) {
           const routeData = this.state.routeParams;
           const currentListSearch = this.getCurrentListSearch();
-          const listSearch = Object.assign(Object.assign({}, currentListSearch), {}, {
+          const listSearch = Object.assign({}, currentListSearch, {
             pageCurrent
           });
           const listView = routeData.listView;

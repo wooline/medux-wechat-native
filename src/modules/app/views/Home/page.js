@@ -34,7 +34,7 @@ const component = (0, _wechat.connectComponent)(_module, (state, data) => {
       latestSigned,
       signedDays
     } = curUser;
-    return Object.assign(Object.assign({}, props), {}, {
+    return Object.assign({}, props, {
       loggedIn,
       latestSigned,
       signedDays,
