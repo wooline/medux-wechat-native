@@ -9,7 +9,7 @@ import {defaultRouteParams, locationMap, moduleGetter, routeConfig} from './modu
 
 setLoadingDepthTime(1);
 
-buildApp({
+const {historyActions, toBrowserUrl, transformRoute, store} = buildApp({
   moduleGetter,
   appModule,
   routeConfig,
@@ -23,24 +23,22 @@ buildApp({
       // }),
     ],
   },
-  beforeRender: ({store, historyActions, toBrowserUrl, transformRoute}) => {
-    global.historyActions = historyActions;
-    global.toUrl = toBrowserUrl;
-    global.transformRoute = transformRoute;
-    global.store = store;
-    return store;
-  },
 });
+
+global.historyActions = historyActions;
+global.toUrl = toBrowserUrl;
+global.transformRoute = transformRoute;
+global.store = store;
 
 App<APP>({
   globalData: {} as any,
 
   onLaunch() {
+    console.log(1);
     const systemInfo = wx.getSystemInfoSync();
     if (!systemInfo.statusBarHeight) {
       systemInfo.statusBarHeight = systemInfo.screenHeight - systemInfo.windowHeight - 20;
     }
-    const isIOS = !!(systemInfo.system.toLowerCase().search('ios') + 1);
     const rect = getMenuButtonBoundingClientRect(systemInfo);
     const gap = rect.top - systemInfo.statusBarHeight;
     const navHeight = systemInfo.statusBarHeight + rect.height + gap * 2;
@@ -87,20 +85,18 @@ function getMenuButtonBoundingClientRect(systemInfo: WechatMiniprogram.GetSystem
   const ios = !!(systemInfo.system.toLowerCase().search('ios') + 1);
   let rect = wx.getMenuButtonBoundingClientRect();
   if (!rect || !rect.width || !rect.top || !rect.left || !rect.height) {
-    let gap = 0; // 胶囊按钮上下间距 使导航内容居中
-    let width = 96; // 胶囊的宽度
+    let gap = 4;
+    let width = 88;
     if (systemInfo.platform === 'android') {
       gap = 8;
       width = 96;
     } else if (systemInfo.platform === 'devtools') {
+      width = 96;
       if (ios) {
-        gap = 5.5; // 开发工具中ios手机
+        gap = 5.5;
       } else {
-        gap = 7.5; // 开发工具中android和其他手机
+        gap = 7.5;
       }
-    } else {
-      gap = 4;
-      width = 88;
     }
     rect = {
       // 获取不到胶囊信息就自定义重置一个

@@ -11,7 +11,12 @@ var _wechat = require("@medux/wechat");
 var _export = require("./modules/export");
 
 (0, _wechat.setLoadingDepthTime)(1);
-(0, _wechat.buildApp)({
+const {
+  historyActions,
+  toBrowserUrl,
+  transformRoute,
+  store
+} = (0, _wechat.buildApp)({
   moduleGetter: _export.moduleGetter,
   appModule,
   routeConfig: _export.routeConfig,
@@ -19,31 +24,23 @@ var _export = require("./modules/export");
   defaultRouteParams: _export.defaultRouteParams,
   storeOptions: {
     enhancers: []
-  },
-  beforeRender: ({
-    store,
-    historyActions,
-    toBrowserUrl,
-    transformRoute
-  }) => {
-    global.historyActions = historyActions;
-    global.toUrl = toBrowserUrl;
-    global.transformRoute = transformRoute;
-    global.store = store;
-    return store;
   }
 });
+global.historyActions = historyActions;
+global.toUrl = toBrowserUrl;
+global.transformRoute = transformRoute;
+global.store = store;
 App({
   globalData: {},
 
   onLaunch() {
+    console.log(1);
     const systemInfo = wx.getSystemInfoSync();
 
     if (!systemInfo.statusBarHeight) {
       systemInfo.statusBarHeight = systemInfo.screenHeight - systemInfo.windowHeight - 20;
     }
 
-    const isIOS = !!(systemInfo.system.toLowerCase().search('ios') + 1);
     const rect = getMenuButtonBoundingClientRect(systemInfo);
     const gap = rect.top - systemInfo.statusBarHeight;
     const navHeight = systemInfo.statusBarHeight + rect.height + gap * 2;
@@ -62,21 +59,20 @@ function getMenuButtonBoundingClientRect(systemInfo) {
   let rect = wx.getMenuButtonBoundingClientRect();
 
   if (!rect || !rect.width || !rect.top || !rect.left || !rect.height) {
-    let gap = 0;
-    let width = 96;
+    let gap = 4;
+    let width = 88;
 
     if (systemInfo.platform === 'android') {
       gap = 8;
       width = 96;
     } else if (systemInfo.platform === 'devtools') {
+      width = 96;
+
       if (ios) {
         gap = 5.5;
       } else {
         gap = 7.5;
       }
-    } else {
-      gap = 4;
-      width = 88;
     }
 
     rect = {

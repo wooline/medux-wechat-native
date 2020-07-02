@@ -9,7 +9,7 @@
   "dependencies": {
     "@babel/runtime": "~7.9.0",
     "@vant/weapp": "~1.3.2",
-    "@medux/wechat": "~1.0.7-alpha.19",
+    "@medux/wechat": "~1.1.1-alpha.0",
     "@medux/wechat-redux-devtools": "~1.0.2",
     "miniprogram-computed": "~2.1.1"
   }

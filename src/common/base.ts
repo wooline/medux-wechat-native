@@ -1,6 +1,6 @@
 export const metaKeys = {
-  //ApiServerPath: 'http://localhost:7445/api',
-  ApiServerPath: 'http://192.168.31.53:7449/api',
+  ApiServerPath: 'http://localhost:7449/api',
+  //ApiServerPath: 'http://192.168.31.53:7449/api',
   //ApiServerPath: 'http://test.80zp.com/api',
   LoginPathname: '/login',
   RegisterPathname: '/register',

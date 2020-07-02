@@ -6,7 +6,7 @@ exports.navToList = navToList;
 exports.navToSubList = navToSubList;
 exports.message = exports.CommonErrorCode = exports.metaKeys = void 0;
 const metaKeys = {
-  ApiServerPath: 'http://192.168.31.53:7449/api',
+  ApiServerPath: 'http://localhost:7449/api',
   LoginPathname: '/login',
   RegisterPathname: '/register',
   UserHomePathname: '/admin/home',
